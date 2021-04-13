@@ -46,3 +46,4 @@ app.*.map.json
 .metadata
 pubspec.lock
 .vscode/launch.json
+.flutter-plugins-dependencies
