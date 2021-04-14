@@ -1,0 +1,14 @@
+import 'package:toptal_test/domain/one_of.dart';
+import 'package:toptal_test/domain/repository/failure.dart';
+
+abstract class UseCase<Type, Params> {
+  Future<OneOf<Failure, Type>> run(Params params);
+  void execute(Params params, Function(OneOf<Failure, Type>) onResult) async {
+    try {
+      final result = await run(params);
+      onResult(result);
+    } on Error<Failure, Type> catch (e) {
+      onResult(e);
+    }
+  }
+}
