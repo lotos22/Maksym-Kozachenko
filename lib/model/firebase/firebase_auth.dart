@@ -21,9 +21,26 @@ class AppFirebaseAuth implements ILoginRepository {
       );
       response = OneOf.success(null);
     } on PlatformException catch (e) {
-      response = OneOf.error(Failure.loginFailure(e.code));
+      response = OneOf.error(Failure.signInFailure(e.code));
     } on FirebaseAuthException catch (e) {
-      response = OneOf.error(Failure.loginFailure(e.code));
+      response = OneOf.error(Failure.signInFailure(e.code));
+    }
+    return response;
+  }
+
+  @override
+  Future<OneOf<Failure, Null>> signUp(LoginSignUpParams params) async{
+    OneOf<Failure, Null>? response;
+    try {
+      await getIt<FirebaseAuth>().createUserWithEmailAndPassword(
+        email: params.email,
+        password: params.pass,
+      );
+      response = OneOf.success(null);
+    } on PlatformException catch (e) {
+      response = OneOf.error(Failure.signUpFailure(e.code));
+    } on FirebaseAuthException catch (e) {
+      response = OneOf.error(Failure.signUpFailure(e.code));
     }
     return response;
   }

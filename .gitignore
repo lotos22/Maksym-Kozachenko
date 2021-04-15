@@ -51,3 +51,7 @@ pubspec.lock
 .vscode/launch.json
 .flutter-plugins-dependencies
 lib/di/injection_container.config.dart
+.fvm/flutter_sdk
+.vscode/settings.json
+.fvm/fvm_config.json
+pub

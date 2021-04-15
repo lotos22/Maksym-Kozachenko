@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toptal_test/di/injection_container.dart';
+import 'package:toptal_test/presentation/routes/app_routes.dart';
 import 'package:toptal_test/presentation/view_model/sign_in_vm.dart';
 import 'package:toptal_test/presentation/widgets/toast_widget.dart';
 
@@ -45,11 +47,6 @@ class SignInPage extends StatelessWidget {
                     ),
                     textInputAction: TextInputAction.done,
                     onFieldSubmitted: (value) => signIn(context, vm),
-                    validator: (value) {
-                      if (value != null && value.length < 6) {
-                        return 'Password must be more than 6 symbols';
-                      }
-                    },
                   ),
                   SizedBox(
                     height: 16,
@@ -60,6 +57,14 @@ class SignInPage extends StatelessWidget {
                           onPressed: () => signIn(context, vm),
                           child: Text('SIGN IN'),
                         ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  TextButton(
+                    onPressed: () => getIt<AppRouteDelegate>()
+                        .setNewRoutePath(RoutePath.signUp()),
+                    child: Text('SIGN UP'),
+                  )
                 ],
               ),
             ),
@@ -72,7 +77,7 @@ class SignInPage extends StatelessWidget {
   void signIn(BuildContext context, SignInVM vm) {
     FocusScope.of(context).unfocus();
     if (formKey.currentState?.validate() ?? false) {
-      vm.login();
+      vm.signIn();
     }
   }
 }

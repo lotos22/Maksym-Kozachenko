@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "629433275325",
+    "firebase_url": "https://toptal-85add-default-rtdb.firebaseio.com",
+    "project_id": "toptal-85add",
+    "storage_bucket": "toptal-85add.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629433275325:android:1ba26de15665d586e638d4",
+        "android_client_info": {
+          "package_name": "com.example.toptal_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "629433275325-qch109n1be6lsit6pli0lc6anbofl5u2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoLQ5cxtEocGJ8RFcQxpF-yh4Kn70dkNc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "629433275325-qch109n1be6lsit6pli0lc6anbofl5u2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "629433275325-e8soa9nq7shlar5et81b16r0762ptdst.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.toptalTest"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

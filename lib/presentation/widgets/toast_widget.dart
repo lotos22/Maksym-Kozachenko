@@ -12,4 +12,8 @@ class ToastWidget extends StatelessWidget {
     }
     return child;
   }
+
+  static void showToast(String toast){
+      Fluttertoast.showToast(msg: toast);
+  }
 }

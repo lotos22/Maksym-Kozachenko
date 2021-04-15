@@ -16,15 +16,15 @@ class SignInVM extends BaseVM {
   final passwordController = TextEditingController();
   bool isLoading = false;
 
-  void login() {
+  void signIn() {
     isLoading = true;
     notifyListeners();
     _signIn.execute(
-      LoginSignInParams(emailController.text, passwordController.text),
+      LoginSignInParams(emailController.text.trim(), passwordController.text.trim()),
       (oneOf) {
         //omit success, should be handled by root
-        if (oneOf.isError && (oneOf as Error).error is LoginFailure) {
-          _onErrorLogin(oneOf);
+        if (oneOf.isError && (oneOf as Error).error is SignInFailure) {
+          _onErrorSignIn(oneOf);
         }
         isLoading = false;
         notifyListeners();
@@ -32,8 +32,8 @@ class SignInVM extends BaseVM {
     );
   }
 
-  void _onErrorLogin(OneOf<Failure, Null> oneOf) {
-    final error = (oneOf as Error).error as LoginFailure;
+  void _onErrorSignIn(OneOf<Failure, Null> oneOf) {
+    final error = (oneOf as Error).error as SignInFailure;
     var message = 'Something went wrong';
     if (error.isInvalidEmail || error.isUserNotFound || error.isUserDisabled) {
       message = 'No user found for that email.';

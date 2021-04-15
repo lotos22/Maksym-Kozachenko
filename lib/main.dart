@@ -13,13 +13,11 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final _routeDelegate = AppRouteDelegate();
-  final _routeInformationParser = AppRouteInformationParser();
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routeInformationParser: _routeInformationParser,
-      routerDelegate: _routeDelegate,
+      routeInformationParser: getIt<AppRouteInformationParser>(),
+      routerDelegate: getIt<AppRouteDelegate>(),
     );
   }
 }
