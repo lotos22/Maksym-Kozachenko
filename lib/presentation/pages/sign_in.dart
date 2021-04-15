@@ -6,6 +6,7 @@ import 'package:toptal_test/presentation/routes/app_routes.dart';
 import 'package:toptal_test/presentation/view_model/sign_in_vm.dart';
 import 'package:toptal_test/presentation/widgets/loading_button.dart';
 import 'package:toptal_test/presentation/widgets/toast_widget.dart';
+import 'package:toptal_test/utils/localizations.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -20,7 +21,8 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<SignInVM>(context);
+    final vm = Provider.of<SignInVM>(context)
+      ..appLocalizations = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -39,12 +41,13 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                 TextFormField(
                   controller: vm.emailController,
                   decoration: InputDecoration(
-                    labelText: 'Email',
+                    labelText: AppLocalizations.of(context).login_email,
                     border: OutlineInputBorder(),
                   ),
                   textInputAction: TextInputAction.next,
-                  validator: (value) =>
-                      emailReg.hasMatch(value ?? '') ? null : 'Invalid email',
+                  validator: (value) => emailReg.hasMatch(value ?? '')
+                      ? null
+                      : AppLocalizations.of(context).login_invalid_email,
                 ),
                 SizedBox(
                   height: 16,
@@ -53,7 +56,7 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                   controller: vm.passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
-                    labelText: 'Password',
+                    labelText: AppLocalizations.of(context).login_password,
                     border: OutlineInputBorder(),
                   ),
                   textInputAction: TextInputAction.done,
@@ -66,7 +69,7 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                   isLoading: vm.isLoading,
                   child: ElevatedButton(
                     onPressed: () => signIn(context, vm),
-                    child: Text('SIGN IN'),
+                    child: Text(AppLocalizations.of(context).login_sign_in),
                   ),
                 ),
                 SizedBox(
@@ -75,11 +78,10 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                 ElevatedButton(
                   onPressed: () {
                     FocusScope.of(context).requestFocus(FocusNode());
-
                     getIt<AppRouteDelegate>()
                         .setNewRoutePath(RoutePath.signUp());
                   },
-                  child: Text('SIGN UP'),
+                  child: Text(AppLocalizations.of(context).login_sign_up),
                 )
               ],
             ),

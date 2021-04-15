@@ -24,6 +24,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # Dependency injector
   get_it: ^6.1.1
@@ -47,6 +49,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+ 
 
   # Code generator
   build_runner: ^1.12.2

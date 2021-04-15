@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toptal_test/const.dart';
+import 'package:toptal_test/utils/const.dart';
 
 class AnimatedLoading extends StatefulWidget {
   final Widget child;

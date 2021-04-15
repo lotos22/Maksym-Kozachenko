@@ -6,6 +6,7 @@ import 'package:toptal_test/presentation/routes/app_routes.dart';
 import 'package:toptal_test/presentation/view_model/sign_up_vm.dart';
 import 'package:toptal_test/presentation/widgets/loading_button.dart';
 import 'package:toptal_test/presentation/widgets/toast_widget.dart';
+import 'package:toptal_test/utils/localizations.dart';
 
 class SignUpPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
@@ -14,7 +15,8 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<SignUpVM>(context);
+    final vm = Provider.of<SignUpVM>(context)
+      ..appLocalizations = AppLocalizations.of(context);
 
     if (vm.isSuccess) showMessageSuccess(context);
 
@@ -35,12 +37,13 @@ class SignUpPage extends StatelessWidget {
                 TextFormField(
                   controller: vm.emailController,
                   decoration: InputDecoration(
-                    labelText: 'Email',
+                    labelText: AppLocalizations.of(context).login_email,
                     border: OutlineInputBorder(),
                   ),
                   textInputAction: TextInputAction.next,
-                  validator: (value) =>
-                      emailReg.hasMatch(value ?? '') ? null : 'Invalid email',
+                  validator: (value) => emailReg.hasMatch(value ?? '')
+                      ? null
+                      : AppLocalizations.of(context).login_invalid_email,
                 ),
                 SizedBox(
                   height: 16,
@@ -49,7 +52,7 @@ class SignUpPage extends StatelessWidget {
                   controller: vm.passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
-                    labelText: 'Password',
+                    labelText: AppLocalizations.of(context).login_password,
                     border: OutlineInputBorder(),
                   ),
                   textInputAction: TextInputAction.next,
@@ -61,7 +64,7 @@ class SignUpPage extends StatelessWidget {
                   controller: vm.passwordController2,
                   obscureText: true,
                   decoration: InputDecoration(
-                    labelText: 'Password',
+                    labelText: AppLocalizations.of(context).login_password,
                     border: OutlineInputBorder(),
                   ),
                   textInputAction: TextInputAction.done,
@@ -70,7 +73,8 @@ class SignUpPage extends StatelessWidget {
                     if (value != null &&
                         vm.passwordController.value.text.trim() !=
                             value.trim()) {
-                      return 'Passwords don\'t match';
+                      return AppLocalizations.of(context)
+                          .sign_up_passwords_dont_match;
                     }
                   },
                 ),
@@ -81,7 +85,7 @@ class SignUpPage extends StatelessWidget {
                   isLoading: vm.isLoading,
                   child: ElevatedButton(
                     onPressed: () => signUp(context, vm),
-                    child: Text('SIGN UP'),
+                    child: Text(AppLocalizations.of(context).login_sign_up),
                   ),
                 )
               ],
@@ -100,7 +104,7 @@ class SignUpPage extends StatelessWidget {
   }
 
   void showMessageSuccess(BuildContext context) {
-    ToastWidget.showToast('Account successfully created');
+    ToastWidget.showToast(AppLocalizations.of(context).sign_up_account_created);
     getIt<AppRouteDelegate>().popRoute();
   }
 }

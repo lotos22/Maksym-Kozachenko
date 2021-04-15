@@ -5,12 +5,15 @@ import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
+import 'package:toptal_test/utils/localizations.dart';
 
 @injectable
 class SignUpVM extends BaseVM {
   final SignUp _signUp;
+  late AppLocalizations appLocalizations;
 
-  SignUpVM(SignUp signUp) : _signUp = signUp;
+  SignUpVM(SignUp signUp)
+      : _signUp = signUp;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordController2 = TextEditingController();
@@ -21,7 +24,8 @@ class SignUpVM extends BaseVM {
     isLoading = true;
     notifyListeners();
     _signUp.execute(
-      LoginSignUpParams(emailController.text.trim(), passwordController.text.trim()),
+      LoginSignUpParams(
+          emailController.text.trim(), passwordController.text.trim()),
       (oneOf) {
         if (oneOf.isError && (oneOf as Error).error is SignUpFailure) {
           _onErrorSignUp(oneOf);
@@ -36,13 +40,13 @@ class SignUpVM extends BaseVM {
 
   void _onErrorSignUp(OneOf<Failure, Null> oneOf) {
     final error = (oneOf as Error).error as SignUpFailure;
-    var message = 'Something went wrong';
+    var message = appLocalizations.something_went_wrong;
     if (error.isInvalidEmail) {
-      message = 'Email is incorrect';
+      message = appLocalizations.sign_up_email_incorrect;
     } else if (error.isEmailInUse) {
-      message = 'Mail is already in use';
+      message = appLocalizations.sign_up_email_in_use;
     } else if (error.isWeakPassword) {
-      message = 'Week password';
+      message = appLocalizations.sign_up_week_password;
     }
     sendMessage(message);
     notifyListeners();
