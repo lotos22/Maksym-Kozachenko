@@ -8,7 +8,7 @@ import 'package:toptal_test/presentation/view_model/sign_in_vm.dart';
 class RoutePath {
   final String name;
 
-  RoutePath(this.name) : assert(name != null);
+  RoutePath(this.name);
 
   RoutePath.splash() : name = SPLASH;
   RoutePath.signIn() : name = SIGN_IN;
