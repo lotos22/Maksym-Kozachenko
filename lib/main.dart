@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/presentation/routes/app_routes.dart';
+import 'package:toptal_test/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      theme: theme,
       routeInformationParser: getIt<AppRouteInformationParser>(),
       routerDelegate: getIt<AppRouteDelegate>(),
     );

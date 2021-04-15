@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/presentation/routes/app_routes.dart';
 import 'package:toptal_test/presentation/view_model/sign_up_vm.dart';
+import 'package:toptal_test/presentation/widgets/loading_button.dart';
 import 'package:toptal_test/presentation/widgets/toast_widget.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -46,18 +47,19 @@ class SignUpPage extends StatelessWidget {
                 ),
                 TextFormField(
                   controller: vm.passwordController,
+                  obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     border: OutlineInputBorder(),
                   ),
                   textInputAction: TextInputAction.next,
-                
                 ),
                 SizedBox(
                   height: 16,
                 ),
                 TextFormField(
                   controller: vm.passwordController2,
+                  obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     border: OutlineInputBorder(),
@@ -66,7 +68,8 @@ class SignUpPage extends StatelessWidget {
                   onFieldSubmitted: (value) => signUp(context, vm),
                   validator: (value) {
                     if (value != null &&
-                        vm.passwordController.value.text.trim() != value.trim()) {
+                        vm.passwordController.value.text.trim() !=
+                            value.trim()) {
                       return 'Passwords don\'t match';
                     }
                   },
@@ -74,12 +77,13 @@ class SignUpPage extends StatelessWidget {
                 SizedBox(
                   height: 16,
                 ),
-                vm.isLoading
-                    ? CircularProgressIndicator()
-                    : TextButton(
-                        onPressed: () => signUp(context, vm),
-                        child: Text('SIGN UP'),
-                      ),
+                AnimatedLoading(
+                  isLoading: vm.isLoading,
+                  child: ElevatedButton(
+                    onPressed: () => signUp(context, vm),
+                    child: Text('SIGN UP'),
+                  ),
+                )
               ],
             ),
           ),
