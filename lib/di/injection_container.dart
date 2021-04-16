@@ -13,8 +13,8 @@ final getIt = GetIt.instance;
   asExtension: false, // default
 )
 void configureDependencies() {
-  $initGetIt(getIt);
   getIt.registerFactory(() => FirebaseAuth.instance);
   getIt.registerFactory(() => FirebaseAuth.instance.currentUser!);
   getIt.registerFactory(() => FirebaseFirestore.instance);
+  $initGetIt(getIt);
 }

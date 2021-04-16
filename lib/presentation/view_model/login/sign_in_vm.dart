@@ -12,11 +12,10 @@ class SignInVM extends BaseVM {
   final SignIn _signIn;
   late AppLocalizations appLocalizations;
 
-  SignInVM(SignIn signIn)
-      : _signIn = signIn;
+  SignInVM(SignIn signIn) : _signIn = signIn;
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final emailController = TextEditingController(text: 't@t.com');
+  final passwordController = TextEditingController(text: '111111');
   bool isLoading = false;
 
   void signIn() {

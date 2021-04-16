@@ -5,10 +5,11 @@ import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:provider/provider.dart';
 import 'package:toptal_test/di/injection_container.dart';
-import 'package:toptal_test/presentation/pages/sign_in.dart';
-import 'package:toptal_test/presentation/pages/sign_up.dart';
-import 'package:toptal_test/presentation/view_model/sign_in_vm.dart';
-import 'package:toptal_test/presentation/view_model/sign_up_vm.dart';
+import 'package:toptal_test/presentation/pages/login/sign_in.dart';
+import 'package:toptal_test/presentation/pages/login/sign_up.dart';
+import 'package:toptal_test/presentation/pages/home/user_home_router.dart';
+import 'package:toptal_test/presentation/view_model/login/sign_in_vm.dart';
+import 'package:toptal_test/presentation/view_model/login/sign_up_vm.dart';
 
 class RoutePath {
   final String name;
@@ -28,7 +29,7 @@ class RoutePath {
 }
 
 @singleton
-class AppRouteInformationParser extends RouteInformationParser<RoutePath> {
+class LoginRouteInformationParser extends RouteInformationParser<RoutePath> {
   @override
   Future<RoutePath> parseRouteInformation(
       RouteInformation routeInformation) async {
@@ -50,7 +51,7 @@ class AppRouteInformationParser extends RouteInformationParser<RoutePath> {
 }
 
 @singleton
-class AppRouteDelegate extends RouterDelegate<RoutePath>
+class LoginRouteDelegate extends RouterDelegate<RoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<RoutePath> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
@@ -61,14 +62,15 @@ class AppRouteDelegate extends RouterDelegate<RoutePath>
   RoutePath get currentConfiguration =>
       _isSignUp ? RoutePath.signIn() : RoutePath.signUp();
 
+  bool get _isUserLogged => getIt<FirebaseAuth>().currentUser != null;
   bool _isSignUp = true;
 
-  AppRouteDelegate() {
-    FirebaseAuth.instance.authStateChanges().listen((event) {
-
+  LoginRouteDelegate() {
+    getIt<FirebaseAuth>().authStateChanges().listen((event) {
+      _isSignUp = false;
+      notifyListeners();
     });
   }
-
 
   @override
   Future<void> setInitialRoutePath(RoutePath configuration) {
@@ -77,9 +79,13 @@ class AppRouteDelegate extends RouterDelegate<RoutePath>
 
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      key: navigatorKey,
-      pages: [
+    List<Page<dynamic>> pages;
+    if (_isUserLogged) {
+      pages = [
+        MaterialPage(child: UserHomeRouter()),
+      ];
+    } else {
+      pages = [
         MaterialPage(
           key: ValueKey(RoutePath.SIGN_IN),
           name: RoutePath.SIGN_IN,
@@ -97,7 +103,12 @@ class AppRouteDelegate extends RouterDelegate<RoutePath>
               child: SignUpPage(),
             ),
           ),
-      ],
+      ];
+    }
+
+    return Navigator(
+      key: navigatorKey,
+      pages: pages,
       onPopPage: (route, result) {
         _isSignUp = false;
         notifyListeners();

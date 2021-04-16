@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toptal_test/di/injection_container.dart';
-import 'package:toptal_test/presentation/routes/app_routes.dart';
-import 'package:toptal_test/presentation/view_model/sign_in_vm.dart';
+import 'package:toptal_test/presentation/routes/login_routes.dart';
+import 'package:toptal_test/presentation/view_model/login/sign_in_vm.dart';
 import 'package:toptal_test/presentation/widgets/loading_button.dart';
 import 'package:toptal_test/presentation/widgets/toast_widget.dart';
 import 'package:toptal_test/utils/localizations.dart';
@@ -78,7 +78,7 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                 ElevatedButton(
                   onPressed: () {
                     FocusScope.of(context).requestFocus(FocusNode());
-                    getIt<AppRouteDelegate>()
+                    getIt<LoginRouteDelegate>()
                         .setNewRoutePath(RoutePath.signUp());
                   },
                   child: Text(AppLocalizations.of(context).login_sign_up),
