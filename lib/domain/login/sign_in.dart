@@ -7,10 +7,10 @@ import 'package:toptal_test/domain/use_case.dart';
 
 @injectable
 class SignIn extends UseCase<Null, LoginSignInParams> {
-  final ILoginRepository _repository;
-  SignIn(ILoginRepository repository) : _repository = repository;
+  final ILoginRepository _loginRepository;
+  SignIn(ILoginRepository loginRepository) : _loginRepository = loginRepository;
 
   @override
   Future<OneOf<Failure, Null>> run(LoginSignInParams params) =>
-      _repository.signIn(params);
+      _loginRepository.signIn(params);
 }

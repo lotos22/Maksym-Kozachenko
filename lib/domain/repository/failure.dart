@@ -1,7 +1,15 @@
 abstract class Failure {
   Failure();
+
+  factory Failure.unknownFailure(String message) = UnknownFailure;
+
   factory Failure.signInFailure(String code) = SignInFailure;
   factory Failure.signUpFailure(String code) = SignUpFailure;
+}
+
+class UnknownFailure extends Failure {
+  final String message;
+  UnknownFailure(this.message);
 }
 
 class SignInFailure extends Failure {
