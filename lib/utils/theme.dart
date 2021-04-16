@@ -5,7 +5,7 @@ var theme = ThemeData(
   accentColor: Colors.blueAccent.shade400,
   appBarTheme: AppBarTheme(
     iconTheme: IconThemeData(
-      color: Colors.black,
+      color: Colors.white,
     ),
   ),
 );

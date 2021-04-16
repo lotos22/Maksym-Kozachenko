@@ -29,7 +29,7 @@ class AppFirebaseAuth implements ILoginRepository {
   }
 
   @override
-  Future<OneOf<Failure, Null>> signUp(LoginSignUpParams params) async{
+  Future<OneOf<Failure, Null>> signUp(LoginSignUpParams params) async {
     OneOf<Failure, Null>? response;
     try {
       await getIt<FirebaseAuth>().createUserWithEmailAndPassword(
@@ -43,5 +43,15 @@ class AppFirebaseAuth implements ILoginRepository {
       response = OneOf.error(Failure.signUpFailure(e.code));
     }
     return response;
+  }
+
+  @override
+  Future<OneOf<Failure, Null>> signOut() async {
+    try {
+      await getIt<FirebaseAuth>().signOut();
+      return OneOf.success(null);
+    } catch (E) {
+      return OneOf.error(Failure.unknownFailure(E.toString()));
+    }
   }
 }

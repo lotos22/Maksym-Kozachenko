@@ -4,9 +4,11 @@ import 'package:toptal_test/utils/const.dart';
 class AnimatedLoading extends StatefulWidget {
   final Widget child;
   final bool isLoading;
+  final Color? color;
   AnimatedLoading({
     required this.isLoading,
     required this.child,
+    this.color,
   });
 
   @override
@@ -20,7 +22,14 @@ class _AnimatedLoadingState extends State<AnimatedLoading>
     return AnimatedSize(
       vsync: this,
       duration: AnimationDuration.short(),
-      child: widget.isLoading ? CircularProgressIndicator() : widget.child,
+      child: widget.isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(
+                    widget.color ?? Theme.of(context).primaryColor),
+              ),
+            )
+          : widget.child,
     );
   }
 }

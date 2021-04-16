@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:injectable/injectable.dart';
 import 'package:toptal_test/presentation/pages/home/list_restoraunts.dart';
 
 class UserRoutePath {
@@ -37,7 +35,9 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
     return Navigator(
       key: navigatorKey,
       pages: [
-        MaterialPage(child: ListRestoraunts()),
+        MaterialPage(
+          child: ListRestoraunts(),
+        ),
       ],
       onPopPage: (route, result) {
         return true;
@@ -46,7 +46,5 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
   }
 
   @override
-  Future<void> setNewRoutePath(UserRoutePath configuration) async {
-    print('t');
-  }
+  Future<void> setNewRoutePath(UserRoutePath configuration) async {}
 }

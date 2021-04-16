@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:toptal_test/di/injection_container.dart';
-import 'package:toptal_test/presentation/routes/login_routes.dart';
 import 'package:toptal_test/presentation/view_model/login/sign_up_vm.dart';
 import 'package:toptal_test/presentation/widgets/loading_button.dart';
 import 'package:toptal_test/presentation/widgets/toast_widget.dart';
@@ -24,6 +22,7 @@ class SignUpPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: ToastWidget(
         toast: vm.toast,
