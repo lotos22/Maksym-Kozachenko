@@ -2,28 +2,37 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:toptal_test/di/injection_container.dart';
+import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/repository/i_user_repository.dart';
-import 'package:toptal_test/model/roles.dart';
 
 @Injectable(as: IUserRepository)
 class FirebaseDatabase extends IUserRepository {
-  final USERS_COLLECTION = 'users';
-  final DOC_ROLES = 'roles';
+  final USERS = 'users';
+  final ROLE = 'roles';
 
-  DocumentReference get rolesDoc =>
-      getIt<FirebaseFirestore>().collection(USERS_COLLECTION).doc(DOC_ROLES);
+  final USER_FIELD_ROLE = 'role';
+
+  DocumentReference get userDoc => getIt<FirebaseFirestore>()
+      .collection(USERS)
+      .doc(getIt<FirebaseAuth>().currentUser!.uid);
 
   @override
-  Future<OneOf<Failure, UserRole>> getRole() async {
+  Future<OneOf<Failure, AppUser>> getUser() async {
     try {
-      final userId = getIt<User>().uid;
-      final role = await rolesDoc.get().then((value) => value.data()?[userId]);
-      if (role == null) {
-        await rolesDoc.update({userId: 1});
+    
+      var user = await userDoc.get();
+      if (user.data() == null) {
+        await userDoc.set({USER_FIELD_ROLE: 1});
       }
-      return OneOf.success(mapToUserRole(role));
+      if (user.data()?[USER_FIELD_ROLE] == null) {
+        await userDoc.update({USER_FIELD_ROLE: 1});
+      }
+      user = await userDoc.get();
+      final appUser = AppUser.fromMap(user.data()!);
+      getIt.registerSingleton<AppUser>(appUser);
+      return OneOf.success(appUser);
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }

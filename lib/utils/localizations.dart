@@ -12,7 +12,8 @@ class AppLocalizations {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
-      'something_went_wrong': 'Something went wrong',
+      'something_went_wrong':
+          'No internet connection', //'Something went wrong',
       'login_email': 'Email',
       'login_password': 'Password',
       'login_sign_in': 'SIGN IN',
@@ -25,6 +26,7 @@ class AppLocalizations {
       'sign_up_email_incorrect': 'Email is incorrect',
       'sign_up_email_in_use': 'Mail is already in use',
       'sign_up_week_password': 'Week password',
+      'home_root_retry': 'Retry',
     }
   };
   String get something_went_wrong {
@@ -79,13 +81,17 @@ class AppLocalizations {
   String get sign_up_week_password {
     return _localizedValues[locale.languageCode]!['sign_up_week_password']!;
   }
+
+  String get home_root_retry {
+    return _localizedValues[locale.languageCode]!['home_root_retry']!;
+  }
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const AppLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => ['en', 'es'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => ['en'].contains(locale.languageCode);
 
   @override
   Future<AppLocalizations> load(Locale locale) {

@@ -18,3 +18,13 @@ void configureDependencies() {
   getIt.registerFactory(() => FirebaseFirestore.instance);
   $initGetIt(getIt);
 }
+
+extension DiUtils on GetIt {
+  T? getSafe<T extends Object>() {
+    try {
+      return getIt<T>();
+    } catch (E) {
+      return null;
+    }
+  }
+}

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:toptal_test/di/injection_container.dart';
+import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
@@ -49,6 +50,7 @@ class AppFirebaseAuth implements ILoginRepository {
   Future<OneOf<Failure, Null>> signOut() async {
     try {
       await getIt<FirebaseAuth>().signOut();
+      getIt.unregister<AppUser>();
       return OneOf.success(null);
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
