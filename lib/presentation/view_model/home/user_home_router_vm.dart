@@ -2,17 +2,21 @@ import 'package:injectable/injectable.dart';
 import 'package:toptal_test/domain/login/sign_out.dart';
 import 'package:toptal_test/domain/user/get_user.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
+import 'package:toptal_test/utils/localizations.dart';
 import 'package:toptal_test/utils/utils.dart';
 
 @injectable
 class UserHomeRouterVM extends BaseVM {
   final SignOut _signOut;
   final GetUser _getUserRole;
+
   UserHomeRouterVM(
+    AppLocalizations appLocalizations,
     SignOut signOut,
     GetUser getUserRole,
   )   : _signOut = signOut,
-        _getUserRole = getUserRole {
+        _getUserRole = getUserRole,
+        super(appLocalizations) {
     loadRole();
   }
 

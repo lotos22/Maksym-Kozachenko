@@ -10,10 +10,12 @@ import 'package:toptal_test/utils/localizations.dart';
 @injectable
 class SignUpVM extends BaseVM {
   final SignUp _signUp;
-  late AppLocalizations appLocalizations;
 
-  SignUpVM(SignUp signUp)
-      : _signUp = signUp;
+  SignUpVM(
+    AppLocalizations appLocalizations,
+    SignUp signUp,
+  )   : _signUp = signUp,
+        super(appLocalizations);
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordController2 = TextEditingController();

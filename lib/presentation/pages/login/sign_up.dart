@@ -13,8 +13,7 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<SignUpVM>(context)
-      ..appLocalizations = AppLocalizations.of(context);
+    final vm = Provider.of<SignUpVM>(context);
 
     if (vm.isSuccess) showMessageSuccess(context);
 

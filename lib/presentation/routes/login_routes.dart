@@ -11,6 +11,7 @@ import 'package:toptal_test/presentation/pages/home/user_home_router.dart';
 import 'package:toptal_test/presentation/view_model/home/user_home_router_vm.dart';
 import 'package:toptal_test/presentation/view_model/login/sign_in_vm.dart';
 import 'package:toptal_test/presentation/view_model/login/sign_up_vm.dart';
+import 'package:toptal_test/utils/localizations.dart';
 
 class RoutePath {
   final String name;
@@ -80,6 +81,9 @@ class LoginRouteDelegate extends RouterDelegate<RoutePath>
 
   @override
   Widget build(BuildContext context) {
+    if (!getIt.isRegistered<AppLocalizations>()) {
+      getIt.registerSingleton<AppLocalizations>(AppLocalizations.of(context));
+    }
     List<Page<dynamic>> pages;
     if (_isUserLogged) {
       pages = [

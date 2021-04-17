@@ -21,8 +21,7 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<SignInVM>(context)
-      ..appLocalizations = AppLocalizations.of(context);
+    final vm = Provider.of<SignInVM>(context);
 
     return Scaffold(
       appBar: AppBar(
