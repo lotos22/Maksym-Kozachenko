@@ -4,9 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/domain/entities/user.dart';
-import 'package:toptal_test/presentation/pages/home/list_restoraunts.dart';
-import 'package:toptal_test/presentation/view_model/home/list_restoraunts_vm.dart';
-import 'package:toptal_test/utils/localizations.dart';
+import 'package:toptal_test/presentation/pages/home/list_restaurants.dart';
+import 'package:toptal_test/presentation/view_model/home/list_restaurant_vm.dart';
 
 class UserRoutePath {
   final String name;
@@ -64,8 +63,8 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
     return [
       MaterialPage(
         child: ChangeNotifierProvider(
-          create: (buildContext) => getIt<ListRestorauntsVM>(),
-          child: ListRestoraunts(),
+          create: (buildContext) => getIt<ListRestaurantsVM>(),
+          child: ListRestaurant(),
         ),
       ),
     ];

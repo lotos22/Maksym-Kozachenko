@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
@@ -8,20 +10,26 @@ import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/repository/i_user_repository.dart';
 
 @Injectable(as: IUserRepository)
-class FirebaseDatabase extends IUserRepository {
+class FirebaseUserDoc extends IUserRepository {
   final USERS = 'users';
   final ROLE = 'roles';
 
   final USER_FIELD_ROLE = 'role';
 
-  DocumentReference get userDoc => getIt<FirebaseFirestore>()
-      .collection(USERS)
-      .doc(getIt<FirebaseAuth>().currentUser!.uid);
+  final FirebaseFirestore _firestore;
+  final FirebaseAuth _auth;
+  FirebaseUserDoc(
+    FirebaseFirestore firestore,
+    FirebaseAuth auth,
+  )   : _firestore = firestore,
+        _auth = auth;
+
+  DocumentReference get userDoc =>
+      _firestore.collection(USERS).doc(_auth.currentUser!.uid);
 
   @override
   Future<OneOf<Failure, AppUser>> getUser() async {
     try {
-    
       var user = await userDoc.get();
       if (user.data() == null) {
         await userDoc.set({USER_FIELD_ROLE: 1});

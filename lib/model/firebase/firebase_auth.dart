@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
@@ -12,11 +13,16 @@ import 'package:toptal_test/domain/repository/i_login_repository.dart';
 
 @Injectable(as: ILoginRepository)
 class AppFirebaseAuth implements ILoginRepository {
+  final FirebaseAuth _auth;
+  AppFirebaseAuth(
+    FirebaseAuth auth,
+  ) : _auth = auth;
+
   @override
   Future<OneOf<Failure, Null>> signIn(LoginSignInParams params) async {
     OneOf<Failure, Null>? response;
     try {
-      await getIt<FirebaseAuth>().signInWithEmailAndPassword(
+      await _auth.signInWithEmailAndPassword(
         email: params.email,
         password: params.pass,
       );
@@ -49,7 +55,7 @@ class AppFirebaseAuth implements ILoginRepository {
   @override
   Future<OneOf<Failure, Null>> signOut() async {
     try {
-      await getIt<FirebaseAuth>().signOut();
+      await _auth.signOut();
       getIt.unregister<AppUser>();
       return OneOf.success(null);
     } catch (E) {

@@ -5,7 +5,7 @@ import 'package:toptal_test/domain/repository/failure.dart';
 abstract class UseCase<Type, Params> {
   @protected
   Future<OneOf<Failure, Type>> run(Params params);
-  void execute(Params params, Function(OneOf<Failure, Type>) onResult) async {
+  Future execute(Params params, Function(OneOf<Failure, Type>) onResult) async {
     try {
       final result = await run(params);
       onResult(result);
