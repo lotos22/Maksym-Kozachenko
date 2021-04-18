@@ -8,4 +8,17 @@ var theme = ThemeData(
       color: Colors.white,
     ),
   ),
+  textTheme: TextTheme(
+    headline6: TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    ),
+    headline5: TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+      fontSize: 16,
+    ),
+    
+  ),
 );

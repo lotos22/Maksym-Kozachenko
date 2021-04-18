@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Restaurant {
   final String id;
   final String name;
@@ -17,7 +19,8 @@ class Restaurant {
         id: id,
         name: data['name'],
         ownerId: data['ownerId'],
-        avgRating: data['avgRating'].toString(),
+        avgRating: NumberFormat('0.0')
+            .format(double.parse(data['avgRating'].toString())),
         numRatings: data['numRatings'],
       );
 }

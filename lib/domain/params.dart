@@ -7,3 +7,8 @@ class LoginSignInParams {
 class LoginSignUpParams extends LoginSignInParams {
   LoginSignUpParams(String email, String pass) : super(email, pass);
 }
+
+class GetRestaurantReviewsParams {
+  final String id;
+  GetRestaurantReviewsParams(this.id);
+}

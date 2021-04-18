@@ -8,6 +8,7 @@ import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/presentation/pages/login/sign_in.dart';
 import 'package:toptal_test/presentation/pages/login/sign_up.dart';
 import 'package:toptal_test/presentation/pages/home/user_home_router.dart';
+import 'package:toptal_test/presentation/routes/user_routes.dart';
 import 'package:toptal_test/presentation/view_model/home/user_home_router_vm.dart';
 import 'package:toptal_test/presentation/view_model/login/sign_in_vm.dart';
 import 'package:toptal_test/presentation/view_model/login/sign_up_vm.dart';
@@ -88,9 +89,13 @@ class LoginRouteDelegate extends RouterDelegate<RoutePath>
     if (_isUserLogged) {
       pages = [
         MaterialPage(
-          child: ChangeNotifierProvider(
-            create: (BuildContext context) => getIt<UserHomeRouterVM>(),
-            child: UserHomeRouter(),
+          child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider.value(value: UserRouteDelegate()),
+              ChangeNotifierProvider(
+                  create: (BuildContext context) => getIt<UserHomeRouterVM>())
+            ],
+            child: UserHomeRouterPage(),
           ),
         ),
       ];

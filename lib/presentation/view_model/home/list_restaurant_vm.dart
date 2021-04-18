@@ -6,7 +6,6 @@ import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/restaurant/get_restaurants.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';
-import 'package:toptal_test/utils/utils.dart';
 
 @injectable
 class ListRestaurantsVM extends BaseVM {

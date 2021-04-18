@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
+import 'package:toptal_test/presentation/routes/user_routes.dart';
 import 'package:toptal_test/presentation/view_model/home/list_restaurant_vm.dart';
+import 'package:toptal_test/presentation/widgets/rating_row_widget.dart';
 
 class ListRestaurant extends StatelessWidget {
   @override
@@ -19,7 +21,7 @@ class ListRestaurant extends StatelessWidget {
         controller: vm.refreshController,
         child: ListView.separated(
           itemBuilder: (context, index) =>
-              getRestaurantCell(vm.restaurants[index]),
+              getRestaurantCell(context, vm.restaurants[index]),
           separatorBuilder: (context, index) => Divider(),
           itemCount: vm.restaurants.length,
         ),
@@ -27,19 +29,15 @@ class ListRestaurant extends StatelessWidget {
     );
   }
 
-  Widget getRestaurantCell(Restaurant restaurant) {
+  Widget getRestaurantCell(BuildContext context, Restaurant restaurant) {
     return ListTile(
-      title: Row(
-        children: [
-          Text(restaurant.avgRating),
-          SizedBox(width: 8),
-          Icon(Icons.star),
-          SizedBox(width: 24),
-          Flexible(
-            child: Text(restaurant.name),
-          ),
-        ],
-      ),
-    );
+        onTap: () => Provider.of<UserRouteDelegate>(
+              context,
+              listen: false,
+            ).setRestaurant(restaurant),
+        title: RatingRowWidget(
+          rating: restaurant.avgRating,
+          text: restaurant.name,
+        ));
   }
 }

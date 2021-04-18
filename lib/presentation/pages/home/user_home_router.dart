@@ -7,14 +7,14 @@ import 'package:toptal_test/presentation/view_model/home/user_home_router_vm.dar
 import 'package:toptal_test/presentation/widgets/loading_button.dart';
 import 'package:toptal_test/utils/localizations.dart';
 
-class UserHomeRouter extends StatefulWidget {
+class UserHomeRouterPage extends StatefulWidget {
   @override
-  _UserHomeRouterState createState() => _UserHomeRouterState();
+  _UserHomeRouterPageState createState() => _UserHomeRouterPageState();
 }
 
-class _UserHomeRouterState extends State<UserHomeRouter> {
+class _UserHomeRouterPageState extends State<UserHomeRouterPage> {
   ChildBackButtonDispatcher? _backButtonDispatcher;
-  final UserRouteDelegate _userRouteDelegate = UserRouteDelegate();
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -26,16 +26,26 @@ class _UserHomeRouterState extends State<UserHomeRouter> {
   @override
   Widget build(BuildContext context) {
     final vm = Provider.of<UserHomeRouterVM>(context);
+    final _userRouteDelegate = Provider.of<UserRouteDelegate>(context);
     return Scaffold(
       appBar: AppBar(
-        leading: AnimatedLoading(
-          color: Colors.white,
-          isLoading: vm.isSignOutLoading,
-          child: IconButton(
-            onPressed: () => vm.signOut(),
-            icon: Icon(Icons.logout),
+        leading: !_userRouteDelegate.isHomePage
+            ? BackButton(
+                onPressed: () {
+                  _userRouteDelegate.popRoute();
+                },
+              )
+            : null,
+        actions: [
+          AnimatedLoading(
+            color: Colors.white,
+            isLoading: vm.isSignOutLoading,
+            child: IconButton(
+              onPressed: () => vm.signOut(),
+              icon: Icon(Icons.logout),
+            ),
           ),
-        ),
+        ],
       ),
       body: getIt.getSafe<AppUser>() == null
           ? Center(
@@ -46,9 +56,12 @@ class _UserHomeRouterState extends State<UserHomeRouter> {
                     )
                   : CircularProgressIndicator(),
             )
-          : Router(
-              routerDelegate: _userRouteDelegate,
-              backButtonDispatcher: _backButtonDispatcher,
+          : ChangeNotifierProvider.value(
+              value: _userRouteDelegate,
+              child: Router(
+                routerDelegate: _userRouteDelegate,
+                backButtonDispatcher: _backButtonDispatcher,
+              ),
             ),
     );
   }

@@ -14,8 +14,8 @@ class Review {
   });
   factory Review.fromMap(Map<String, dynamic> data) => Review(
         comment: data['comment'],
-        dateVisited: (data['date_visited'] as Timestamp).toDate(),
-        rate: data['rate'],
+        dateVisited: (data['dateVisited'] as Timestamp).toDate(),
+        rate: data['rating'],
         reply: data['reply'],
       );
 }

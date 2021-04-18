@@ -27,6 +27,12 @@ class AppLocalizations {
       'sign_up_email_in_use': 'Mail is already in use',
       'sign_up_week_password': 'Week password',
       'home_root_retry': 'Retry',
+
+      'best_review': 'Best rating',
+      'worst_review': 'Worst rating',
+      'comment': 'Comment:',
+      'reply': 'Reply:',
+      'comments': 'Comments',
     }
   };
   String get something_went_wrong {
@@ -84,6 +90,26 @@ class AppLocalizations {
 
   String get home_root_retry {
     return _localizedValues[locale.languageCode]!['home_root_retry']!;
+  }
+
+  String get best_review {
+    return _localizedValues[locale.languageCode]!['best_review']!;
+  }
+
+  String get worst_review {
+    return _localizedValues[locale.languageCode]!['worst_review']!;
+  }
+
+  String get comment {
+    return _localizedValues[locale.languageCode]!['comment']!;
+  }
+
+  String get reply {
+    return _localizedValues[locale.languageCode]!['reply']!;
+  }
+
+  String get comments {
+    return _localizedValues[locale.languageCode]!['comments']!;
   }
 }
 
