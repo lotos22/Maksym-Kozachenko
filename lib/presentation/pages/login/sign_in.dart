@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/presentation/routes/login_routes.dart';
 import 'package:toptal_test/presentation/view_model/login/sign_in_vm.dart';
-import 'package:toptal_test/presentation/widgets/loading_button.dart';
+import 'package:toptal_test/presentation/widgets/animated_loading.dart';
 import 'package:toptal_test/presentation/widgets/toast_widget.dart';
 import 'package:toptal_test/utils/localizations.dart';
 

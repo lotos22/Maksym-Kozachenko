@@ -13,7 +13,7 @@ class ToastWidget extends StatelessWidget {
     return child;
   }
 
-  static void showToast(String toast){
-      Fluttertoast.showToast(msg: toast);
+  static void showToast(String toast) {
+    Fluttertoast.showToast(msg: toast, timeInSecForIosWeb: 2);
   }
 }

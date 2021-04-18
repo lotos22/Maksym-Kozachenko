@@ -14,6 +14,7 @@ class AppLocalizations {
     'en': {
       'something_went_wrong':
           'No internet connection', //'Something went wrong',
+
       'login_email': 'Email',
       'login_password': 'Password',
       'login_sign_in': 'SIGN IN',
@@ -21,18 +22,24 @@ class AppLocalizations {
       'login_invalid_email': 'Invalid email',
       'login_user_error': 'No user found for that email.',
       'login_wrong_password': 'Wrong password',
+
       'sign_up_passwords_dont_match': 'Passwords don\'t match',
       'sign_up_account_created': 'Account successfully created',
       'sign_up_email_incorrect': 'Email is incorrect',
       'sign_up_email_in_use': 'Mail is already in use',
       'sign_up_week_password': 'Week password',
+
       'home_root_retry': 'Retry',
 
-      'best_review': 'Best rating',
-      'worst_review': 'Worst rating',
-      'comment': 'Comment:',
-      'reply': 'Reply:',
-      'comments': 'Comments',
+      'restaurant_details_best_review': 'Best rating',
+      'restaurant_details_worst_review': 'Worst rating',
+      'restaurant_details_comment': 'Comment:',
+      'restaurant_details_reply': 'Reply:',
+      'restaurant_details_comments': 'Comments',
+
+      'dialog_review_comment': 'Comment',
+      'dialog_review_publish': 'Publish',
+      'dialog_review_request_error':'Something went wrong, your review will be added later'
     }
   };
   String get something_went_wrong {
@@ -92,24 +99,40 @@ class AppLocalizations {
     return _localizedValues[locale.languageCode]!['home_root_retry']!;
   }
 
-  String get best_review {
-    return _localizedValues[locale.languageCode]!['best_review']!;
+  String get restaurant_details_best_review {
+    return _localizedValues[locale.languageCode]![
+        'restaurant_details_best_review']!;
   }
 
-  String get worst_review {
-    return _localizedValues[locale.languageCode]!['worst_review']!;
+  String get restaurant_details_worst_review {
+    return _localizedValues[locale.languageCode]![
+        'restaurant_details_worst_review']!;
   }
 
-  String get comment {
-    return _localizedValues[locale.languageCode]!['comment']!;
+  String get restaurant_details_comment {
+    return _localizedValues[locale.languageCode]![
+        'restaurant_details_comment']!;
   }
 
-  String get reply {
-    return _localizedValues[locale.languageCode]!['reply']!;
+  String get restaurant_details_reply {
+    return _localizedValues[locale.languageCode]!['restaurant_details_reply']!;
   }
 
-  String get comments {
-    return _localizedValues[locale.languageCode]!['comments']!;
+  String get restaurant_details_comments {
+    return _localizedValues[locale.languageCode]![
+        'restaurant_details_comments']!;
+  }
+
+  String get dialog_review_comment {
+    return _localizedValues[locale.languageCode]!['dialog_review_comment']!;
+  }
+
+  String get dialog_review_publish {
+    return _localizedValues[locale.languageCode]!['dialog_review_publish']!;
+  }
+  
+  String get dialog_review_request_error {
+    return _localizedValues[locale.languageCode]!['dialog_review_request_error']!;
   }
 }
 

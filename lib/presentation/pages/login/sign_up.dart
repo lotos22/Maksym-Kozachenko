@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:toptal_test/presentation/view_model/login/sign_up_vm.dart';
-import 'package:toptal_test/presentation/widgets/loading_button.dart';
+import 'package:toptal_test/presentation/widgets/animated_loading.dart';
 import 'package:toptal_test/presentation/widgets/toast_widget.dart';
 import 'package:toptal_test/utils/localizations.dart';
 

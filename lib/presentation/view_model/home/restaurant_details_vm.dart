@@ -23,35 +23,39 @@ class RestaurantDetailsVM extends BaseVM {
   }
 
   List<Review> reviews = [];
+
+  Review? _bestReview;
   Review? get bestReview {
-    Review? bestReview;
+    if (_bestReview != null) return _bestReview;
+
     for (var r in reviews) {
-      if (bestReview == null || bestReview.rate < r.rate) {
-        bestReview = r;
+      if (_bestReview == null || _bestReview!.rate < r.rate) {
+        _bestReview = r;
       }
       if (r.rate == 5) break;
     }
-    return bestReview;
+    return _bestReview;
   }
 
+  Review? _worstReview;
   Review? get worstReview {
-    Review? worstReview;
+    if (_worstReview != null) return _worstReview;
     for (var r in reviews) {
-      if (worstReview == null || worstReview.rate < r.rate) {
-        worstReview = r;
+      if (_worstReview == null || _worstReview!.rate > r.rate) {
+        _worstReview = r;
       }
       if (r.rate == 1) break;
     }
-    return bestReview;
+    return _worstReview;
   }
 
   bool isLoadError = false;
   bool isLoading = false;
 
-
   void loadReviews() {
     isLoading = true;
     notifyListeners();
+    
     _getResaurantReviews.execute(GetRestaurantReviewsParams(restaurant.id),
         (oneOf) {
       if (oneOf.isSuccess) {
@@ -63,4 +67,10 @@ class RestaurantDetailsVM extends BaseVM {
     });
   }
 
+  void addPostedReview(Review value) {
+    _worstReview = null;
+    _bestReview = null;
+    reviews.insert(0, value);
+    notifyListeners();
+  }
 }

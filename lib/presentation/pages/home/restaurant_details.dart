@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/domain/entities/review.dart';
 import 'package:toptal_test/presentation/pages/home/review_dialog.dart';
 import 'package:toptal_test/presentation/view_model/home/restaurant_details_vm.dart';
+import 'package:toptal_test/presentation/view_model/home/review_dialog_vm.dart';
 import 'package:toptal_test/presentation/widgets/rating_row_widget.dart';
 import 'package:toptal_test/utils/localizations.dart';
 
@@ -30,7 +32,7 @@ class RestaurantDetailsPage extends StatelessWidget {
             SliverToBoxAdapter(
               child: getTopReviewWidget(
                 context,
-                AppLocalizations.of(context).best_review,
+                AppLocalizations.of(context).restaurant_details_best_review,
                 vm.bestReview!,
               ),
             ),
@@ -38,7 +40,7 @@ class RestaurantDetailsPage extends StatelessWidget {
             SliverToBoxAdapter(
               child: getTopReviewWidget(
                 context,
-                AppLocalizations.of(context).worst_review,
+                AppLocalizations.of(context).restaurant_details_worst_review,
                 vm.worstReview!,
               ),
             ),
@@ -53,7 +55,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 4),
                     child: Text(
-                      AppLocalizations.of(context).comments,
+                      AppLocalizations.of(context).restaurant_details_comments,
                       style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
@@ -61,7 +63,8 @@ class RestaurantDetailsPage extends StatelessWidget {
               ),
             ),
           vm.isLoading
-              ? SliverToBoxAdapter(child: CircularProgressIndicator())
+              ? SliverToBoxAdapter(
+                  child: Center(child: CircularProgressIndicator()))
               : vm.isLoadError
                   ? ElevatedButton(
                       onPressed: () => vm.loadReviews(),
@@ -71,7 +74,17 @@ class RestaurantDetailsPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showDialog(context: context, builder: (context) => ReviewDialog());
+          showDialog(
+            context: context,
+            builder: (context) => ChangeNotifierProvider(
+              create: (context) => getIt<ReviewDialogVM>(param1: vm.restaurant),
+              child: ReviewDialog(),
+            ),
+          ).then((value) {
+            if (value != null && value is Review) {
+              vm.addPostedReview(value);
+            }
+          });
         },
         child: Icon(Icons.add),
       ),
@@ -127,7 +140,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                     height: 8,
                   ),
                   Text(
-                    AppLocalizations.of(context).comment,
+                    AppLocalizations.of(context).restaurant_details_comment,
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   Text(review.comment),
@@ -137,7 +150,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                     ),
                   if (review.reply.isNotEmpty)
                     Text(
-                      AppLocalizations.of(context).reply,
+                      AppLocalizations.of(context).restaurant_details_reply,
                       style: Theme.of(context).textTheme.headline6,
                     ),
                   if (review.reply.isNotEmpty) Text(review.reply),

@@ -5,7 +5,6 @@ import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/domain/repository/i_restaurant_repository.dart';
 import 'package:toptal_test/domain/use_case.dart';
-import 'package:toptal_test/model/firebase/firebase_retaurant_doc.dart';
 
 @injectable
 class GetRestaurantReviews

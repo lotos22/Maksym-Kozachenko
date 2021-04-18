@@ -4,7 +4,7 @@ import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/presentation/routes/user_routes.dart';
 import 'package:toptal_test/presentation/view_model/home/user_home_router_vm.dart';
-import 'package:toptal_test/presentation/widgets/loading_button.dart';
+import 'package:toptal_test/presentation/widgets/animated_loading.dart';
 import 'package:toptal_test/utils/localizations.dart';
 
 class UserHomeRouterPage extends StatefulWidget {

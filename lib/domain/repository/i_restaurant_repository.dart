@@ -8,4 +8,5 @@ import '../one_of.dart';
 abstract class IRestaurantRepository {
   Future<OneOf<Failure, List<Restaurant>>> getRestaurants();
   Future<OneOf<Failure, List<Review>>> getReviews(GetRestaurantReviewsParams params);
+  Future<OneOf<Failure,Null>> addRestaurantReview(AddRestaurantReviewParams params);
 }
