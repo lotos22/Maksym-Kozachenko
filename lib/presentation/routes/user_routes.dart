@@ -72,44 +72,23 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
   Future<void> setNewRoutePath(UserRoutePath configuration) async {}
 
   List<Page> getUserPages(AppUser user) {
-    switch (user.userRole) {
-      case UserRole.REGULAR:
-        return getRegularUserPages();
-      case UserRole.OWNER:
-        return getOwnerUserPages(user);
-      case UserRole.ADMIN:
-        return getAdminUserPages();
-    }
-  }
-
-  List<Page> getRegularUserPages() {
-    return [
-      MaterialPage(
-        child: ChangeNotifierProvider(
-          create: (buildContext) => getIt<ListRestaurantsVM>(),
-          child: ListRestaurantsPage(),
-        ),
-      ),
-      if (_restaurant != null)
-        MaterialPage(
-          name: _restaurant!.id,
-          child: ChangeNotifierProvider(
-            create: (context) =>
-                getIt.get<RestaurantDetailsVM>(param1: _restaurant),
-            child: RestaurantDetailsPage(),
-          ),
-        )
-    ];
-  }
-
-  List<Page> getOwnerUserPages(AppUser user) {
-    ListRestaurantsVM restaurantsVM =
-        getIt<ListRestaurantOwnerVM>(param1: user.id);
     return [
       if (_pageIndex == 0)
         MaterialPage(
           child: ChangeNotifierProvider(
-            create: (buildContext) => restaurantsVM,
+            create: (buidContext) {
+              ListRestaurantsVM? vm;
+              if (user.isRegular) {
+                vm = getIt<ListRestaurantsVM>();
+              }
+              if (user.isOwner) {
+                vm = getIt<ListRestaurantOwnerVM>();
+              }
+              if (user.isAdmin) {
+                vm = getIt<ListRestaurantOwnerVM>();
+              }
+              return vm!;
+            },
             child: ListRestaurantsPage(),
           ),
         ),
@@ -135,9 +114,5 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
   void setRestaurant(Restaurant restaurant) {
     _restaurant = restaurant;
     notifyListeners();
-  }
-
-  List<Page> getAdminUserPages() {
-    return [];
   }
 }

@@ -1,3 +1,4 @@
+import 'package:toptal_test/domain/entities/pendingReply.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/review.dart';
 import 'package:toptal_test/domain/params.dart';
@@ -13,5 +14,6 @@ abstract class IRestaurantRepository {
   Future<OneOf<Failure, Null>> addRestaurantReview(
       AddRestaurantReviewParams params);
   Future<OneOf<Failure, Null>> addRestaurant(AddRestaurantParams params);
-  Future<OneOf<Failure,List<Review>>> getPendingReplies();
+  Future<OneOf<Failure, List<PendingReply>>> getPendingReplies();
+  Future<OneOf<Failure, Null>> addReply(AddReplyParams params);
 }

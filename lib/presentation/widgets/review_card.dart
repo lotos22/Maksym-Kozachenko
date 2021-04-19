@@ -7,22 +7,22 @@ import 'package:toptal_test/utils/localizations.dart';
 class ReviewCardWidget extends StatelessWidget {
   final Review review;
   final EdgeInsets margin;
-  ReviewCardWidget(this.review, {this.margin = const EdgeInsets.all(4)});
+  final Function? onTap;
+  ReviewCardWidget(this.review, {this.margin = const EdgeInsets.all(4),this.onTap});
   @override
   Widget build(BuildContext context) {
-    return getReviewCell(context, review, margin);
+    return getReviewCell(context);
   }
 
   Widget getReviewCell(
-    BuildContext context,
-    Review review,
-    EdgeInsets margin,
+    BuildContext context
   ) {
     final date = DateFormat('dd-MM-yyyy').format(review.dateVisited);
 
     return Card(
       margin: margin,
       child: ListTile(
+        onTap: () => onTap?.call(),
         title: RatingRowWidget(
           rating: review.rate.toString(),
           text: date,

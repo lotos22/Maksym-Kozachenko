@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:injectable/injectable.dart';
+import 'package:toptal_test/domain/entities/pendingReply.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/review.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/repository/i_restaurant_repository.dart';
+import 'package:toptal_test/utils/pair.dart';
 
 @Injectable(as: IRestaurantRepository)
 class FirebaseRestaurauntDoc extends IRestaurantRepository {
@@ -16,6 +18,8 @@ class FirebaseRestaurauntDoc extends IRestaurantRepository {
   final FIELD_AVG_RATING = 'avgRating';
   final FIELD_DATE_VISITED = 'dateVisited';
   final FIELD_OWNER_ID = 'ownerId';
+  final FIELD_REPLIED = 'replied';
+  final FIELD_REPLY = 'reply';
 
   final CALL_ADD_RESTAURANT = 'addRestaurant';
   final CALL_GET_PENDING_REPLIES = 'getPendingReplys';
@@ -98,15 +102,35 @@ class FirebaseRestaurauntDoc extends IRestaurantRepository {
   }
 
   @override
-  Future<OneOf<Failure, List<Review>>> getPendingReplies() async {
+  Future<OneOf<Failure, List<PendingReply>>> getPendingReplies() async {
     try {
       final response = await _functions
           .httpsCallable(CALL_GET_PENDING_REPLIES, options: _callableOptions)
           .call();
 
       final list =
-          (response.data as List).map((e) => Review.fromJson(e)).toList();
+          (response.data as List).map((e) => PendingReply.fromJson(e)).toList();
+
       return OneOf.success(list);
+    } catch (E) {
+      return OneOf.error(Failure.unknownFailure(E.toString()));
+    }
+  }
+
+  @override
+  Future<OneOf<Failure, Null>> addReply(AddReplyParams params) async {
+    try {
+      await _firestore
+          .collection(COLLECTION_RESTUARANTS)
+          .doc(params.restId)
+          .collection(COLLECTION_REVIEWS)
+          .doc(params.docId)
+          .update({
+        FIELD_REPLIED: true,
+        FIELD_REPLY: params.reply,
+      });
+
+      return OneOf.success(null);
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }

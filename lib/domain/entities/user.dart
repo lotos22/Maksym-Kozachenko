@@ -12,7 +12,7 @@ class AppUser {
       );
 
   bool get isOwner => userRole == UserRole.OWNER;
-  bool get isRegular => userRole == UserRole.ADMIN;
+  bool get isRegular => userRole == UserRole.REGULAR;
   bool get isAdmin => userRole == UserRole.ADMIN;
 }
 

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:toptal_test/utils/localizations.dart';
 
-class AddRestaurantDialog extends StatelessWidget {
+class EnterMessageDialog extends StatelessWidget {
   final nameController = TextEditingController();
+  final String? label;
+  EnterMessageDialog(this.label);
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -14,8 +17,7 @@ class AddRestaurantDialog extends StatelessWidget {
             TextField(
               controller: nameController,
               decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).dialog_add_restaurant_name,
+                  labelText: label,
                   border: OutlineInputBorder()),
             ),
             SizedBox(height: 8),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:toptal_test/presentation/pages/home/dialogs/enter_message_dialog.dart';
 import 'package:toptal_test/presentation/view_model/home/pending_replies_vm.dart';
+import 'package:toptal_test/presentation/widgets/loading_modal.dart';
 import 'package:toptal_test/presentation/widgets/review_card.dart';
+import 'package:toptal_test/utils/localizations.dart';
 
 class PendingRepliesPage extends StatelessWidget {
   @override
@@ -13,15 +16,30 @@ class PendingRepliesPage extends StatelessWidget {
       vm.initialLoading();
     });
 
-    return Scaffold(
-      body: SmartRefresher(
-        controller: vm.refreshController,
-        onRefresh: () => vm.loadPendingReplies(),
-        child: ListView.separated(
-          itemBuilder: (context, index) =>
-              ReviewCardWidget(vm.pendingReplies[index]),
-          separatorBuilder: (context, index) => Divider(),
-          itemCount: vm.pendingReplies.length,
+    return LoadingModalWidget(
+      loading: vm.isAddingReply,
+      child: Scaffold(
+        body: SmartRefresher(
+          controller: vm.refreshController,
+          onRefresh: () => vm.loadPendingReplies(),
+          child: ListView.builder(
+            itemBuilder: (context, index) => ReviewCardWidget(
+              vm.pendingReplies[index],
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => EnterMessageDialog(
+                    AppLocalizations.of(context).restaurant_details_reply,
+                  ),
+                ).then((value) {
+                  if (value != null && value is String) {
+                    vm.addReply(vm.pendingReplies[index], value);
+                  }
+                });
+              },
+            ),
+            itemCount: vm.pendingReplies.length,
+          ),
         ),
       ),
     );

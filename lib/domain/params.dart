@@ -20,6 +20,17 @@ class GetRestaurantsParams {
   GetRestaurantsParams(this.ownerId);
 }
 
+class AddReplyParams {
+  final String reply;
+  final String restId;
+  final String docId;
+  AddReplyParams(
+    this.reply,
+    this.restId,
+    this.docId,
+  );
+}
+
 class AddRestaurantParams {
   final String name;
   AddRestaurantParams(this.name);

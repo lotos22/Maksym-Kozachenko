@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
-import 'package:toptal_test/presentation/pages/home/dialogs/add_restaurant_dialog.dart';
+import 'package:toptal_test/presentation/pages/home/dialogs/enter_message_dialog.dart';
 import 'package:toptal_test/presentation/routes/user_routes.dart';
 import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_owner_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_vm.dart';
+import 'package:toptal_test/presentation/widgets/loading_modal.dart';
 import 'package:toptal_test/presentation/widgets/rating_row_widget.dart';
+import 'package:toptal_test/utils/localizations.dart';
 
 class ListRestaurantsPage extends StatelessWidget {
   @override
@@ -17,32 +19,40 @@ class ListRestaurantsPage extends StatelessWidget {
       vm.initialLoading();
     });
 
-    return Scaffold(
-      body: SmartRefresher(
-        onRefresh: () => vm.loadRestaurants(),
-        controller: vm.refreshController,
-        child: ListView.separated(
-          itemBuilder: (context, index) =>
-              getRestaurantCell(context, vm.restaurants[index]),
-          separatorBuilder: (context, index) => Divider(),
-          itemCount: vm.restaurants.length,
+    return LoadingModalWidget(
+      loading: () {
+        if (vm is ListRestaurantOwnerVM) return vm.addRestaurantLoading;
+        return false;
+      }(),
+      child: Scaffold(
+        body: SmartRefresher(
+          onRefresh: () => vm.loadRestaurants(),
+          controller: vm.refreshController,
+          child: ListView.separated(
+            itemBuilder: (context, index) =>
+                getRestaurantCell(context, vm.restaurants[index]),
+            separatorBuilder: (context, index) => Divider(),
+            itemCount: vm.restaurants.length,
+          ),
         ),
+        floatingActionButton: vm is ListRestaurantOwnerVM
+            ? FloatingActionButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => EnterMessageDialog(
+                        AppLocalizations.of(context)
+                            .dialog_add_restaurant_name),
+                  ).then((value) {
+                    if (value != null && value is String) {
+                      vm.addRestaurant(value);
+                    }
+                  });
+                },
+                child: Icon(Icons.add),
+              )
+            : null,
       ),
-      floatingActionButton: vm is ListRestaurantOwnerVM
-          ? FloatingActionButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => AddRestaurantDialog(),
-                ).then((value) {
-                  if (value != null && value is String) {
-                    vm.addRestaurant(value);
-                  }
-                });
-              },
-              child: Icon(Icons.add),
-            )
-          : null,
     );
   }
 

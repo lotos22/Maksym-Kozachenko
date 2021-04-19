@@ -19,13 +19,5 @@ class Review {
         reply: data['reply'],
       );
 
-  factory Review.fromJson(Map<dynamic, dynamic> data) => Review(
-        comment: data['comment'],
-        dateVisited: Timestamp(
-          data['dateVisited']['_seconds'],
-          data['dateVisited']['_nanoseconds'],
-        ).toDate(),
-        rate: data['rating'],
-        reply: data['reply'] ?? '',
-      );
+  
 }

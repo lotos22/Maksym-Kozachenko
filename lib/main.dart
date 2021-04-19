@@ -11,7 +11,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   configureDependencies();
-  //TODO wrap with loading widget
   runApp(MyApp());
 }
 
