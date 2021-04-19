@@ -6,9 +6,11 @@ import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/presentation/pages/home/list_restaurants.dart';
+import 'package:toptal_test/presentation/pages/home/pending_replies.dart';
 import 'package:toptal_test/presentation/pages/home/restaurant_details.dart';
-import 'package:toptal_test/presentation/view_model/home/list_restaurant_owner_vm.dart';
-import 'package:toptal_test/presentation/view_model/home/list_restaurant_vm.dart';
+import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_owner_vm.dart';
+import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_vm.dart';
+import 'package:toptal_test/presentation/view_model/home/pending_replies_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/restaurant_details_vm.dart';
 
 class UserRoutePath {
@@ -104,12 +106,13 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
     ListRestaurantsVM restaurantsVM =
         getIt<ListRestaurantOwnerVM>(param1: user.id);
     return [
-      MaterialPage(
-        child: ChangeNotifierProvider(
-          create: (buildContext) => restaurantsVM,
-          child: ListRestaurantsPage(),
+      if (_pageIndex == 0)
+        MaterialPage(
+          child: ChangeNotifierProvider(
+            create: (buildContext) => restaurantsVM,
+            child: ListRestaurantsPage(),
+          ),
         ),
-      ),
       if (_restaurant != null)
         MaterialPage(
           name: _restaurant!.id,
@@ -117,6 +120,13 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
             create: (context) =>
                 getIt.get<RestaurantDetailsVM>(param1: _restaurant),
             child: RestaurantDetailsPage(),
+          ),
+        ),
+      if (pageIndex == 1)
+        MaterialPage(
+          child: ChangeNotifierProvider(
+            create: (context) => getIt<PendingRepliesVM>(),
+            child: PendingRepliesPage(),
           ),
         )
     ];

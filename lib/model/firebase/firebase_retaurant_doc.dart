@@ -18,9 +18,12 @@ class FirebaseRestaurauntDoc extends IRestaurantRepository {
   final FIELD_OWNER_ID = 'ownerId';
 
   final CALL_ADD_RESTAURANT = 'addRestaurant';
+  final CALL_GET_PENDING_REPLIES = 'getPendingReplys';
 
   final FirebaseFunctions _functions;
   final FirebaseFirestore _firestore;
+
+  final _callableOptions = HttpsCallableOptions();
   FirebaseRestaurauntDoc(
       FirebaseFirestore firestore, FirebaseFunctions functions)
       : _functions = functions,
@@ -85,10 +88,25 @@ class FirebaseRestaurauntDoc extends IRestaurantRepository {
   Future<OneOf<Failure, Null>> addRestaurant(AddRestaurantParams params) async {
     try {
       await _functions
-          .httpsCallable(CALL_ADD_RESTAURANT, options: HttpsCallableOptions())
+          .httpsCallable(CALL_ADD_RESTAURANT, options: _callableOptions)
           .call({'name': params.name});
 
       return OneOf.success(null);
+    } catch (E) {
+      return OneOf.error(Failure.unknownFailure(E.toString()));
+    }
+  }
+
+  @override
+  Future<OneOf<Failure, List<Review>>> getPendingReplies() async {
+    try {
+      final response = await _functions
+          .httpsCallable(CALL_GET_PENDING_REPLIES, options: _callableOptions)
+          .call();
+
+      final list =
+          (response.data as List).map((e) => Review.fromJson(e)).toList();
+      return OneOf.success(list);
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }

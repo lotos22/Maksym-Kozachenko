@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/domain/entities/review.dart';
@@ -7,6 +6,7 @@ import 'package:toptal_test/presentation/pages/home/dialogs/review_dialog.dart';
 import 'package:toptal_test/presentation/view_model/home/restaurant_details_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/review_dialog_vm.dart';
 import 'package:toptal_test/presentation/widgets/rating_row_widget.dart';
+import 'package:toptal_test/presentation/widgets/review_card.dart';
 import 'package:toptal_test/utils/localizations.dart';
 
 class RestaurantDetailsPage extends StatelessWidget {
@@ -96,7 +96,7 @@ class RestaurantDetailsPage extends StatelessWidget {
     final vm = Provider.of<RestaurantDetailsVM>(context);
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (context, index) => getReviewCell(context, vm.reviews[index]),
+        (context, index) => ReviewCardWidget(vm.reviews[index]),
         childCount: vm.reviews.length,
       ),
     );
@@ -112,51 +112,8 @@ class RestaurantDetailsPage extends StatelessWidget {
           SizedBox(
             height: 4,
           ),
-          getReviewCell(context, review, margin: EdgeInsets.zero),
+          ReviewCardWidget(review, margin: EdgeInsets.zero),
         ],
-      ),
-    );
-  }
-
-  Widget getReviewCell(
-    BuildContext context,
-    Review review, {
-    EdgeInsets margin = const EdgeInsets.all(4),
-  }) {
-    final date = DateFormat('dd-MM-yyyy').format(review.dateVisited);
-
-    return Card(
-      margin: margin,
-      child: ListTile(
-        title: RatingRowWidget(
-          rating: review.rate.toString(),
-          text: date,
-        ),
-        subtitle: review.comment.isEmpty
-            ? null
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    AppLocalizations.of(context).restaurant_details_comment,
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  Text(review.comment),
-                  if (review.reply.isNotEmpty)
-                    SizedBox(
-                      height: 8,
-                    ),
-                  if (review.reply.isNotEmpty)
-                    Text(
-                      AppLocalizations.of(context).restaurant_details_reply,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                  if (review.reply.isNotEmpty) Text(review.reply),
-                ],
-              ),
       ),
     );
   }

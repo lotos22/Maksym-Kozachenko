@@ -1,6 +1,5 @@
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/review.dart';
-import 'package:toptal_test/domain/interactor/restaurant/add_restaurant_review.dart';
 import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 
@@ -14,4 +13,5 @@ abstract class IRestaurantRepository {
   Future<OneOf<Failure, Null>> addRestaurantReview(
       AddRestaurantReviewParams params);
   Future<OneOf<Failure, Null>> addRestaurant(AddRestaurantParams params);
+  Future<OneOf<Failure,List<Review>>> getPendingReplies();
 }

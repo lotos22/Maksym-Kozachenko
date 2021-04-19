@@ -4,8 +4,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/presentation/pages/home/dialogs/add_restaurant_dialog.dart';
 import 'package:toptal_test/presentation/routes/user_routes.dart';
-import 'package:toptal_test/presentation/view_model/home/list_restaurant_owner_vm.dart';
-import 'package:toptal_test/presentation/view_model/home/list_restaurant_vm.dart';
+import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_owner_vm.dart';
+import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_vm.dart';
 import 'package:toptal_test/presentation/widgets/rating_row_widget.dart';
 
 class ListRestaurantsPage extends StatelessWidget {

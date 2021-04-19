@@ -12,7 +12,6 @@ import 'package:toptal_test/utils/localizations.dart';
 class RestaurantDetailsVM extends BaseVM {
   final Restaurant restaurant;
   final GetRestaurantReviews _getResaurantReviews;
-  final AppUser _appUser;
   RestaurantDetailsVM(
     @factoryParam Restaurant? rest,
     AppUser appUser,
@@ -20,7 +19,6 @@ class RestaurantDetailsVM extends BaseVM {
     AppLocalizations appLocalizations,
   )   : assert(rest != null),
         restaurant = rest!,
-        _appUser = appUser,
         _getResaurantReviews = getRestaurantReviews,
         super(appLocalizations) {
     loadReviews();
