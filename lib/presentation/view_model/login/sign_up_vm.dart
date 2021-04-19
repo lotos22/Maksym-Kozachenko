@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
-import 'package:toptal_test/domain/login/sign_up.dart';
+import 'package:toptal_test/domain/interactor/login/sign_up.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/domain/repository/failure.dart';

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -15,6 +16,7 @@ final getIt = GetIt.instance;
 void configureDependencies() {
   getIt.registerFactory(() => FirebaseAuth.instance);
   getIt.registerFactory(() => FirebaseAuth.instance.currentUser!);
+  getIt.registerFactory(() => FirebaseFunctions.instance);
   getIt.registerFactory(() => FirebaseFirestore.instance);
   $initGetIt(getIt);
 }

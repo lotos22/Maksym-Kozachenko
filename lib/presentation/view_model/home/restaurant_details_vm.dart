@@ -1,9 +1,10 @@
 import 'package:injectable/injectable.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/review.dart';
+import 'package:toptal_test/domain/entities/user.dart';
+import 'package:toptal_test/domain/interactor/restaurant/get_restaurant_reviews.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/params.dart';
-import 'package:toptal_test/domain/restaurant/get_restaurant_reviews.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';
 
@@ -11,16 +12,20 @@ import 'package:toptal_test/utils/localizations.dart';
 class RestaurantDetailsVM extends BaseVM {
   final Restaurant restaurant;
   final GetRestaurantReviews _getResaurantReviews;
+  final AppUser _appUser;
   RestaurantDetailsVM(
     @factoryParam Restaurant? rest,
+    AppUser appUser,
     GetRestaurantReviews getRestaurantReviews,
     AppLocalizations appLocalizations,
   )   : assert(rest != null),
         restaurant = rest!,
+        _appUser = appUser,
         _getResaurantReviews = getRestaurantReviews,
         super(appLocalizations) {
     loadReviews();
   }
+
 
   List<Review> reviews = [];
 
@@ -55,7 +60,7 @@ class RestaurantDetailsVM extends BaseVM {
   void loadReviews() {
     isLoading = true;
     notifyListeners();
-    
+
     _getResaurantReviews.execute(GetRestaurantReviewsParams(restaurant.id),
         (oneOf) {
       if (oneOf.isSuccess) {

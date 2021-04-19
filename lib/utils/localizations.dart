@@ -39,7 +39,11 @@ class AppLocalizations {
 
       'dialog_review_comment': 'Comment',
       'dialog_review_publish': 'Publish',
-      'dialog_review_request_error':'Something went wrong, your review will be added later'
+      'dialog_review_request_error':
+          'Something went wrong, your review will be added later',
+
+      'dialog_add_restaurant_name': 'Name',
+      'dialog_add_restaurant_ok': 'Ok',
     }
   };
   String get something_went_wrong {
@@ -130,9 +134,19 @@ class AppLocalizations {
   String get dialog_review_publish {
     return _localizedValues[locale.languageCode]!['dialog_review_publish']!;
   }
-  
+
   String get dialog_review_request_error {
-    return _localizedValues[locale.languageCode]!['dialog_review_request_error']!;
+    return _localizedValues[locale.languageCode]![
+        'dialog_review_request_error']!;
+  }
+
+  String get dialog_add_restaurant_name {
+    return _localizedValues[locale.languageCode]![
+        'dialog_add_restaurant_name']!;
+  }
+
+  String get dialog_add_restaurant_ok {
+    return _localizedValues[locale.languageCode]!['dialog_add_restaurant_ok']!;
   }
 }
 

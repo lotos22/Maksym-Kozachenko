@@ -14,6 +14,7 @@ class FirebaseUserDoc extends IUserRepository {
   final USERS = 'users';
   final ROLE = 'roles';
 
+  final USER_FIELD_EMAIL = 'email';
   final USER_FIELD_ROLE = 'role';
 
   final FirebaseFirestore _firestore;
@@ -37,8 +38,11 @@ class FirebaseUserDoc extends IUserRepository {
       if (user.data()?[USER_FIELD_ROLE] == null) {
         await userDoc.update({USER_FIELD_ROLE: 1});
       }
+      if (user.data()?[USER_FIELD_EMAIL] == null) {
+        await userDoc.update({USER_FIELD_EMAIL: _auth.currentUser?.email});
+      }
       user = await userDoc.get();
-      final appUser = AppUser.fromMap(user.data()!);
+      final appUser = AppUser.fromMap(_auth.currentUser!.uid, user.data()!);
       getIt.registerSingleton<AppUser>(appUser);
       return OneOf.success(appUser);
     } catch (E) {

@@ -3,10 +3,12 @@ import 'package:injectable/injectable.dart';
 import 'package:toptal_test/utils/localizations.dart';
 
 class BaseVM extends ChangeNotifier {
-  final AppLocalizations appLocalizations;
+  final AppLocalizations _appLocalizations;
 
-  BaseVM(@factoryParam this.appLocalizations);
+  BaseVM(@factoryParam AppLocalizations appLocalizations)
+      : _appLocalizations = appLocalizations;
 
+  AppLocalizations get appLocalizations => _appLocalizations;
   var _toast = '';
 
   void sendMessage(String s) => _toast = s;

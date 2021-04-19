@@ -15,6 +15,16 @@ class GetRestaurantReviewsParams {
   GetRestaurantReviewsParams(this.id);
 }
 
+class GetRestaurantsParams {
+  final String? ownerId;
+  GetRestaurantsParams(this.ownerId);
+}
+
+class AddRestaurantParams {
+  final String name;
+  AddRestaurantParams(this.name);
+}
+
 class AddRestaurantReviewParams {
   final String restaurantId;
 
@@ -30,5 +40,6 @@ class AddRestaurantReviewParams {
         'dateVisited': Timestamp.fromDate(dateTime),
         'rating': rating,
         'reply': '',
+        'replied': false,
       };
 }

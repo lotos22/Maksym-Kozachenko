@@ -19,8 +19,11 @@ class Restaurant {
         id: id,
         name: data['name'],
         ownerId: data['ownerId'],
-        avgRating: NumberFormat('0.0')
-            .format(double.parse(data['avgRating'].toString())),
+        avgRating: data['avgRating'] == 0
+            ? ''
+            : NumberFormat('0.0').format(
+                double.tryParse(data['avgRating'].toString()) ??
+                    int.tryParse(data['avgRating'].toString())),
         numRatings: data['numRatings'],
       );
 }

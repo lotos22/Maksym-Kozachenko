@@ -10,14 +10,19 @@ class RatingRowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(rating),
+        Flexible(
+          flex: 1,
+          fit: FlexFit.tight,
+          child: Text(rating),
+        ),
         SizedBox(width: 8),
         Icon(
           Icons.star,
-          color: Colors.black,
+          color: Colors.amber,
         ),
-        SizedBox(width: 24),
-        Flexible(
+        SizedBox(width: 16),
+        Expanded(
+          flex: 8,
           child: Text(text),
         ),
       ],

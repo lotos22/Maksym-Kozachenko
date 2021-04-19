@@ -1,16 +1,16 @@
 import 'package:injectable/injectable.dart';
-import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/repository/i_restaurant_repository.dart';
 import 'package:toptal_test/domain/use_case.dart';
 
-@injectable
-class GetRestaurants extends UseCase<List<Restaurant>, Null> {
-  final IRestaurantRepository _repository;
-  GetRestaurants(IRestaurantRepository repository) : _repository = repository;
+import 'package:toptal_test/domain/params.dart';
 
+@injectable
+class AddRestaurant extends UseCase<Null, AddRestaurantParams> {
+  final IRestaurantRepository _repository;
+  AddRestaurant(IRestaurantRepository repository) : _repository = repository;
   @override
-  Future<OneOf<Failure, List<Restaurant>>> run(Null params) =>
-      _repository.getRestaurants();
+  Future<OneOf<Failure, Null>> run(AddRestaurantParams params) =>
+      _repository.addRestaurant(params);
 }

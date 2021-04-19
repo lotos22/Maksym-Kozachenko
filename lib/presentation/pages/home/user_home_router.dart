@@ -47,7 +47,7 @@ class _UserHomeRouterPageState extends State<UserHomeRouterPage> {
           ),
         ],
       ),
-      body: getIt.getSafe<AppUser>() == null
+      body: !vm.isRoleLoaded
           ? Center(
               child: vm.isGetRoleError
                   ? ElevatedButton(
@@ -63,6 +63,28 @@ class _UserHomeRouterPageState extends State<UserHomeRouterPage> {
                 backButtonDispatcher: _backButtonDispatcher,
               ),
             ),
+      bottomNavigationBar: getBottomBarForRole(vm.getRole, _userRouteDelegate),
     );
+  }
+
+  Widget? getBottomBarForRole(
+      UserRole? getRole, UserRouteDelegate userRouteDelegate) {
+    if (getRole == null) return null;
+    if (getRole == UserRole.OWNER) {
+      return BottomNavigationBar(
+        currentIndex: userRouteDelegate.pageIndex,
+        onTap: (value) => userRouteDelegate.pageIndex = value,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.restaurant),
+            label: 'Restaurants',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.rate_review),
+            label: 'Pending replies',
+          ),
+        ],
+      );
+    }
   }
 }

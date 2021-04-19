@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/domain/entities/review.dart';
-import 'package:toptal_test/presentation/pages/home/review_dialog.dart';
+import 'package:toptal_test/presentation/pages/home/dialogs/review_dialog.dart';
 import 'package:toptal_test/presentation/view_model/home/restaurant_details_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/review_dialog_vm.dart';
 import 'package:toptal_test/presentation/widgets/rating_row_widget.dart';
@@ -69,7 +69,8 @@ class RestaurantDetailsPage extends StatelessWidget {
                   ? ElevatedButton(
                       onPressed: () => vm.loadReviews(),
                       child: Text(AppLocalizations.of(context).home_root_retry))
-                  : getReviewsWidget(context)
+                  : getReviewsWidget(context),
+          SliverToBoxAdapter(child: SizedBox(height: 24)),
         ],
       ),
       floatingActionButton: FloatingActionButton(
