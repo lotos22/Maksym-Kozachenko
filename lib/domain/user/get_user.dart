@@ -6,12 +6,12 @@ import 'package:toptal_test/domain/repository/i_user_repository.dart';
 
 import '../use_case.dart';
 
-@injectable
-class GetUser extends UseCase<AppUser, Null> {
-  final IUserRepository _userRepository;
-  GetUser(IUserRepository userRepository)
-      : _userRepository = userRepository;
+// @injectable
+// class GetUser extends UseCase<AppUser, Null> {
+//   final IUserRepository _userRepository;
+//   GetUser(IUserRepository userRepository)
+//       : _userRepository = userRepository;
 
-  @override
-  Future<OneOf<Failure, AppUser>> run(Null params) => _userRepository.getUser();
-}
+//   @override
+//   Future<OneOf<Failure, AppUser>> run(Null params) => _userRepository.getUser();
+// }

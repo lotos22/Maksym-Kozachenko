@@ -69,22 +69,13 @@ class _UserHomeRouterPageState extends State<UserHomeRouterPage> {
           ),
         ],
       ),
-      body: !vm.isRoleLoaded
-          ? Center(
-              child: vm.isGetRoleError
-                  ? ElevatedButton(
-                      onPressed: () => vm.loadRole(),
-                      child: Text(AppLocalizations.of(context).home_root_retry),
-                    )
-                  : CircularProgressIndicator(),
-            )
-          : ChangeNotifierProvider.value(
-              value: _userRouteDelegate,
-              child: Router(
-                routerDelegate: _userRouteDelegate,
-                backButtonDispatcher: _backButtonDispatcher,
-              ),
-            ),
+      body: ChangeNotifierProvider.value(
+        value: _userRouteDelegate,
+        child: Router(
+          routerDelegate: _userRouteDelegate,
+          backButtonDispatcher: _backButtonDispatcher,
+        ),
+      ),
       bottomNavigationBar: getBottomBarForRole(vm.getRole, _userRouteDelegate),
     );
   }

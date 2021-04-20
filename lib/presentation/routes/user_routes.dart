@@ -1,3 +1,8 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -8,6 +13,7 @@ import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/presentation/pages/home/list_restaurants.dart';
 import 'package:toptal_test/presentation/pages/home/pending_replies.dart';
 import 'package:toptal_test/presentation/pages/home/restaurant_details.dart';
+import 'package:toptal_test/presentation/pages/home/user_deleted.dart';
 import 'package:toptal_test/presentation/pages/home/users.dart';
 import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_owner_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_vm.dart';
@@ -33,6 +39,26 @@ class UserRouteInformationParser extends RouteInformationParser<UserRoutePath> {
 class UserRouteDelegate extends RouterDelegate<UserRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<UserRoutePath> {
   final _navigatorKey = GlobalKey<NavigatorState>();
+  final listSubscriptions = <StreamSubscription>[];
+
+  bool isUserPresent = false;
+  UserRouteDelegate() {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    listSubscriptions.add(FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .snapshots()
+        .listen((event) {
+      isUserPresent = event.exists && event.data() != null;
+      if (getIt.isRegistered<AppUser>()) getIt.unregister<AppUser>();
+      if (isUserPresent) {
+        final user = AppUser.fromMap(uid, event.data()!);
+        if (getIt.isRegistered<AppUser>()) getIt.unregister<AppUser>();
+        getIt.registerSingleton<AppUser>(user);
+      }
+      notifyListeners();
+    }));
+  }
 
   var _pageIndex = 0;
   int get pageIndex => _pageIndex;
@@ -55,19 +81,21 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
 
   @override
   Widget build(BuildContext context) {
-    if (!getIt.isRegistered<AppUser>()) return Scaffold();
+    if (!isUserPresent || !getIt.isRegistered<AppUser>()) {
+      return UserDeletedPage();
+    } else {
+      final pages = getUserPages(getIt.get<AppUser>());
 
-    final pages = getUserPages(getIt.get<AppUser>());
-
-    return Navigator(
-      key: navigatorKey,
-      pages: pages,
-      onPopPage: (route, result) {
-        _restaurant = null;
-        notifyListeners();
-        return false;
-      },
-    );
+      return Navigator(
+        key: navigatorKey,
+        pages: pages,
+        onPopPage: (route, result) {
+          _restaurant = null;
+          notifyListeners();
+          return false;
+        },
+      );
+    }
   }
 
   @override
@@ -123,5 +151,13 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
   void setRestaurant(Restaurant restaurant) {
     _restaurant = restaurant;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    listSubscriptions.forEach((element) {
+      element.cancel();
+    });
+    super.dispose();
   }
 }

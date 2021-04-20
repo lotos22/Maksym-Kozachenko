@@ -29,24 +29,24 @@ class FirebaseUserDoc extends IUserRepository {
   DocumentReference get userDoc =>
       _firestore.collection(USERS).doc(_auth.currentUser!.uid);
 
-  @override
-  Future<OneOf<Failure, AppUser>> getUser() async {
-    try {
-      var user = await userDoc.get();
-      if (user.data() != null) {
-        final appUser = AppUser.fromMap(_auth.currentUser!.uid, user.data()!);
-        getIt.registerSingleton<AppUser>(appUser);
-        return OneOf.success(appUser);
-      } else {
-        final appUser =
-            AppUser(id: _auth.currentUser!.uid, userRole: UserRole.REGULAR);
-        getIt.registerSingleton<AppUser>(appUser);
-        return OneOf.success(appUser);
-      }
-    } catch (E) {
-      return OneOf.error(Failure.unknownFailure(E.toString()));
-    }
-  }
+  // @override
+  // Future<OneOf<Failure, AppUser>> getUser() async {
+  //   try {
+  //     var user = await userDoc.get();
+  //     if (user.data() != null) {
+  //       final appUser = AppUser.fromMap(_auth.currentUser!.uid, user.data()!);
+  //       getIt.registerSingleton<AppUser>(appUser);
+  //       return OneOf.success(appUser);
+  //     } else {
+  //       final appUser =
+  //           AppUser(id: _auth.currentUser!.uid, userRole: UserRole.REGULAR);
+  //       getIt.registerSingleton<AppUser>(appUser);
+  //       return OneOf.success(appUser);
+  //     }
+  //   } catch (E) {
+  //     return OneOf.error(Failure.unknownFailure(E.toString()));
+  //   }
+  // }
 
   @override
   Future<OneOf<Failure, List<AppUser>>> getUsers() async {
@@ -54,7 +54,8 @@ class FirebaseUserDoc extends IUserRepository {
       final response = await _firestore.collection(USERS).get();
       final list = response.docs
           .map((e) =>
-              AppUser(userRole: mapToUserRole(e.data()['role']), id: e.id))
+              AppUser(userRole: mapToUserRole(e.data()['role']),
+               id: e.id,email: e.data()['email'],))
           .toList();
       return OneOf.success(list);
     } catch (E) {
@@ -65,11 +66,7 @@ class FirebaseUserDoc extends IUserRepository {
   @override
   Future<OneOf<Failure, Null>> deleteUser(DeleteUserParams params) async {
     try {
-      final response = await _firestore.collection(USERS).get();
-      final list = response.docs
-          .map((e) =>
-              AppUser(userRole: mapToUserRole(e.data()['role']), id: e.id))
-          .toList();
+      await _firestore.collection(USERS).doc(params.id).delete();
       return OneOf.success(null);
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));

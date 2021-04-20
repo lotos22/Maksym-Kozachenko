@@ -1,14 +1,17 @@
 class AppUser {
   final String id;
   final UserRole userRole;
+  final String? email;
 
   AppUser({
     required this.userRole,
     required this.id,
+    this.email,
   });
   factory AppUser.fromMap(String id, Map<String, dynamic> data) => AppUser(
         id: id,
         userRole: mapToUserRole(data['role']),
+        email: data['email']
       );
 
   bool get isOwner => userRole == UserRole.OWNER;

@@ -64,6 +64,8 @@ class _EditUserDialogState extends State<EditUserDialog> {
                         mapFromUserRole(userRole),
                       ),
                     );
+                  } else {
+                    Navigator.pop(context);
                   }
                 },
                 child: Text('Update')),

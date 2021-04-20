@@ -10,16 +10,16 @@ import 'package:toptal_test/utils/utils.dart';
 @injectable
 class UserHomeRouterVM extends BaseVM {
   final SignOut _signOut;
-  final GetUser _getUserRole;
+  //final GetUser _getUserRole;
 
   UserHomeRouterVM(
     AppLocalizations appLocalizations,
     SignOut signOut,
-    GetUser getUserRole,
+  //  GetUser getUserRole,
   )   : _signOut = signOut,
-        _getUserRole = getUserRole,
+      //  _getUserRole = getUserRole,
         super(appLocalizations) {
-    loadRole();
+ //   loadRole();
   }
 
   AppUser? _appUser;
@@ -29,21 +29,21 @@ class UserHomeRouterVM extends BaseVM {
 
   bool isGetRoleError = false;
 
-  bool get isRoleLoaded => _appUser != null;
-  UserRole? get getRole => _appUser?.userRole;
+ // bool get isRoleLoaded => _appUser != null;
+  UserRole? get getRole => getIt.getSafe<AppUser>()?.userRole;
 
-  void loadRole() {
-    isRoleLoading = true;
-    notifyListeners();
-    _getUserRole.execute(null, (oneOf) {
-      _appUser = getIt<AppUser>();
-      runCatching(() {
-        isGetRoleError = oneOf.isError;
-        isRoleLoading = false;
-        notifyListeners();
-      });
-    });
-  }
+  // void loadRole() {
+  //   isRoleLoading = true;
+  //   notifyListeners();
+  //   _getUserRole.execute(null, (oneOf) {
+  //     _appUser = getIt<AppUser>();
+  //     runCatching(() {
+  //       isGetRoleError = oneOf.isError;
+  //       isRoleLoading = false;
+  //       notifyListeners();
+  //     });
+  //   });
+  // }
 
   void signOut() {
     isSignOutLoading = true;

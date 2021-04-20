@@ -25,7 +25,7 @@ class UsersPage extends StatelessWidget {
             itemBuilder: (context, index) => ListTile(
               title: Text(vm.users[index].id),
               subtitle: Text(
-                vm.users[index].userRole.toString(),
+                '${vm.users[index].userRole.toString()} ${vm.users[index].email?.toString()}',
               ),
               onLongPress: () => showDialog(
                 context: context,
