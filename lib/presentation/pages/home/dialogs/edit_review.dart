@@ -97,7 +97,7 @@ class _EditReviewDialogState extends State<EditReviewDialog> {
                     }
                     if (int.parse(value) < 1 || int.parse(value) > 5) {
                       return 'Value must be in range 1..5';
-                    
+                    }
                   },
                 ),
                 SizedBox(
