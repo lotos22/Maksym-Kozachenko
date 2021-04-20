@@ -15,6 +15,17 @@ class GetRestaurantReviewsParams {
   GetRestaurantReviewsParams(this.id);
 }
 
+class DeleteUserParams {
+  final String id;
+  DeleteUserParams(this.id);
+}
+
+class UpdateUserParams {
+  final String id;
+  final int role;
+  UpdateUserParams(this.id, this.role);
+}
+
 class GetRestaurantsParams {
   final String? ownerId;
   GetRestaurantsParams(this.ownerId);

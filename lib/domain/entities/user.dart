@@ -6,7 +6,7 @@ class AppUser {
     required this.userRole,
     required this.id,
   });
-  factory AppUser.fromMap(String id ,Map<String, dynamic> data) => AppUser(
+  factory AppUser.fromMap(String id, Map<String, dynamic> data) => AppUser(
         id: id,
         userRole: mapToUserRole(data['role']),
       );
@@ -21,6 +21,13 @@ enum UserRole { REGULAR, OWNER, ADMIN }
 UserRole mapToUserRole(int i) {
   final role = _map[i] ?? UserRole.REGULAR;
   return role;
+}
+
+int mapFromUserRole(UserRole role) {
+  if (role == UserRole.REGULAR) return 1;
+  if (role == UserRole.OWNER) return 2;
+  if (role == UserRole.ADMIN) return 3;
+  return 1;
 }
 
 final _map = {

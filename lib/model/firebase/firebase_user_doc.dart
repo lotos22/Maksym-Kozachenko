@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/domain/one_of.dart';
+import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/repository/i_user_repository.dart';
 
@@ -56,6 +57,34 @@ class FirebaseUserDoc extends IUserRepository {
               AppUser(userRole: mapToUserRole(e.data()['role']), id: e.id))
           .toList();
       return OneOf.success(list);
+    } catch (E) {
+      return OneOf.error(Failure.unknownFailure(E.toString()));
+    }
+  }
+
+  @override
+  Future<OneOf<Failure, Null>> deleteUser(DeleteUserParams params) async {
+    try {
+      final response = await _firestore.collection(USERS).get();
+      final list = response.docs
+          .map((e) =>
+              AppUser(userRole: mapToUserRole(e.data()['role']), id: e.id))
+          .toList();
+      return OneOf.success(null);
+    } catch (E) {
+      return OneOf.error(Failure.unknownFailure(E.toString()));
+    }
+  }
+
+  @override
+  Future<OneOf<Failure, Null>> updateUser(UpdateUserParams params) async {
+    try {
+      await _firestore
+          .collection(USERS)
+          .doc(params.id)
+          .update({'role': params.role});
+
+      return OneOf.success(null);
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }
