@@ -135,4 +135,33 @@ class FirebaseRestaurauntDoc extends IRestaurantRepository {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }
   }
+
+  @override
+  Future<OneOf<Failure, Null>> deleteRestaurant(
+      DeleteRestaurantParams params) async {
+    try {
+      await _firestore
+          .collection(COLLECTION_RESTUARANTS)
+          .doc(params.id)
+          .delete();
+
+      return OneOf.success(null);
+    } catch (E) {
+      return OneOf.error(Failure.unknownFailure(E.toString()));
+    }
+  }
+
+  @override
+  Future<OneOf<Failure, Null>> updateRestaurant(UpdateRestaurantParams params) async{
+    try {
+      await _firestore
+          .collection(COLLECTION_RESTUARANTS)
+          .doc(params.restaurant.id)
+          .update(params.restaurant.toMap());
+
+      return OneOf.success(null);
+    } catch (E) {
+      return OneOf.error(Failure.unknownFailure(E.toString()));
+    }
+  }
 }

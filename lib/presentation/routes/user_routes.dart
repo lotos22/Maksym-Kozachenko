@@ -15,6 +15,7 @@ import 'package:toptal_test/presentation/pages/home/pending_replies.dart';
 import 'package:toptal_test/presentation/pages/home/restaurant_details.dart';
 import 'package:toptal_test/presentation/pages/home/user_deleted.dart';
 import 'package:toptal_test/presentation/pages/home/users.dart';
+import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_admin_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_owner_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/pending_replies_vm.dart';
@@ -55,6 +56,8 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
         final user = AppUser.fromMap(uid, event.data()!);
         if (getIt.isRegistered<AppUser>()) getIt.unregister<AppUser>();
         getIt.registerSingleton<AppUser>(user);
+      } else {
+        _restaurant = null;
       }
       notifyListeners();
     }));
@@ -115,7 +118,7 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
                 vm = getIt<ListRestaurantOwnerVM>();
               }
               if (user.isAdmin) {
-                vm = getIt<ListRestaurantOwnerVM>();
+                vm = getIt<ListRestaurantAdminVM>();
               }
               return vm!;
             },

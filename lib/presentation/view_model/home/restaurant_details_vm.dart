@@ -12,6 +12,7 @@ import 'package:toptal_test/utils/localizations.dart';
 class RestaurantDetailsVM extends BaseVM {
   final Restaurant restaurant;
   final GetRestaurantReviews _getResaurantReviews;
+  final bool isOwner;
   RestaurantDetailsVM(
     @factoryParam Restaurant? rest,
     AppUser appUser,
@@ -19,11 +20,11 @@ class RestaurantDetailsVM extends BaseVM {
     AppLocalizations appLocalizations,
   )   : assert(rest != null),
         restaurant = rest!,
+        isOwner=appUser.isOwner,
         _getResaurantReviews = getRestaurantReviews,
         super(appLocalizations) {
     loadReviews();
   }
-
 
   List<Review> reviews = [];
 

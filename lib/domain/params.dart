@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:toptal_test/domain/entities/restaurant.dart';
 
 class LoginSignInParams {
   final String email;
@@ -13,6 +14,16 @@ class LoginSignUpParams extends LoginSignInParams {
 class GetRestaurantReviewsParams {
   final String id;
   GetRestaurantReviewsParams(this.id);
+}
+
+class UpdateRestaurantParams {
+  final Restaurant restaurant;
+  UpdateRestaurantParams(this.restaurant);
+}
+
+class DeleteRestaurantParams {
+  final String id;
+  DeleteRestaurantParams(this.id);
 }
 
 class DeleteUserParams {

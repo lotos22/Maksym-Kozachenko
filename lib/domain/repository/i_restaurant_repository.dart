@@ -16,4 +16,7 @@ abstract class IRestaurantRepository {
   Future<OneOf<Failure, Null>> addRestaurant(AddRestaurantParams params);
   Future<OneOf<Failure, List<PendingReply>>> getPendingReplies();
   Future<OneOf<Failure, Null>> addReply(AddReplyParams params);
+
+  Future<OneOf<Failure, Null>> updateRestaurant(UpdateRestaurantParams params);
+  Future<OneOf<Failure, Null>> deleteRestaurant(DeleteRestaurantParams params);
 }

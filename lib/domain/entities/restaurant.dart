@@ -26,4 +26,13 @@ class Restaurant {
                     int.tryParse(data['avgRating'].toString())),
         numRatings: data['numRatings'],
       );
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'ownerId': ownerId,
+      'avgRating': num.parse(avgRating),
+      'numRatings': numRatings,
+    };
+  }
 }

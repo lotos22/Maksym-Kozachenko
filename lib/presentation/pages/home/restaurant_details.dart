@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/domain/entities/review.dart';
 import 'package:toptal_test/presentation/pages/home/dialogs/review_dialog.dart';
+import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_owner_vm.dart';
+import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/restaurant_details_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/review_dialog_vm.dart';
 import 'package:toptal_test/presentation/widgets/rating_row_widget.dart';
@@ -73,22 +75,25 @@ class RestaurantDetailsPage extends StatelessWidget {
           SliverToBoxAdapter(child: SizedBox(height: 24)),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) => ChangeNotifierProvider(
-              create: (context) => getIt<ReviewDialogVM>(param1: vm.restaurant),
-              child: ReviewDialog(),
-            ),
-          ).then((value) {
-            if (value != null && value is Review) {
-              vm.addPostedReview(value);
-            }
-          });
-        },
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: !vm.isOwner
+          ? FloatingActionButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => ChangeNotifierProvider(
+                    create: (context) =>
+                        getIt<ReviewDialogVM>(param1: vm.restaurant),
+                    child: ReviewDialog(),
+                  ),
+                ).then((value) {
+                  if (value != null && value is Review) {
+                    vm.addPostedReview(value);
+                  }
+                });
+              },
+              child: Icon(Icons.add),
+            )
+          : null,
     );
   }
 
