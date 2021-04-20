@@ -8,10 +8,12 @@ import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/presentation/pages/home/list_restaurants.dart';
 import 'package:toptal_test/presentation/pages/home/pending_replies.dart';
 import 'package:toptal_test/presentation/pages/home/restaurant_details.dart';
+import 'package:toptal_test/presentation/pages/home/users.dart';
 import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_owner_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/pending_replies_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/restaurant_details_vm.dart';
+import 'package:toptal_test/presentation/view_model/home/users_vm.dart';
 
 class UserRoutePath {
   final String name;
@@ -107,7 +109,14 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
             create: (context) => getIt<PendingRepliesVM>(),
             child: PendingRepliesPage(),
           ),
-        )
+        ),
+      if (pageIndex == 2)
+        MaterialPage(
+          child: ChangeNotifierProvider(
+            create: (context) => getIt<UsersVM>(),
+            child: UsersPage(),
+          ),
+        ),
     ];
   }
 

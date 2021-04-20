@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toptal_test/domain/entities/user.dart';
@@ -36,6 +37,28 @@ class _UserHomeRouterPageState extends State<UserHomeRouterPage> {
               )
             : null,
         actions: [
+          if (_userRouteDelegate.pageIndex == 0 &&
+              _userRouteDelegate.isHomePage)
+            PopupMenuButton(
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 1,
+                  child: Row(
+                    children: [
+                      Text('1'),
+                      Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      Checkbox(
+                        value: true,
+                        onChanged: (value) {},
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           AnimatedLoading(
             color: Colors.white,
             isLoading: vm.isSignOutLoading,
@@ -69,7 +92,7 @@ class _UserHomeRouterPageState extends State<UserHomeRouterPage> {
   Widget? getBottomBarForRole(
       UserRole? getRole, UserRouteDelegate userRouteDelegate) {
     if (getRole == null) return null;
-    if (getRole == UserRole.OWNER) {
+    if (getRole == UserRole.OWNER || getRole == UserRole.ADMIN) {
       return BottomNavigationBar(
         currentIndex: userRouteDelegate.pageIndex,
         onTap: (value) => userRouteDelegate.pageIndex = value,
@@ -82,6 +105,11 @@ class _UserHomeRouterPageState extends State<UserHomeRouterPage> {
             icon: Icon(Icons.rate_review),
             label: 'Pending replies',
           ),
+          if (getRole == UserRole.ADMIN)
+            BottomNavigationBarItem(
+              icon: Icon(Icons.supervised_user_circle),
+              label: 'Users',
+            ),
         ],
       );
     }

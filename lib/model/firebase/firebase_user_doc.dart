@@ -32,19 +32,30 @@ class FirebaseUserDoc extends IUserRepository {
   Future<OneOf<Failure, AppUser>> getUser() async {
     try {
       var user = await userDoc.get();
-      if (user.data() == null) {
-        await userDoc.set({USER_FIELD_ROLE: 1});
+      if (user.data() != null) {
+        final appUser = AppUser.fromMap(_auth.currentUser!.uid, user.data()!);
+        getIt.registerSingleton<AppUser>(appUser);
+        return OneOf.success(appUser);
+      } else {
+        final appUser =
+            AppUser(id: _auth.currentUser!.uid, userRole: UserRole.REGULAR);
+        getIt.registerSingleton<AppUser>(appUser);
+        return OneOf.success(appUser);
       }
-      if (user.data()?[USER_FIELD_ROLE] == null) {
-        await userDoc.update({USER_FIELD_ROLE: 1});
-      }
-      if (user.data()?[USER_FIELD_EMAIL] == null) {
-        await userDoc.update({USER_FIELD_EMAIL: _auth.currentUser?.email});
-      }
-      user = await userDoc.get();
-      final appUser = AppUser.fromMap(_auth.currentUser!.uid, user.data()!);
-      getIt.registerSingleton<AppUser>(appUser);
-      return OneOf.success(appUser);
+    } catch (E) {
+      return OneOf.error(Failure.unknownFailure(E.toString()));
+    }
+  }
+
+  @override
+  Future<OneOf<Failure, List<AppUser>>> getUsers() async {
+    try {
+      final response = await _firestore.collection(USERS).get();
+      final list = response.docs
+          .map((e) =>
+              AppUser(userRole: mapToUserRole(e.data()['role']), id: e.id))
+          .toList();
+      return OneOf.success(list);
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }
