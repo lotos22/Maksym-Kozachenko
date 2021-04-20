@@ -8,7 +8,6 @@ import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/repository/i_restaurant_repository.dart';
-import 'package:toptal_test/utils/pair.dart';
 
 @Injectable(as: IRestaurantRepository)
 class FirebaseRestaurauntDoc extends IRestaurantRepository {
@@ -64,7 +63,8 @@ class FirebaseRestaurauntDoc extends IRestaurantRepository {
           .collection(COLLECTION_REVIEWS)
           .orderBy(FIELD_DATE_VISITED, descending: true)
           .get();
-      final reviews = docs.docs.map((e) => Review.fromMap(e.data())).toList();
+      final reviews =
+          docs.docs.map((e) => Review.fromMap(e.id, e.data())).toList();
       return OneOf.success(reviews);
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
@@ -81,7 +81,6 @@ class FirebaseRestaurauntDoc extends IRestaurantRepository {
           .collection(COLLECTION_REVIEWS)
           .doc()
           .set(params.toReview());
-
       return OneOf.success(null);
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
@@ -152,12 +151,45 @@ class FirebaseRestaurauntDoc extends IRestaurantRepository {
   }
 
   @override
-  Future<OneOf<Failure, Null>> updateRestaurant(UpdateRestaurantParams params) async{
+  Future<OneOf<Failure, Null>> updateRestaurant(
+      UpdateRestaurantParams params) async {
     try {
       await _firestore
           .collection(COLLECTION_RESTUARANTS)
           .doc(params.restaurant.id)
           .update(params.restaurant.toMap());
+
+      return OneOf.success(null);
+    } catch (E) {
+      return OneOf.error(Failure.unknownFailure(E.toString()));
+    }
+  }
+
+  @override
+  Future<OneOf<Failure, Null>> deleteReview(DeleteReviewParams params) async {
+    try {
+      await _firestore
+          .collection(COLLECTION_RESTUARANTS)
+          .doc(params.restaurantId)
+          .collection(COLLECTION_REVIEWS)
+          .doc(params.reviewId)
+          .delete();
+
+      return OneOf.success(null);
+    } catch (E) {
+      return OneOf.error(Failure.unknownFailure(E.toString()));
+    }
+  }
+
+  @override
+  Future<OneOf<Failure, Null>> updateReview(UpdateReviewParams params) async {
+    try {
+      await _firestore
+          .collection(COLLECTION_RESTUARANTS)
+          .doc(params.restaurantId)
+          .collection(COLLECTION_REVIEWS)
+          .doc(params.review.docId)
+          .update(params.review.toMap());
 
       return OneOf.success(null);
     } catch (E) {

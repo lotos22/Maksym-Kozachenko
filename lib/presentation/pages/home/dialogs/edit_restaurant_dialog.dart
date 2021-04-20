@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
-import 'package:toptal_test/domain/interactor/restaurant/delete_restaurant.dart';
 import 'package:toptal_test/domain/params.dart';
 
 class EditRestaurantDialog extends StatefulWidget {
@@ -114,6 +113,8 @@ class _EditRestaurantDialogState extends State<EditRestaurantDialog> {
                             ),
                           ),
                         );
+                      } else {
+                        Navigator.pop(context);
                       }
                     }
                   },

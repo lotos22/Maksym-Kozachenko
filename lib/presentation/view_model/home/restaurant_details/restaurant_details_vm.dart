@@ -20,7 +20,7 @@ class RestaurantDetailsVM extends BaseVM {
     AppLocalizations appLocalizations,
   )   : assert(rest != null),
         restaurant = rest!,
-        isOwner=appUser.isOwner,
+        isOwner = appUser.isOwner,
         _getResaurantReviews = getRestaurantReviews,
         super(appLocalizations) {
     loadReviews();
@@ -64,6 +64,7 @@ class RestaurantDetailsVM extends BaseVM {
         (oneOf) {
       if (oneOf.isSuccess) {
         reviews = (oneOf as Success).data;
+        clearData();
       }
       isLoadError = oneOf.isError;
       isLoading = false;
@@ -72,9 +73,12 @@ class RestaurantDetailsVM extends BaseVM {
   }
 
   void addPostedReview(Review value) {
+    loadReviews();
+  }
+
+  void clearData() {
     _worstReview = null;
     _bestReview = null;
-    reviews.insert(0, value);
     notifyListeners();
   }
 }

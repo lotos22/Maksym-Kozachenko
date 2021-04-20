@@ -8,6 +8,7 @@ import 'package:toptal_test/domain/user/get_users.dart';
 import 'package:toptal_test/domain/user/update_user.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';
+import 'package:toptal_test/utils/utils.dart';
 
 @injectable
 class UsersVM extends BaseVM {
@@ -47,7 +48,9 @@ class UsersVM extends BaseVM {
         _users = (oneOf as Success).data;
       }
       refreshController.refreshCompleted();
-      notifyListeners();
+      runCatching(() {
+        notifyListeners();
+      });
     });
   }
 

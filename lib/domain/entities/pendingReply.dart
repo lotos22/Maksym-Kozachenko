@@ -3,19 +3,20 @@ import 'package:toptal_test/domain/entities/review.dart';
 
 class PendingReply extends Review {
   final String restId;
-  final String docId;
   PendingReply({
     required this.restId,
-    required this.docId,
+    required String docId,
     required String comment,
     required DateTime dateVisited,
     required int rate,
     required String reply,
   }) : super(
+          docId: docId,
           comment: comment,
           dateVisited: dateVisited,
           rate: rate,
           reply: reply,
+          replied: false,
         );
   factory PendingReply.fromJson(Map<dynamic, dynamic> data) => PendingReply(
         restId: data['restId'],

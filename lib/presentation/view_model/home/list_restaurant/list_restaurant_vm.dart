@@ -35,7 +35,7 @@ class ListRestaurantsVM extends BaseVM {
   }
 
   void loadRestaurants() async {
-    await refreshController.requestRefresh();
+    await refreshController.requestRefresh()?.catchError((error) {});
     final params = GetRestaurantsParams(_ownerId);
     await _getRestaurants.execute(params, (oneOf) async {
       if (oneOf.isSuccess) {

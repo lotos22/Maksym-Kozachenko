@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,8 @@ import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_re
 import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_owner_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/pending_replies_vm.dart';
-import 'package:toptal_test/presentation/view_model/home/restaurant_details_vm.dart';
+import 'package:toptal_test/presentation/view_model/home/restaurant_details/restaurant_details_admin_vm.dart';
+import 'package:toptal_test/presentation/view_model/home/restaurant_details/restaurant_details_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/users_vm.dart';
 
 class UserRoutePath {
@@ -67,6 +67,7 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
   int get pageIndex => _pageIndex;
   set pageIndex(int value) {
     _pageIndex = value;
+    _restaurant = null;
     notifyListeners();
   }
 
@@ -108,6 +109,7 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
     return [
       if (_pageIndex == 0)
         MaterialPage(
+          key: ValueKey(user.userRole.toString()),
           child: ChangeNotifierProvider(
             create: (buidContext) {
               ListRestaurantsVM? vm;
@@ -115,7 +117,7 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
                 vm = getIt<ListRestaurantsVM>();
               }
               if (user.isOwner) {
-                vm = getIt<ListRestaurantOwnerVM>();
+                vm = getIt.get<ListRestaurantOwnerVM>(param1: user.id);
               }
               if (user.isAdmin) {
                 vm = getIt<ListRestaurantAdminVM>();
@@ -129,8 +131,16 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
         MaterialPage(
           name: _restaurant!.id,
           child: ChangeNotifierProvider(
-            create: (context) =>
-                getIt.get<RestaurantDetailsVM>(param1: _restaurant),
+            create: (context) {
+              RestaurantDetailsVM? vm;
+              if (user.isOwner || user.isRegular) {
+                vm = getIt.get<RestaurantDetailsVM>(param1: _restaurant);
+              }
+              if (user.isAdmin) {
+                vm = getIt.get<RestaurantDetailsAdminVM>(param1: _restaurant);
+              }
+              return vm!;
+            },
             child: RestaurantDetailsPage(),
           ),
         ),

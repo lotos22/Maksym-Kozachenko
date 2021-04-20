@@ -40,6 +40,7 @@ class AppLocalizations {
       'dialog_add_restaurant_ok': 'Ok',
     }
   };
+  
   String get something_went_wrong {
     return _localizedValues[locale.languageCode]!['something_went_wrong']!;
   }

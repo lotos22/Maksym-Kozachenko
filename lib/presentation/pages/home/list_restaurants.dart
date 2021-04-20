@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
-import 'package:toptal_test/domain/interactor/restaurant/delete_restaurant.dart';
-import 'package:toptal_test/domain/interactor/restaurant/update_restaurant.dart';
 import 'package:toptal_test/presentation/pages/home/dialogs/edit_restaurant_dialog.dart';
 import 'package:toptal_test/presentation/pages/home/dialogs/enter_message_dialog.dart';
 import 'package:toptal_test/presentation/routes/user_routes.dart';

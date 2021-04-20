@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 
+import 'entities/review.dart';
+
 class LoginSignInParams {
   final String email;
   final String pass;
@@ -19,6 +21,21 @@ class GetRestaurantReviewsParams {
 class UpdateRestaurantParams {
   final Restaurant restaurant;
   UpdateRestaurantParams(this.restaurant);
+}
+
+class UpdateReviewParams {
+  final String restaurantId;
+  final Review review;
+  UpdateReviewParams(
+    this.restaurantId,
+    this.review,
+  );
+}
+
+class DeleteReviewParams {
+  final String restaurantId;
+  final String reviewId;
+  DeleteReviewParams(this.restaurantId, this.reviewId);
 }
 
 class DeleteRestaurantParams {

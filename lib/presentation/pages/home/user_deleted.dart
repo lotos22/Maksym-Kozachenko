@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toptal_test/utils/utils.dart';
 
 class UserDeletedPage extends StatefulWidget {
   @override
@@ -12,8 +13,10 @@ class _UserDeletedPageState extends State<UserDeletedPage> {
   void initState() {
     Future.delayed(
       Duration(seconds: 5),
-    ).then((value) => setState(() {
-          isError = true;
+    ).then((value) => runCatching(() {
+          setState(() {
+            isError = true;
+          });
         }));
     super.initState();
   }

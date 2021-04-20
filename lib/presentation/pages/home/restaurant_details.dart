@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/domain/entities/review.dart';
+import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/presentation/pages/home/dialogs/edit_review.dart';
 import 'package:toptal_test/presentation/pages/home/dialogs/review_dialog.dart';
-import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_owner_vm.dart';
-import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_vm.dart';
-import 'package:toptal_test/presentation/view_model/home/restaurant_details_vm.dart';
+import 'package:toptal_test/presentation/view_model/home/restaurant_details/restaurant_details_admin_vm.dart';
+import 'package:toptal_test/presentation/view_model/home/restaurant_details/restaurant_details_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/review_dialog_vm.dart';
 import 'package:toptal_test/presentation/widgets/rating_row_widget.dart';
 import 'package:toptal_test/presentation/widgets/review_card.dart';
@@ -33,6 +34,7 @@ class RestaurantDetailsPage extends StatelessWidget {
           if (vm.bestReview != null)
             SliverToBoxAdapter(
               child: getTopReviewWidget(
+                vm,
                 context,
                 AppLocalizations.of(context).restaurant_details_best_review,
                 vm.bestReview!,
@@ -41,6 +43,7 @@ class RestaurantDetailsPage extends StatelessWidget {
           if (vm.worstReview != null)
             SliverToBoxAdapter(
               child: getTopReviewWidget(
+                vm,
                 context,
                 AppLocalizations.of(context).restaurant_details_worst_review,
                 vm.worstReview!,
@@ -101,13 +104,19 @@ class RestaurantDetailsPage extends StatelessWidget {
     final vm = Provider.of<RestaurantDetailsVM>(context);
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (context, index) => ReviewCardWidget(vm.reviews[index]),
+        (context, index) => ReviewCardWidget(
+          vm.reviews[index],
+          onLongTap: () {
+            onLongTapOnReview(vm, context, vm.reviews[index]);
+          },
+        ),
         childCount: vm.reviews.length,
       ),
     );
   }
 
-  Widget getTopReviewWidget(BuildContext context, String title, Review review) {
+  Widget getTopReviewWidget(RestaurantDetailsVM vm, BuildContext context,
+      String title, Review review) {
     return Padding(
       padding: EdgeInsets.all(4),
       child: Column(
@@ -117,9 +126,39 @@ class RestaurantDetailsPage extends StatelessWidget {
           SizedBox(
             height: 4,
           ),
-          ReviewCardWidget(review, margin: EdgeInsets.zero),
+          ReviewCardWidget(
+            review,
+            margin: EdgeInsets.zero,
+            onLongTap: () {
+              onLongTapOnReview(
+                vm,
+                context,
+                review,
+              );
+            },
+          ),
         ],
       ),
     );
+  }
+
+  void onLongTapOnReview(
+    RestaurantDetailsVM vm,
+    BuildContext context,
+    Review review,
+  ) {
+    if (vm is RestaurantDetailsAdminVM) {
+      showDialog(
+        context: context,
+        builder: (context) => EditReviewDialog(vm.restaurant, review),
+      ).then((value) {
+        if (value is DeleteReviewParams) {
+          vm.deleteReview(value);
+        }
+        if (value is UpdateReviewParams) {
+          vm.updateReview(value);
+        }
+      });
+    }
   }
 }

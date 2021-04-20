@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
-import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/params.dart';

@@ -5,7 +5,6 @@ import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/presentation/routes/user_routes.dart';
 import 'package:toptal_test/presentation/view_model/home/user_home_router_vm.dart';
 import 'package:toptal_test/presentation/widgets/animated_loading.dart';
-import 'package:toptal_test/utils/localizations.dart';
 
 class UserHomeRouterPage extends StatefulWidget {
   @override
@@ -29,13 +28,14 @@ class _UserHomeRouterPageState extends State<UserHomeRouterPage> {
     final _userRouteDelegate = Provider.of<UserRouteDelegate>(context);
     return Scaffold(
       appBar: AppBar(
-        leading: !_userRouteDelegate.isHomePage
-            ? BackButton(
-                onPressed: () {
-                  _userRouteDelegate.popRoute();
-                },
-              )
-            : null,
+        leading:
+            !_userRouteDelegate.isHomePage && _userRouteDelegate.pageIndex == 0
+                ? BackButton(
+                    onPressed: () {
+                      _userRouteDelegate.popRoute();
+                    },
+                  )
+                : null,
         actions: [
           if (_userRouteDelegate.pageIndex == 0 &&
               _userRouteDelegate.isHomePage)

@@ -8,20 +8,25 @@ class ReviewCardWidget extends StatelessWidget {
   final Review review;
   final EdgeInsets margin;
   final Function? onTap;
-  ReviewCardWidget(this.review, {this.margin = const EdgeInsets.all(4),this.onTap});
+  final Function? onLongTap;
+  ReviewCardWidget(
+    this.review, {
+    this.margin = const EdgeInsets.all(4),
+    this.onTap,
+    this.onLongTap,
+  });
   @override
   Widget build(BuildContext context) {
     return getReviewCell(context);
   }
 
-  Widget getReviewCell(
-    BuildContext context
-  ) {
+  Widget getReviewCell(BuildContext context) {
     final date = DateFormat('dd-MM-yyyy').format(review.dateVisited);
 
     return Card(
       margin: margin,
       child: ListTile(
+        onLongPress: () => onLongTap?.call(),
         onTap: () => onTap?.call(),
         title: RatingRowWidget(
           rating: review.rate.toString(),

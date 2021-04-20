@@ -60,10 +60,12 @@ class ReviewDialogVM extends BaseVM {
     _addRestaurantReview.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
         addedReview = Review(
-            comment: params.comment,
-            dateVisited: dateVisited,
-            rate: rating,
-            reply: '');
+          docId: '',
+          comment: params.comment,
+          dateVisited: dateVisited,
+          rate: rating,
+          reply: '',
+        );
       } else {
         sendMessage(appLocalizations.something_went_wrong);
       }

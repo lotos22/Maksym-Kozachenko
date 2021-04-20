@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/utils/utils.dart';
 
 class EditUserDialog extends StatefulWidget {
   final AppUser user;
@@ -38,8 +39,10 @@ class _EditUserDialogState extends State<EditUserDialog> {
                       builder: (context) => _ListRolesDialog(),
                     ).then((value) {
                       if (value != null && value is UserRole) {
-                        setState(() {
-                          userRole = value;
+                        runCatching(() {
+                          setState(() {
+                            userRole = value;
+                          });
                         });
                       }
                     });
