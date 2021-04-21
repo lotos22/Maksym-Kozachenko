@@ -13,6 +13,4 @@ abstract class IRestaurantRepository {
   Future<OneOf<Failure, Null>> addRestaurant(AddRestaurantParams params);
   Future<OneOf<Failure, Null>> updateRestaurant(UpdateRestaurantParams params);
   Future<OneOf<Failure, Null>> deleteRestaurant(DeleteRestaurantParams params);
-
-
 }

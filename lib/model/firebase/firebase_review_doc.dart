@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:injectable/injectable.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/domain/one_of.dart';
@@ -7,6 +8,7 @@ import 'package:toptal_test/domain/entities/review.dart';
 import 'package:toptal_test/domain/entities/pendingReply.dart';
 import 'package:toptal_test/domain/repository/i_review_repository.dart';
 
+@Injectable(as: IReviewRepository)
 class FirebaseReviewDoc implements IReviewRepository {
   final COLLECTION_RESTUARANTS = 'restaurants';
   final COLLECTION_REVIEWS = 'reviews';
