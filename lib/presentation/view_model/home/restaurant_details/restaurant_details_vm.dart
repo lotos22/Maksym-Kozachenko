@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/review.dart';
 import 'package:toptal_test/domain/entities/user.dart';
-import 'package:toptal_test/domain/interactor/restaurant/get_restaurant_reviews.dart';
+import 'package:toptal_test/domain/interactor/review/get_restaurant_reviews.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';

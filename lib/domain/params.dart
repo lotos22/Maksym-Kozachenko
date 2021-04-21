@@ -56,7 +56,8 @@ class UpdateUserParams {
 
 class GetRestaurantsParams {
   final String? ownerId;
-  GetRestaurantsParams(this.ownerId);
+  final List<int> sortByRating;
+  GetRestaurantsParams(this.ownerId,this.sortByRating);
 }
 
 class AddReplyParams {

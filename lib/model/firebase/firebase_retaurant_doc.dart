@@ -10,7 +10,7 @@ import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/repository/i_restaurant_repository.dart';
 
 @Injectable(as: IRestaurantRepository)
-class FirebaseRestaurauntDoc extends IRestaurantRepository {
+class FirebaseRestaurauntDoc implements IRestaurantRepository {
   final COLLECTION_RESTUARANTS = 'restaurants';
   final COLLECTION_REVIEWS = 'reviews';
 
@@ -53,39 +53,7 @@ class FirebaseRestaurauntDoc extends IRestaurantRepository {
     }
   }
 
-  @override
-  Future<OneOf<Failure, List<Review>>> getReviews(
-      GetRestaurantReviewsParams params) async {
-    try {
-      final docs = await _firestore
-          .collection(COLLECTION_RESTUARANTS)
-          .doc(params.id)
-          .collection(COLLECTION_REVIEWS)
-          .orderBy(FIELD_DATE_VISITED, descending: true)
-          .get();
-      final reviews =
-          docs.docs.map((e) => Review.fromMap(e.id, e.data())).toList();
-      return OneOf.success(reviews);
-    } catch (E) {
-      return OneOf.error(Failure.unknownFailure(E.toString()));
-    }
-  }
-
-  @override
-  Future<OneOf<Failure, Null>> addRestaurantReview(
-      AddRestaurantReviewParams params) async {
-    try {
-      await _firestore
-          .collection(COLLECTION_RESTUARANTS)
-          .doc(params.restaurantId)
-          .collection(COLLECTION_REVIEWS)
-          .doc()
-          .set(params.toReview());
-      return OneOf.success(null);
-    } catch (E) {
-      return OneOf.error(Failure.unknownFailure(E.toString()));
-    }
-  }
+  
 
   @override
   Future<OneOf<Failure, Null>> addRestaurant(AddRestaurantParams params) async {
@@ -100,40 +68,7 @@ class FirebaseRestaurauntDoc extends IRestaurantRepository {
     }
   }
 
-  @override
-  Future<OneOf<Failure, List<PendingReply>>> getPendingReplies() async {
-    try {
-      final response = await _functions
-          .httpsCallable(CALL_GET_PENDING_REPLIES, options: _callableOptions)
-          .call();
-
-      final list =
-          (response.data as List).map((e) => PendingReply.fromJson(e)).toList();
-
-      return OneOf.success(list);
-    } catch (E) {
-      return OneOf.error(Failure.unknownFailure(E.toString()));
-    }
-  }
-
-  @override
-  Future<OneOf<Failure, Null>> addReply(AddReplyParams params) async {
-    try {
-      await _firestore
-          .collection(COLLECTION_RESTUARANTS)
-          .doc(params.restId)
-          .collection(COLLECTION_REVIEWS)
-          .doc(params.docId)
-          .update({
-        FIELD_REPLIED: true,
-        FIELD_REPLY: params.reply,
-      });
-
-      return OneOf.success(null);
-    } catch (E) {
-      return OneOf.error(Failure.unknownFailure(E.toString()));
-    }
-  }
+ 
 
   @override
   Future<OneOf<Failure, Null>> deleteRestaurant(
@@ -165,35 +100,5 @@ class FirebaseRestaurauntDoc extends IRestaurantRepository {
     }
   }
 
-  @override
-  Future<OneOf<Failure, Null>> deleteReview(DeleteReviewParams params) async {
-    try {
-      await _firestore
-          .collection(COLLECTION_RESTUARANTS)
-          .doc(params.restaurantId)
-          .collection(COLLECTION_REVIEWS)
-          .doc(params.reviewId)
-          .delete();
-
-      return OneOf.success(null);
-    } catch (E) {
-      return OneOf.error(Failure.unknownFailure(E.toString()));
-    }
-  }
-
-  @override
-  Future<OneOf<Failure, Null>> updateReview(UpdateReviewParams params) async {
-    try {
-      await _firestore
-          .collection(COLLECTION_RESTUARANTS)
-          .doc(params.restaurantId)
-          .collection(COLLECTION_REVIEWS)
-          .doc(params.review.docId)
-          .update(params.review.toMap());
-
-      return OneOf.success(null);
-    } catch (E) {
-      return OneOf.error(Failure.unknownFailure(E.toString()));
-    }
-  }
+ 
 }

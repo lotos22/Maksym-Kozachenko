@@ -73,6 +73,9 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
 
   Restaurant? _restaurant;
 
+  final filterParams = FilterParams();
+  final filterRatings = [1, 2, 3, 4];
+
   @override
   GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 
@@ -114,13 +117,14 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
             create: (buidContext) {
               ListRestaurantsVM? vm;
               if (user.isRegular) {
-                vm = getIt<ListRestaurantsVM>();
+                vm = getIt.get<ListRestaurantsVM>(param2: filterParams);
               }
               if (user.isOwner) {
-                vm = getIt.get<ListRestaurantOwnerVM>(param1: user.id);
+                vm = getIt.get<ListRestaurantOwnerVM>(
+                    param1: user.id, param2: filterParams);
               }
               if (user.isAdmin) {
-                vm = getIt<ListRestaurantAdminVM>();
+                vm = getIt<ListRestaurantAdminVM>(param2: filterParams);
               }
               return vm!;
             },
@@ -172,5 +176,20 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
       element.cancel();
     });
     super.dispose();
+  }
+
+  void onFilterChanged() {
+    if (filterRatings != filterParams.filterRatings) {
+      filterParams.filterRatings = filterRatings;
+      filterParams.onChanged();
+    }
+  }
+}
+
+class FilterParams {
+  Function? onChangedListener;
+  var filterRatings = <int>[1, 2, 3, 4];
+  void onChanged() {
+    onChangedListener?.call();
   }
 }

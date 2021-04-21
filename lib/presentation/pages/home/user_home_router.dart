@@ -6,6 +6,8 @@ import 'package:toptal_test/presentation/routes/user_routes.dart';
 import 'package:toptal_test/presentation/view_model/home/user_home_router_vm.dart';
 import 'package:toptal_test/presentation/widgets/animated_loading.dart';
 
+import 'dialogs/filter_restaurants_dialog.dart';
+
 class UserHomeRouterPage extends StatefulWidget {
   @override
   _UserHomeRouterPageState createState() => _UserHomeRouterPageState();
@@ -41,21 +43,8 @@ class _UserHomeRouterPageState extends State<UserHomeRouterPage> {
               _userRouteDelegate.isHomePage)
             PopupMenuButton(
               itemBuilder: (context) => [
-                PopupMenuItem(
-                  value: 1,
-                  child: Row(
-                    children: [
-                      Text('1'),
-                      Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                      Checkbox(
-                        value: true,
-                        onChanged: (value) {},
-                      )
-                    ],
-                  ),
+                FilterRestaurantsPopupItem(
+                  onCancel: () {},
                 ),
               ],
             ),
@@ -77,6 +66,38 @@ class _UserHomeRouterPageState extends State<UserHomeRouterPage> {
         ),
       ),
       bottomNavigationBar: getBottomBarForRole(vm.getRole, _userRouteDelegate),
+    );
+  }
+
+  PopupMenuItem getPopupMenuItem(
+      int value, ValueNotifier<List<bool>> notifier) {
+    return PopupMenuItem(
+      value: value,
+      child: AnimatedBuilder(
+        animation: notifier,
+        builder: (BuildContext context, Widget? child) => Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Checkbox(
+              value: notifier.value[value - 1],
+              onChanged: (v) {
+                notifier.value[value - 1] = v ?? false;
+                notifier.value = notifier.value.toList();
+              },
+            ),
+            Icon(
+              Icons.star,
+              color: Colors.amber,
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Text(
+              value.toString(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

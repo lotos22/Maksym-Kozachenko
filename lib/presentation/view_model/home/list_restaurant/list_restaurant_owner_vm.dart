@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:toptal_test/domain/interactor/restaurant/add_restaurant.dart';
 import 'package:toptal_test/domain/interactor/restaurant/get_restaurants.dart';
+import 'package:toptal_test/presentation/routes/user_routes.dart';
 import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';
 import 'package:toptal_test/domain/params.dart';
@@ -14,11 +15,14 @@ class ListRestaurantOwnerVM extends ListRestaurantsVM {
     AppLocalizations appLocalizations,
     GetRestaurants getRestaurants,
      @factoryParam String? ownerId,
+         @factoryParam FilterParams? filterParams,
+
   )   : _addRestaurant = addRestaurant,
         super(
           appLocalizations,
           getRestaurants,
           ownerId,
+          filterParams,
         );
 
   bool addRestaurantLoading = false;

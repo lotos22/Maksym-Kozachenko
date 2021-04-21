@@ -10,7 +10,7 @@ import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/repository/i_user_repository.dart';
 
 @Injectable(as: IUserRepository)
-class FirebaseUserDoc extends IUserRepository {
+class FirebaseUserDoc implements IUserRepository {
   final USERS = 'users';
   final ROLE = 'roles';
 

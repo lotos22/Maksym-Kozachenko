@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/review.dart';
-import 'package:toptal_test/domain/interactor/restaurant/add_restaurant_review.dart';
+import 'package:toptal_test/domain/interactor/review/add_restaurant_review.dart';
 import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';

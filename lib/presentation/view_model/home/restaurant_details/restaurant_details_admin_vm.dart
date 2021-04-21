@@ -1,9 +1,9 @@
 import 'package:injectable/injectable.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/user.dart';
-import 'package:toptal_test/domain/interactor/restaurant/delete_review.dart';
-import 'package:toptal_test/domain/interactor/restaurant/get_restaurant_reviews.dart';
-import 'package:toptal_test/domain/interactor/restaurant/update_review.dart';
+import 'package:toptal_test/domain/interactor/review/delete_review.dart';
+import 'package:toptal_test/domain/interactor/review/get_restaurant_reviews.dart';
+import 'package:toptal_test/domain/interactor/review/update_review.dart';
 import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/presentation/view_model/home/restaurant_details/restaurant_details_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';

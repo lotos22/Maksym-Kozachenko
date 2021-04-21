@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toptal_test/domain/entities/pendingReply.dart';
-import 'package:toptal_test/domain/interactor/restaurant/add_reply.dart';
-import 'package:toptal_test/domain/interactor/restaurant/get_pending_replies.dart';
+import 'package:toptal_test/domain/interactor/review/add_reply.dart';
+import 'package:toptal_test/domain/interactor/review/get_pending_replies.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';

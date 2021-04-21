@@ -10,20 +10,9 @@ abstract class IRestaurantRepository {
   Future<OneOf<Failure, List<Restaurant>>> getRestaurants(
     GetRestaurantsParams params,
   );
-  Future<OneOf<Failure, List<Review>>> getReviews(
-    GetRestaurantReviewsParams params,
-  );
-  Future<OneOf<Failure, Null>> addRestaurantReview(
-    AddRestaurantReviewParams params,
-  );
-  
   Future<OneOf<Failure, Null>> addRestaurant(AddRestaurantParams params);
-  Future<OneOf<Failure, List<PendingReply>>> getPendingReplies();
-  Future<OneOf<Failure, Null>> addReply(AddReplyParams params);
-
   Future<OneOf<Failure, Null>> updateRestaurant(UpdateRestaurantParams params);
   Future<OneOf<Failure, Null>> deleteRestaurant(DeleteRestaurantParams params);
 
-  Future<OneOf<Failure, Null>> updateReview(UpdateReviewParams params);
-  Future<OneOf<Failure, Null>> deleteReview(DeleteReviewParams params);
+
 }

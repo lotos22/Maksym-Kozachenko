@@ -5,6 +5,7 @@ import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/interactor/restaurant/get_restaurants.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/presentation/routes/user_routes.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';
 
@@ -16,13 +17,20 @@ class ListRestaurantsVM extends BaseVM {
   List<Restaurant> _restaurants = [];
   List<Restaurant> get restaurants => _restaurants;
 
+  final FilterParams _filterParams;
   ListRestaurantsVM(
     AppLocalizations appLocalizations,
     GetRestaurants getRestaurants,
     @factoryParam String? ownerId,
+    @factoryParam FilterParams? filterParams,
   )   : _ownerId = ownerId,
+        _filterParams = filterParams!,
         _getRestaurants = getRestaurants,
-        super(appLocalizations);
+        super(appLocalizations) {
+    _filterParams.onChangedListener = () {
+      loadRestaurants();
+    };
+  }
 
   RefreshController refreshController = RefreshController();
 
@@ -36,7 +44,7 @@ class ListRestaurantsVM extends BaseVM {
 
   void loadRestaurants() async {
     await refreshController.requestRefresh()?.catchError((error) {});
-    final params = GetRestaurantsParams(_ownerId);
+    final params = GetRestaurantsParams(_ownerId,_filterParams.filterRatings);
     await _getRestaurants.execute(params, (oneOf) async {
       if (oneOf.isSuccess) {
         _restaurants = (oneOf as Success).data;
