@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class FilterRestaurantsPopupItem extends PopupMenuItem {
   final Function? onChanged;
+  // ignore: annotate_overrides
   final int value;
 
   const FilterRestaurantsPopupItem({

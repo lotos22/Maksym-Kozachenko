@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -9,7 +8,6 @@ import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/presentation/routes/user_routes.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';
-import 'package:toptal_test/utils/utils.dart';
 
 @injectable
 class ListRestaurantsVM extends BaseVM {
