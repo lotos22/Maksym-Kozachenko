@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/review.dart';
-import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/domain/repository/params.dart';
 
 class EditReviewDialog extends StatefulWidget {
   final Restaurant restaurant;

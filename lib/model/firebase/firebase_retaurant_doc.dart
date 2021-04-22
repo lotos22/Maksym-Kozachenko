@@ -3,7 +3,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:injectable/injectable.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/one_of.dart';
-import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/repository/i_restaurant_repository.dart';
 

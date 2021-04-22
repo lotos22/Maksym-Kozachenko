@@ -2,9 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:toptal_test/domain/interactor/login/sign_in.dart';
 import 'package:toptal_test/domain/one_of.dart';
-import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/domain/repository/params.dart';
 
-import 'sign_up_test.mocks.dart';
+import '../mocks/utils.mocks.dart';
+
 
 
 void main() {

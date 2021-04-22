@@ -11,7 +11,7 @@ import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_re
 import 'package:toptal_test/presentation/widgets/loading_modal.dart';
 import 'package:toptal_test/presentation/widgets/rating_row_widget.dart';
 import 'package:toptal_test/utils/localizations.dart';
-import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/domain/repository/params.dart';
 
 class ListRestaurantsPage extends StatelessWidget {
   @override

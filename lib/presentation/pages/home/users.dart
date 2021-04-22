@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/presentation/pages/home/dialogs/edit_user_dialog.dart';
 import 'package:toptal_test/presentation/view_model/home/users_vm.dart';
 import 'package:toptal_test/presentation/widgets/loading_modal.dart';

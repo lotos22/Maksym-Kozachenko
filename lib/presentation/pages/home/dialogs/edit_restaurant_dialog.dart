@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
-import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/domain/repository/params.dart';
 
 class EditRestaurantDialog extends StatefulWidget {
   final Restaurant restaurant;

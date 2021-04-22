@@ -1,31 +1,32 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:toptal_test/domain/interactor/login/sign_in.dart';
+import 'package:toptal_test/domain/interactor/login/sign_up.dart';
 import 'package:toptal_test/domain/one_of.dart';
-import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/domain/repository/params.dart';
 
-import 'sign_up_test.mocks.dart';
+import '../mocks/utils.mocks.dart';
+
 
 void main() {
   final params = LoginSignUpParams('test@test.com', '111111');
   final repository = MockILoginRepository();
-  late SignIn signIn;
+  late SignUp signUp;
 
   setUp(() {
-    signIn = SignIn(repository);
-    when(repository.signIn(params)).thenAnswer(
+    signUp = SignUp(repository);
+    when(repository.signUp(params)).thenAnswer(
       (realInvocation) async => OneOf.success(null),
     );
   });
 
-  group('SignIn tests', () {
-    test('Should call signIn signIn', () async {
-      await signIn.run(params);
-      verify(repository.signIn(params)).called(1);
+  group('SignUp tests', () {
+    test('Should call signUp signUp', () async {
+      await signUp.run(params);
+      verify(repository.signUp(params)).called(1);
     });
 
-    test('Should return result of signIn from ILoginRepository', () async {
-      final response = await signIn.run(params);
+    test('Should return result of signUp from ILoginRepository', () async {
+      final response = await signUp.run(params);
       assert(response is Success);
     });
   });

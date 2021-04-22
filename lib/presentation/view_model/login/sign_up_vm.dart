@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:toptal_test/domain/interactor/login/sign_up.dart';
 import 'package:toptal_test/domain/one_of.dart';
-import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';

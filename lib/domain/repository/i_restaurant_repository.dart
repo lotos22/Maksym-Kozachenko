@@ -1,5 +1,5 @@
 import 'package:toptal_test/domain/entities/restaurant.dart';
-import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 
 import '../one_of.dart';

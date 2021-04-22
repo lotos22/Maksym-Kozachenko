@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toptal_test/domain/entities/user.dart';
-import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/utils/utils.dart';
 
 class EditUserDialog extends StatefulWidget {

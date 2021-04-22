@@ -8,13 +8,15 @@ import 'package:mockito/mockito.dart' as _i2;
 import 'package:toptal_test/domain/entities/pendingReply.dart' as _i10;
 import 'package:toptal_test/domain/entities/restaurant.dart' as _i8;
 import 'package:toptal_test/domain/entities/review.dart' as _i11;
+import 'package:toptal_test/domain/entities/user.dart' as _i13;
 import 'package:toptal_test/domain/one_of.dart' as _i3;
-import 'package:toptal_test/domain/params.dart' as _i6;
+import 'package:toptal_test/domain/repository/params.dart' as _i6;
 import 'package:toptal_test/domain/repository/failure.dart' as _i1;
 import 'package:toptal_test/domain/repository/i_login_repository.dart' as _i4;
 import 'package:toptal_test/domain/repository/i_restaurant_repository.dart'
     as _i7;
 import 'package:toptal_test/domain/repository/i_review_repository.dart' as _i9;
+import 'package:toptal_test/domain/repository/i_user_repository.dart' as _i12;
 
 // ignore_for_file: comment_references
 // ignore_for_file: unnecessary_parenthesis
@@ -143,4 +145,34 @@ class MockIReviewRepository extends _i2.Mock implements _i9.IReviewRepository {
           returnValue: Future<_i3.OneOf<_i1.Failure, List<_i11.Review>>>.value(
               _FakeOneOf<_i1.Failure, List<_i11.Review>>())) as _i5
           .Future<_i3.OneOf<_i1.Failure, List<_i11.Review>>>);
+}
+
+/// A class which mocks [IUserRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockIUserRepository extends _i2.Mock implements _i12.IUserRepository {
+  MockIUserRepository() {
+    _i2.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<_i3.OneOf<_i1.Failure, List<_i13.AppUser>>> getUsers() =>
+      (super.noSuchMethod(Invocation.method(#getUsers, []),
+          returnValue: Future<_i3.OneOf<_i1.Failure, List<_i13.AppUser>>>.value(
+              _FakeOneOf<_i1.Failure, List<_i13.AppUser>>())) as _i5
+          .Future<_i3.OneOf<_i1.Failure, List<_i13.AppUser>>>);
+  @override
+  _i5.Future<_i3.OneOf<_i1.Failure, Null?>> deleteUser(
+          _i6.DeleteUserParams? params) =>
+      (super.noSuchMethod(Invocation.method(#deleteUser, [params]),
+              returnValue: Future<_i3.OneOf<_i1.Failure, Null?>>.value(
+                  _FakeOneOf<_i1.Failure, Null?>()))
+          as _i5.Future<_i3.OneOf<_i1.Failure, Null?>>);
+  @override
+  _i5.Future<_i3.OneOf<_i1.Failure, Null?>> updateUser(
+          _i6.UpdateUserParams? params) =>
+      (super.noSuchMethod(Invocation.method(#updateUser, [params]),
+              returnValue: Future<_i3.OneOf<_i1.Failure, Null?>>.value(
+                  _FakeOneOf<_i1.Failure, Null?>()))
+          as _i5.Future<_i3.OneOf<_i1.Failure, Null?>>);
 }

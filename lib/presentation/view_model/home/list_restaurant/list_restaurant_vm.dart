@@ -4,7 +4,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/interactor/restaurant/get_restaurants.dart';
 import 'package:toptal_test/domain/one_of.dart';
-import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/presentation/routes/user_routes.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';

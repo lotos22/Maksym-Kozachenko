@@ -6,7 +6,7 @@ import 'package:toptal_test/domain/interactor/restaurant/update_restaurant.dart'
 import 'package:toptal_test/presentation/routes/user_routes.dart';
 import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_owner_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';
-import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/domain/repository/params.dart';
 
 @injectable
 class ListRestaurantAdminVM extends ListRestaurantOwnerVM {

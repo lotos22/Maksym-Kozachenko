@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/domain/entities/review.dart';
-import 'package:toptal_test/domain/params.dart';
+import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/presentation/pages/home/dialogs/edit_review.dart';
 import 'package:toptal_test/presentation/pages/home/dialogs/review_dialog.dart';
 import 'package:toptal_test/presentation/view_model/home/restaurant_details/restaurant_details_admin_vm.dart';

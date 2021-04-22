@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 
-import 'entities/review.dart';
+import '../entities/review.dart';
 
 class LoginSignInParams {
   final String email;
