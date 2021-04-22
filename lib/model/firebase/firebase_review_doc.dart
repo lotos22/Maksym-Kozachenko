@@ -87,12 +87,23 @@ class FirebaseReviewDoc implements IReviewRepository {
   Future<OneOf<Failure, Null>> addRestaurantReview(
       AddRestaurantReviewParams params) async {
     try {
-      await _firestore
+      final doc = await _firestore
           .collection(COLLECTION_RESTUARANTS)
           .doc(params.restaurantId)
-          .collection(COLLECTION_REVIEWS)
-          .doc()
-          .set(params.toReview());
+          .get();
+
+      if (doc.exists) {
+        await _firestore
+            .collection(COLLECTION_RESTUARANTS)
+            .doc(params.restaurantId)
+            .collection(COLLECTION_REVIEWS)
+            .doc()
+            .set(params.toReview());
+      }else {
+        return OneOf.error(Failure.unknownFailure('Restaurant doesn\'t exist'));
+      }
+
+
       return OneOf.success(null);
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));

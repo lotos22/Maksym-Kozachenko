@@ -44,6 +44,9 @@ class FirebaseRestaurauntDoc implements IRestaurantRepository {
         query = query.where(FIELD_OWNER_ID, isEqualTo: params.ownerId);
       }
 
+      query = query.where(FIELD_AVG_RATING,
+          isGreaterThanOrEqualTo: params.filterByRating);
+
       final docs = await query.get();
       final list =
           docs.docs.map((e) => Restaurant.fromMap(e.id, e.data())).toList();
@@ -52,8 +55,6 @@ class FirebaseRestaurauntDoc implements IRestaurantRepository {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }
   }
-
-  
 
   @override
   Future<OneOf<Failure, Null>> addRestaurant(AddRestaurantParams params) async {
@@ -67,8 +68,6 @@ class FirebaseRestaurauntDoc implements IRestaurantRepository {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }
   }
-
- 
 
   @override
   Future<OneOf<Failure, Null>> deleteRestaurant(
@@ -99,6 +98,4 @@ class FirebaseRestaurauntDoc implements IRestaurantRepository {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }
   }
-
- 
 }

@@ -40,15 +40,18 @@ class ReviewCardWidget extends StatelessWidget {
                   SizedBox(
                     height: 8,
                   ),
-                  Text(
-                    AppLocalizations.of(context).restaurant_details_comment,
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  Text(review.comment),
-                  if (review.reply.isNotEmpty)
-                    SizedBox(
-                      height: 8,
+                  if (review.comment.isNotEmpty)
+                    Text(
+                      AppLocalizations.of(context).restaurant_details_comment,
+                      style: Theme.of(context).textTheme.headline6,
                     ),
+                  if (review.comment.isNotEmpty) Text(review.comment),
+                  if (review.comment.isNotEmpty)
+                    if (review.reply.isNotEmpty)
+                      if (review.comment.isNotEmpty)
+                        SizedBox(
+                          height: 8,
+                        ),
                   if (review.reply.isNotEmpty)
                     Text(
                       AppLocalizations.of(context).restaurant_details_reply,

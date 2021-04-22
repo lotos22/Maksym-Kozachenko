@@ -42,9 +42,15 @@ class _UserHomeRouterPageState extends State<UserHomeRouterPage> {
           if (_userRouteDelegate.pageIndex == 0 &&
               _userRouteDelegate.isHomePage)
             PopupMenuButton(
+              onCanceled: () {
+                _userRouteDelegate.onFilterChanged();
+              },
               itemBuilder: (context) => [
                 FilterRestaurantsPopupItem(
-                  onCancel: () {},
+                  onChanged: (int val) {
+                    _userRouteDelegate.filterRating = val;
+                  },
+                  value: _userRouteDelegate.filterRating,
                 ),
               ],
             ),

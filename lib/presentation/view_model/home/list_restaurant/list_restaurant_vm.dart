@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -8,6 +9,7 @@ import 'package:toptal_test/domain/params.dart';
 import 'package:toptal_test/presentation/routes/user_routes.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';
+import 'package:toptal_test/utils/utils.dart';
 
 @injectable
 class ListRestaurantsVM extends BaseVM {
@@ -28,7 +30,8 @@ class ListRestaurantsVM extends BaseVM {
         _getRestaurants = getRestaurants,
         super(appLocalizations) {
     _filterParams.onChangedListener = () {
-      loadRestaurants();
+        refreshController.requestRefresh();
+      
     };
   }
 
@@ -38,13 +41,12 @@ class ListRestaurantsVM extends BaseVM {
   void initialLoading() {
     if (!isInitialLoad) {
       isInitialLoad = true;
-      loadRestaurants();
+      refreshController.requestRefresh();
     }
   }
 
   void loadRestaurants() async {
-    await refreshController.requestRefresh()?.catchError((error) {});
-    final params = GetRestaurantsParams(_ownerId,_filterParams.filterRatings);
+    final params = GetRestaurantsParams(_ownerId, _filterParams.filterRating);
     await _getRestaurants.execute(params, (oneOf) async {
       if (oneOf.isSuccess) {
         _restaurants = (oneOf as Success).data;

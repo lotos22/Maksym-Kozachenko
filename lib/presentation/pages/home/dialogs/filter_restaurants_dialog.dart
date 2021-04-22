@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class FilterRestaurantsPopupItem extends PopupMenuItem {
-  final Function? onCancel;
-  final isChecked;
+  final Function? onChanged;
+  final int value;
+
   const FilterRestaurantsPopupItem({
     Key? key,
     Widget? child,
-    this.onCancel,
-    this.isChecked = false,
+    this.onChanged,
+    required this.value,
   }) : super(
           key: key,
           child: child,
@@ -19,11 +20,10 @@ class FilterRestaurantsPopupItem extends PopupMenuItem {
 }
 
 class _CheckedPopupItemState extends PopupMenuItemState {
-  var isChecked = false;
+  late var minRating = widget.value;
 
   @override
   void initState() {
-    isChecked = (widget as FilterRestaurantsPopupItem).isChecked;
     super.initState();
   }
 
@@ -31,18 +31,42 @@ class _CheckedPopupItemState extends PopupMenuItemState {
   void handleTap() {}
 
   @override
-  void dispose() {
-    (widget as FilterRestaurantsPopupItem).onCancel?.call();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        
+        ListTile(title: Text('Minimum rating')),
+        getListTile(4),
+        getListTile(3),
+        getListTile(2),
+        getListTile(1),
+        getListTile(0),
       ],
+    );
+  }
+
+  Widget getListTile(int value) {
+    return RadioListTile(
+      title: Row(
+        children: [
+          Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          SizedBox(
+            width: 8,
+          ),
+          Text(value.toString()),
+        ],
+      ),
+      groupValue: minRating,
+      onChanged: (value) {
+        setState(() {
+          minRating = value!;
+          (widget as FilterRestaurantsPopupItem).onChanged?.call(minRating);
+        });
+      },
+      value: value,
     );
   }
 }

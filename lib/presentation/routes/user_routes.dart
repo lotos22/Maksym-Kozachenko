@@ -56,6 +56,8 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
         final user = AppUser.fromMap(uid, event.data()!);
         if (getIt.isRegistered<AppUser>()) getIt.unregister<AppUser>();
         getIt.registerSingleton<AppUser>(user);
+        pageIndex = 0;
+        checkDialogs = true;
       } else {
         _restaurant = null;
       }
@@ -63,6 +65,7 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
     }));
   }
 
+  var checkDialogs = false;
   var _pageIndex = 0;
   int get pageIndex => _pageIndex;
   set pageIndex(int value) {
@@ -74,7 +77,7 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
   Restaurant? _restaurant;
 
   final filterParams = FilterParams();
-  final filterRatings = [1, 2, 3, 4];
+  var filterRating = 0;
 
   @override
   GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
@@ -88,6 +91,13 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
 
   @override
   Widget build(BuildContext context) {
+    if (checkDialogs) {
+      while (Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+      checkDialogs = false;
+    }
+
     if (!isUserPresent || !getIt.isRegistered<AppUser>()) {
       return UserDeletedPage();
     } else {
@@ -179,8 +189,8 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
   }
 
   void onFilterChanged() {
-    if (filterRatings != filterParams.filterRatings) {
-      filterParams.filterRatings = filterRatings;
+    if (filterRating != filterParams.filterRating) {
+      filterParams.filterRating = filterRating;
       filterParams.onChanged();
     }
   }
@@ -188,7 +198,7 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
 
 class FilterParams {
   Function? onChangedListener;
-  var filterRatings = <int>[1, 2, 3, 4];
+  var filterRating = 0;
   void onChanged() {
     onChangedListener?.call();
   }
