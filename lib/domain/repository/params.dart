@@ -55,9 +55,16 @@ class UpdateUserParams {
 }
 
 class GetRestaurantsParams {
+  final String? lastDocId;
+  final int pageSize;
   final String? ownerId;
   final int filterByRating;
-  GetRestaurantsParams(this.ownerId,this.filterByRating);
+  GetRestaurantsParams(
+    this.ownerId,
+    this.filterByRating, {
+    this.lastDocId,
+    this.pageSize = 2,
+  });
 }
 
 class AddReplyParams {

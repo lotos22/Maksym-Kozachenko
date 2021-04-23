@@ -43,6 +43,9 @@ dependencies:
   # equals generator
   equatable: ^2.0.0
 
+  # Pagination 
+  infinite_scroll_pagination: ^3.0.1
+
   # Toast
   fluttertoast: ^8.0.3
 

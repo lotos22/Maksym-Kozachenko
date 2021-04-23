@@ -3,3 +3,7 @@ class AnimationDuration {
   static Duration normal() => Duration(milliseconds: 250);
   static Duration long() => Duration(milliseconds: 350);
 }
+
+class PageSize {
+  static var pageSize = 2;
+}

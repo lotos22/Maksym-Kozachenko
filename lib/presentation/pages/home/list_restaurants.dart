@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
@@ -36,13 +37,15 @@ class _ListRestaurantsPageState extends State<ListRestaurantsPage>
       }(),
       child: Scaffold(
         body: SmartRefresher(
-          onRefresh: () => vm.loadRestaurants(),
           controller: vm.refreshController,
-          child: ListView.separated(
-            itemBuilder: (context, index) =>
-                getRestaurantCell(vm, context, vm.restaurants[index]),
+          onRefresh: () => vm.refreshItems(),
+          child: PagedListView<String?, Restaurant>.separated(
+            pagingController: vm.pagingController,
             separatorBuilder: (context, index) => Divider(),
-            itemCount: vm.restaurants.length,
+            builderDelegate: PagedChildBuilderDelegate(
+              itemBuilder: (context, item, index) =>
+                  getRestaurantCell(vm, context, item),
+            ),
           ),
         ),
         floatingActionButton: vm is ListRestaurantOwnerVM

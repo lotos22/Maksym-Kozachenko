@@ -42,8 +42,20 @@ class FirebaseRestaurauntDoc implements IRestaurantRepository {
         query = query.where(FIELD_OWNER_ID, isEqualTo: params.ownerId);
       }
 
-      query = query.where(FIELD_AVG_RATING,
-          isGreaterThanOrEqualTo: params.filterByRating);
+      query = query.where(
+        FIELD_AVG_RATING,
+        isGreaterThanOrEqualTo: params.filterByRating,
+      );
+
+      if (params.lastDocId != null) {
+        final snapshot = await _firestore
+            .collection(COLLECTION_RESTUARANTS)
+            .doc(params.lastDocId)
+            .get();
+        query = query.startAfterDocument(snapshot);
+      }
+
+      query = query.limit(params.pageSize);
 
       final docs = await query.get();
       final list =
