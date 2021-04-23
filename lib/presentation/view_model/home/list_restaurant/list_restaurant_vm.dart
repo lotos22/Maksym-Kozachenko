@@ -38,8 +38,8 @@ class ListRestaurantsVM extends BaseVM {
   bool isInitialLoad = false;
   void initialLoading() {
     if (!isInitialLoad) {
+      loadRestaurants();
       isInitialLoad = true;
-      refreshController.requestRefresh();
       pagingController.addPageRequestListener((pageKey) {
         loadRestaurants();
       });
@@ -71,7 +71,6 @@ class ListRestaurantsVM extends BaseVM {
   }
 
   void refreshItems() {
-    pagingController.itemList?.clear();
-    loadRestaurants();
+    pagingController.refresh();
   }
 }

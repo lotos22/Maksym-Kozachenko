@@ -156,8 +156,9 @@ class MockIUserRepository extends _i2.Mock implements _i12.IUserRepository {
   }
 
   @override
-  _i5.Future<_i3.OneOf<_i1.Failure, List<_i13.AppUser>>> getUsers() =>
-      (super.noSuchMethod(Invocation.method(#getUsers, []),
+  _i5.Future<_i3.OneOf<_i1.Failure, List<_i13.AppUser>>> getUsers(
+          _i6.GetUsersParams? params) =>
+      (super.noSuchMethod(Invocation.method(#getUsers, [params]),
           returnValue: Future<_i3.OneOf<_i1.Failure, List<_i13.AppUser>>>.value(
               _FakeOneOf<_i1.Failure, List<_i13.AppUser>>())) as _i5
           .Future<_i3.OneOf<_i1.Failure, List<_i13.AppUser>>>);

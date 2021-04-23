@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
+import 'package:toptal_test/utils/const.dart';
 
 import '../entities/review.dart';
 
@@ -54,17 +55,37 @@ class UpdateUserParams {
   UpdateUserParams(this.id, this.role);
 }
 
-class GetRestaurantsParams {
+class _PaginationParams {
   final String? lastDocId;
   final int pageSize;
+  _PaginationParams({
+    this.lastDocId,
+    this.pageSize = 2,
+  });
+}
+
+class GetRestaurantsParams extends _PaginationParams {
   final String? ownerId;
   final int filterByRating;
   GetRestaurantsParams(
     this.ownerId,
     this.filterByRating, {
-    this.lastDocId,
-    this.pageSize = 2,
-  });
+    String? lastDocId,
+    int pageSize = 2,
+  }) : super(
+          lastDocId: lastDocId,
+          pageSize: pageSize,
+        );
+}
+
+class GetUsersParams extends _PaginationParams {
+  GetUsersParams({
+    String? lastDocId,
+    int pageSize = 2,
+  }) : super(
+          lastDocId: lastDocId,
+          pageSize: pageSize,
+        );
 }
 
 class AddReplyParams {

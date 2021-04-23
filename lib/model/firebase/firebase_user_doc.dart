@@ -28,16 +28,31 @@ class FirebaseUserDoc implements IUserRepository {
   DocumentReference get userDoc =>
       _firestore.collection(USERS).doc(_auth.currentUser!.uid);
 
-
-
   @override
-  Future<OneOf<Failure, List<AppUser>>> getUsers() async {
+  Future<OneOf<Failure, List<AppUser>>> getUsers(GetUsersParams params) async {
     try {
-      final response = await _firestore.collection(USERS).get();
+      QuerySnapshot response;
+
+      if (params.lastDocId != null) {
+        final snapshot =
+            await _firestore.collection(USERS).doc(params.lastDocId).get();
+
+        response = await _firestore
+            .collection(USERS)
+            .startAfterDocument(snapshot)
+            .limit(params.pageSize)
+            .get();
+      } else {
+        response =
+            await _firestore.collection(USERS).limit(params.pageSize).get();
+      }
+
       final list = response.docs
-          .map((e) =>
-              AppUser(userRole: mapToUserRole(e.data()['role']),
-               id: e.id,email: e.data()['email'],))
+          .map((e) => AppUser(
+                userRole: mapToUserRole(e.data()['role']),
+                id: e.id,
+                email: e.data()['email'],
+              ))
           .toList();
       return OneOf.success(list);
     } catch (E) {

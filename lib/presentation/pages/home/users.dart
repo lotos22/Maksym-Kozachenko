@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/presentation/pages/home/dialogs/edit_user_dialog.dart';
 import 'package:toptal_test/presentation/view_model/home/users_vm.dart';
@@ -26,28 +28,30 @@ class _UsersPageState extends State<UsersPage>
       loading: vm.isUserLoading,
       child: Scaffold(
         body: SmartRefresher(
-          onRefresh: () => vm.loadUsers(),
+          onRefresh: () => vm.refreshItems(),
           controller: vm.refreshController,
-          child: ListView.separated(
-            itemBuilder: (context, index) => ListTile(
-              title: Text(vm.users[index].id),
-              subtitle: Text(
-                '${vm.users[index].userRole.toString()} ${vm.users[index].email?.toString()}',
-              ),
-              onLongPress: () => showDialog(
-                context: context,
-                builder: (context) => EditUserDialog(vm.users[index]),
-              ).then((value) {
-                if (value is DeleteUserParams) {
-                  vm.deleteUser(value);
-                }
-                if (value is UpdateUserParams) {
-                  vm.updateUser(value);
-                }
-              }),
-            ),
+          child: PagedListView<String?, AppUser>.separated(
             separatorBuilder: (context, index) => const Divider(),
-            itemCount: vm.users.length,
+            builderDelegate: PagedChildBuilderDelegate(
+              itemBuilder: (context, item, index) => ListTile(
+                title: Text(item.id),
+                subtitle: Text(
+                  '${item.userRole.toString()} ${item.email?.toString()}',
+                ),
+                onLongPress: () => showDialog(
+                  context: context,
+                  builder: (context) => EditUserDialog(item),
+                ).then((value) {
+                  if (value is DeleteUserParams) {
+                    vm.deleteUser(value);
+                  }
+                  if (value is UpdateUserParams) {
+                    vm.updateUser(value);
+                  }
+                }),
+              ),
+            ),
+            pagingController: vm.pagingController,
           ),
         ),
       ),
