@@ -30,10 +30,10 @@ class UsersVM extends BaseVM {
   RefreshController refreshController = RefreshController();
 
   bool isInitialLoad = false;
-  void initialLoading() {
+  void initialLoading() async{
     if (!isInitialLoad) {
+      await refreshController.requestRefresh();
       isInitialLoad = true;
-      loadUsers();
     }
   }
 
@@ -43,7 +43,6 @@ class UsersVM extends BaseVM {
   bool isUserLoading = false;
 
   void loadUsers() async {
-    await refreshController.requestRefresh();
     await _getUsers.execute(null, (oneOf) {
       if (oneOf.isSuccess) {
         _users = (oneOf as Success).data;

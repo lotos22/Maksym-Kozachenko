@@ -24,10 +24,10 @@ class PendingRepliesVM extends BaseVM {
   RefreshController refreshController = RefreshController();
 
   bool isInitialLoad = false;
-  void initialLoading() {
+  void initialLoading() async {
     if (!isInitialLoad) {
+      await refreshController.requestRefresh();
       isInitialLoad = true;
-      loadPendingReplies();
     }
   }
 
@@ -39,7 +39,9 @@ class PendingRepliesVM extends BaseVM {
     if (reply.trim().isNotEmpty) ;
     isAddingReply = true;
     notifyListeners();
-    _addReply.execute(AddReplyParams(reply, pendingReply.restId,pendingReply.docId), (oneOf) {
+    _addReply
+        .execute(AddReplyParams(reply, pendingReply.restId, pendingReply.docId),
+            (oneOf) {
       if (oneOf.isSuccess) {
         _pendingReplies.remove(pendingReply);
       }
@@ -49,7 +51,6 @@ class PendingRepliesVM extends BaseVM {
   }
 
   void loadPendingReplies() async {
-    await refreshController.requestRefresh();
     await _getPendingReplies.execute(null, (oneOf) {
       if (oneOf.isSuccess) {
         _pendingReplies = (oneOf as Success).data;

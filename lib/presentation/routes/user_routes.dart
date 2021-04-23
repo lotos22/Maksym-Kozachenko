@@ -21,6 +21,8 @@ import 'package:toptal_test/presentation/view_model/home/pending_replies_vm.dart
 import 'package:toptal_test/presentation/view_model/home/restaurant_details/restaurant_details_admin_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/restaurant_details/restaurant_details_vm.dart';
 import 'package:toptal_test/presentation/view_model/home/users_vm.dart';
+import 'package:toptal_test/utils/const.dart';
+import 'package:toptal_test/utils/utils.dart';
 
 class UserRoutePath {
   final String name;
@@ -67,10 +69,20 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
 
   var checkDialogs = false;
   var _pageIndex = 0;
+
+  final pageController = PageController(initialPage: 0);
+
   int get pageIndex => _pageIndex;
   set pageIndex(int value) {
     _pageIndex = value;
     _restaurant = null;
+    runCatching(() {
+      pageController.animateToPage(
+        _pageIndex,
+        duration: AnimationDuration.long(),
+        curve: Curves.ease,
+      );
+    });
     notifyListeners();
   }
 
@@ -119,11 +131,14 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
   Future<void> setNewRoutePath(UserRoutePath configuration) async {}
 
   List<Page> getUserPages(AppUser user) {
-    return [
-      if (_pageIndex == 0)
-        MaterialPage(
-          key: ValueKey(user.userRole.toString()),
-          child: ChangeNotifierProvider(
+    final list = [
+      MaterialPage(
+          child: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: pageController,
+        children: [
+          ChangeNotifierProvider(
+            key: ValueKey('List restaurants ${user.userRole.toString()}'),
             create: (buidContext) {
               ListRestaurantsVM? vm;
               if (user.isRegular) {
@@ -140,8 +155,22 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
             },
             child: ListRestaurantsPage(),
           ),
-        ),
-      if (_restaurant != null)
+          ChangeNotifierProvider(
+            key: ValueKey('List pending replies'),
+            create: (context) => getIt<PendingRepliesVM>(),
+            child: PendingRepliesPage(),
+          ),
+          ChangeNotifierProvider(
+            key: ValueKey('List users'),
+            create: (context) => getIt<UsersVM>(),
+            child: UsersPage(),
+          ),
+        ],
+      )),
+    ];
+
+    if (_restaurant != null) {
+      list.add(
         MaterialPage(
           name: _restaurant!.id,
           child: ChangeNotifierProvider(
@@ -158,21 +187,10 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
             child: RestaurantDetailsPage(),
           ),
         ),
-      if (pageIndex == 1)
-        MaterialPage(
-          child: ChangeNotifierProvider(
-            create: (context) => getIt<PendingRepliesVM>(),
-            child: PendingRepliesPage(),
-          ),
-        ),
-      if (pageIndex == 2)
-        MaterialPage(
-          child: ChangeNotifierProvider(
-            create: (context) => getIt<UsersVM>(),
-            child: UsersPage(),
-          ),
-        ),
-    ];
+      );
+    }
+
+    return list;
   }
 
   void setRestaurant(Restaurant restaurant) {

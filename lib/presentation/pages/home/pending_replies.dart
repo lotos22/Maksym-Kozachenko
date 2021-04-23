@@ -7,9 +7,15 @@ import 'package:toptal_test/presentation/widgets/loading_modal.dart';
 import 'package:toptal_test/presentation/widgets/review_card.dart';
 import 'package:toptal_test/utils/localizations.dart';
 
-class PendingRepliesPage extends StatelessWidget {
+class PendingRepliesPage extends StatefulWidget {
+  @override
+  _PendingRepliesPageState createState() => _PendingRepliesPageState();
+}
+
+class _PendingRepliesPageState extends State<PendingRepliesPage> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final vm = Provider.of<PendingRepliesVM>(context);
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
@@ -44,4 +50,7 @@ class PendingRepliesPage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

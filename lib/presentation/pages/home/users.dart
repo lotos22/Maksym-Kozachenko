@@ -6,9 +6,16 @@ import 'package:toptal_test/presentation/pages/home/dialogs/edit_user_dialog.dar
 import 'package:toptal_test/presentation/view_model/home/users_vm.dart';
 import 'package:toptal_test/presentation/widgets/loading_modal.dart';
 
-class UsersPage extends StatelessWidget {
+class UsersPage extends StatefulWidget {
+  @override
+  _UsersPageState createState() => _UsersPageState();
+}
+
+class _UsersPageState extends State<UsersPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final vm = Provider.of<UsersVM>(context);
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
@@ -46,4 +53,7 @@ class UsersPage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

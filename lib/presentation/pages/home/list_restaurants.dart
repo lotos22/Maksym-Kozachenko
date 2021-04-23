@@ -13,9 +13,16 @@ import 'package:toptal_test/presentation/widgets/rating_row_widget.dart';
 import 'package:toptal_test/utils/localizations.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 
-class ListRestaurantsPage extends StatelessWidget {
+class ListRestaurantsPage extends StatefulWidget {
+  @override
+  _ListRestaurantsPageState createState() => _ListRestaurantsPageState();
+}
+
+class _ListRestaurantsPageState extends State<ListRestaurantsPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final vm = Provider.of<ListRestaurantsVM>(context);
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
@@ -89,4 +96,7 @@ class ListRestaurantsPage extends StatelessWidget {
           text: restaurant.name,
         ));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
