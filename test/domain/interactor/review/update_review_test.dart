@@ -1,12 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/review.dart';
-import 'package:toptal_test/domain/interactor/restaurant/add_restaurant.dart';
-import 'package:toptal_test/domain/interactor/restaurant/get_restaurants.dart';
-import 'package:toptal_test/domain/interactor/restaurant/update_restaurant.dart';
-import 'package:toptal_test/domain/interactor/review/add_restaurant_review.dart';
-import 'package:toptal_test/domain/interactor/review/delete_review.dart';
+
 import 'package:toptal_test/domain/interactor/review/update_review.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/repository/params.dart';

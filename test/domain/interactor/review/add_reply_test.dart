@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:toptal_test/domain/interactor/review/add_reply.dart';
-import 'package:toptal_test/domain/interactor/review/add_restaurant_review.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 

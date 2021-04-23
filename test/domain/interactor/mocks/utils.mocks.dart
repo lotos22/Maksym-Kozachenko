@@ -10,13 +10,13 @@ import 'package:toptal_test/domain/entities/restaurant.dart' as _i8;
 import 'package:toptal_test/domain/entities/review.dart' as _i11;
 import 'package:toptal_test/domain/entities/user.dart' as _i13;
 import 'package:toptal_test/domain/one_of.dart' as _i3;
-import 'package:toptal_test/domain/repository/params.dart' as _i6;
 import 'package:toptal_test/domain/repository/failure.dart' as _i1;
 import 'package:toptal_test/domain/repository/i_login_repository.dart' as _i4;
 import 'package:toptal_test/domain/repository/i_restaurant_repository.dart'
     as _i7;
 import 'package:toptal_test/domain/repository/i_review_repository.dart' as _i9;
 import 'package:toptal_test/domain/repository/i_user_repository.dart' as _i12;
+import 'package:toptal_test/domain/repository/params.dart' as _i6;
 
 // ignore_for_file: comment_references
 // ignore_for_file: unnecessary_parenthesis

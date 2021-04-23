@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:toptal_test/domain/entities/review.dart';
 
-import 'package:toptal_test/domain/interactor/review/delete_review.dart';
 import 'package:toptal_test/domain/interactor/review/get_restaurant_reviews.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/repository/params.dart';
