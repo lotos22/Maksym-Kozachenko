@@ -27,7 +27,7 @@ void main() {
 
     test('Should return result of signUp from ILoginRepository', () async {
       final response = await signUp.run(params);
-      assert(response is Success);
+      assert(response == OneOf.success(null));
     });
   });
 }

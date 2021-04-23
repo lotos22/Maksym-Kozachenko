@@ -6,8 +6,6 @@ import 'package:toptal_test/domain/repository/params.dart';
 
 import '../mocks/utils.mocks.dart';
 
-
-
 void main() {
   final params = LoginSignInParams('test@test.com', '111111');
   final repository = MockILoginRepository();
@@ -28,7 +26,7 @@ void main() {
 
     test('Should return result of signIn from ILoginRepository', () async {
       final response = await signIn.run(params);
-      assert(response is Success);
+      assert(response == OneOf.success(null));
     });
   });
 }

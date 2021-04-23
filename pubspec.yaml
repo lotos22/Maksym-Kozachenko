@@ -40,6 +40,8 @@ dependencies:
   cloud_firestore: ^1.0.4
   cloud_functions: ^1.0.3
 
+  # equals generator
+  equatable: ^2.0.0
 
   # Toast
   fluttertoast: ^8.0.3

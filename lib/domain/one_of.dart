@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 
-abstract class OneOf<E extends Failure, S> {
+abstract class OneOf<E extends Failure, S> extends Equatable{
   dynamic oneOf(void Function(E) onError, void Function(S) onSuccess) {
     if (this is Error) {
       onError((this as Error).error as E);
@@ -20,9 +21,15 @@ abstract class OneOf<E extends Failure, S> {
 class Error<E extends Failure, S> extends OneOf<E, S> {
   final E error;
   Error(this.error);
+
+  @override
+  List<Object?> get props => [E];
 }
 
 class Success<E extends Failure, S> extends OneOf<E, S> {
   final S data;
   Success(this.data);
+
+  @override
+  List<Object?> get props => [S];
 }

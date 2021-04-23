@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
-class Restaurant {
+class Restaurant extends Equatable {
   final String id;
   final String name;
   final String ownerId;
@@ -35,4 +36,12 @@ class Restaurant {
       'numRatings': numRatings,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        name,
+        ownerId,
+        avgRating,
+        numRatings,
+      ];
 }

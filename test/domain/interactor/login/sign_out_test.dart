@@ -18,7 +18,7 @@ void main() {
     );
   });
 
-  group('SignIn tests', () {
+  group('SignOut tests', () {
     test('Should call signOut signOut', () async {
       await signOut.run(null);
       verify(repository.signOut()).called(1);
@@ -26,7 +26,7 @@ void main() {
 
     test('Should return result of signOut from ILoginRepository', () async {
       final response = await signOut.run(null);
-      assert(response is Success);
+      assert(response == OneOf.success(null));
     });
   });
 }
