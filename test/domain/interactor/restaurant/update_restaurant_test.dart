@@ -12,7 +12,7 @@ void main() {
     id: 'testId',
     name: 'test',
     ownerId: 'testOwnerId',
-    avgRating: '2.2',
+    avgRating: 2.2,
     numRatings: 2,
   );
   final params = UpdateRestaurantParams(restaurant);

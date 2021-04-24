@@ -13,7 +13,7 @@ void main() {
     Review(
       comment: 'comment',
       dateVisited: DateTime.now(),
-      docId: 'docId',
+      id: 'docId',
       rate: 5,
       reply: 'test',
     ),
