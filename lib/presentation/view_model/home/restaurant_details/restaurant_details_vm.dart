@@ -51,15 +51,11 @@ class RestaurantDetailsVM extends BaseVM {
     _getResaurantReviews.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
         final data = (oneOf as Success).data as List<Review>;
-        if (data.isNotEmpty && data.last.id != pagingController.nextPageKey) {
-          if (data.length == PageSize.pageSize) {
-            pagingController.appendPage(data, data.last.id);
-          } else {
-            pagingController.appendLastPage(data);
-          }
-        }
-        if (data.isEmpty) {
-          pagingController.appendLastPage([]);
+
+        if (data.length == PageSize.pageSize) {
+          pagingController.appendPage(data, data.last.id);
+        } else {
+          pagingController.appendLastPage(data);
         }
       } else {
         pagingController.appendLastPage([]);
@@ -83,7 +79,7 @@ class RestaurantDetailsVM extends BaseVM {
   }
 
   void addPostedReview(Review value) {
-    pagingController.itemList?.insert(0,value);
+    pagingController.itemList?.insert(0, value);
     notifyListeners();
   }
 }

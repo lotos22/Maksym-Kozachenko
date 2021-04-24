@@ -44,20 +44,23 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage>
             ),
             if (vm.restaurantDetails?.bestReview != null)
               SliverToBoxAdapter(
-                child: getTopReviewWidget(
-                  vm,
-                  context,
-                  AppLocalizations.of(context).restaurant_details_best_review,
-                  vm.restaurantDetails!.bestReview!,
-                ),
-              ),
-            if (vm.restaurantDetails?.worstReview != null)
-              SliverToBoxAdapter(
-                child: getTopReviewWidget(
-                  vm,
-                  context,
-                  AppLocalizations.of(context).restaurant_details_worst_review,
-                  vm.restaurantDetails!.worstReview!,
+                child: Column(
+                  children: [
+                    getTopReviewWidget(
+                      vm,
+                      context,
+                      AppLocalizations.of(context)
+                          .restaurant_details_best_review,
+                      vm.restaurantDetails!.bestReview!,
+                    ),
+                    getTopReviewWidget(
+                      vm,
+                      context,
+                      AppLocalizations.of(context)
+                          .restaurant_details_worst_review,
+                      vm.restaurantDetails!.worstReview!,
+                    ),
+                  ],
                 ),
               ),
             if (vm.pagingController.itemList?.isNotEmpty ?? false)
@@ -79,21 +82,30 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage>
                   ],
                 ),
               ),
-            SliverToBoxAdapter(
-              child: PagedListView<String?, Review>(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                pagingController: vm.pagingController,
-                builderDelegate: PagedChildBuilderDelegate(
-                  itemBuilder: (context, item, index) => ReviewCardWidget(
-                    item,
-                    onLongTap: () {
-                      onLongTapOnReview(vm, context, item);
-                    },
-                  ),
+            PagedSliverList<String?, Review>(
+              pagingController: vm.pagingController,
+              builderDelegate: PagedChildBuilderDelegate(
+                itemBuilder: (context, item, index) => ReviewCardWidget(
+                  item,
+                  onLongTap: () {
+                    onLongTapOnReview(vm, context, item);
+                  },
                 ),
               ),
             ),
+            // PagedListView<String?, Review>(
+            //   shrinkWrap: true,
+            //   physics: NeverScrollableScrollPhysics(),
+            //   pagingController: vm.pagingController,
+            //   builderDelegate: PagedChildBuilderDelegate(
+            //     itemBuilder: (context, item, index) => ReviewCardWidget(
+            //       item,
+            //       onLongTap: () {
+            //         onLongTapOnReview(vm, context, item);
+            //       },
+            //     ),
+            //   ),
+            // ),
             SliverToBoxAdapter(
               child: SizedBox(height: 24),
             ),
