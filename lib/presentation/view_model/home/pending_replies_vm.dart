@@ -21,20 +21,14 @@ class PendingRepliesVM extends BaseVM {
     AppLocalizations appLocalizations,
   )   : _getPendingReplies = getPendingReplies,
         _addReply = addReply,
-        super(appLocalizations);
+        super(appLocalizations){
+           pagingController.addPageRequestListener((pageKey) {
+        loadPendingReplies();
+      });
+        }
 
   RefreshController refreshController = RefreshController();
 
-  bool isInitialLoad = false;
-  void initialLoading() async {
-    if (!isInitialLoad) {
-      loadPendingReplies();
-      isInitialLoad = true;
-      pagingController.addPageRequestListener((pageKey) {
-        loadPendingReplies();
-      });
-    }
-  }
 
   PagingController<int, PendingReply> pagingController =
       PagingController(firstPageKey: 0);

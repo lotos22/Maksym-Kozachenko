@@ -15,7 +15,13 @@ import 'package:toptal_test/presentation/widgets/review_card.dart';
 import 'package:toptal_test/presentation/widgets/toast_widget.dart';
 import 'package:toptal_test/utils/localizations.dart';
 
-class RestaurantDetailsPage extends StatelessWidget {
+class RestaurantDetailsPage extends StatefulWidget {
+  @override
+  _RestaurantDetailsPageState createState() => _RestaurantDetailsPageState();
+}
+
+class _RestaurantDetailsPageState extends State<RestaurantDetailsPage>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final vm = Provider.of<RestaurantDetailsVM>(context);
@@ -36,22 +42,22 @@ class RestaurantDetailsPage extends StatelessWidget {
                 ),
               ),
             ),
-            if (vm.bestReview != null)
+            if (vm.restaurantDetails?.bestReview != null)
               SliverToBoxAdapter(
                 child: getTopReviewWidget(
                   vm,
                   context,
                   AppLocalizations.of(context).restaurant_details_best_review,
-                  vm.bestReview!,
+                  vm.restaurantDetails!.bestReview!,
                 ),
               ),
-            if (vm.worstReview != null)
+            if (vm.restaurantDetails?.worstReview != null)
               SliverToBoxAdapter(
                 child: getTopReviewWidget(
                   vm,
                   context,
                   AppLocalizations.of(context).restaurant_details_worst_review,
-                  vm.worstReview!,
+                  vm.restaurantDetails!.worstReview!,
                 ),
               ),
             if (vm.pagingController.itemList?.isNotEmpty ?? false)
@@ -88,15 +94,6 @@ class RestaurantDetailsPage extends StatelessWidget {
                 ),
               ),
             ),
-            // vm.isLoading
-            //     ? SliverToBoxAdapter(
-            //         child: Center(child: CircularProgressIndicator()))
-            //     : vm.isLoadError
-            //         ? ElevatedButton(
-            //             onPressed: () => vm.loadReviews(),
-            //             child:
-            //                 Text(AppLocalizations.of(context).home_root_retry))
-            //         : getReviewsWidget(context),
             SliverToBoxAdapter(
               child: SizedBox(height: 24),
             ),
@@ -124,21 +121,6 @@ class RestaurantDetailsPage extends StatelessWidget {
       ),
     );
   }
-
-  // Widget getReviewsWidget(BuildContext context) {
-  //   final vm = Provider.of<RestaurantDetailsVM>(context);
-  //   return SliverList(
-  //     delegate: SliverChildBuilderDelegate(
-  //       (context, index) => ReviewCardWidget(
-  //         vm.reviews[index],
-  //         onLongTap: () {
-  //           onLongTapOnReview(vm, context, vm.reviews[index]);
-  //         },
-  //       ),
-  //       childCount: vm.reviews.length,
-  //     ),
-  //   );
-  // }
 
   Widget getTopReviewWidget(RestaurantDetailsVM vm, BuildContext context,
       String title, Review review) {

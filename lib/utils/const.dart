@@ -5,5 +5,5 @@ class AnimationDuration {
 }
 
 class PageSize {
-  static var pageSize = 2;
+  static var pageSize = 1;
 }

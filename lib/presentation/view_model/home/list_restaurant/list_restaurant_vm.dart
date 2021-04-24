@@ -29,22 +29,15 @@ class ListRestaurantsVM extends BaseVM {
     _filterParams.onChangedListener = () {
       refreshController.requestRefresh();
     };
+    pagingController.addPageRequestListener((pageKey) {
+      loadRestaurants();
+    });
   }
 
   RefreshController refreshController = RefreshController();
   PagingController<String?, Restaurant> pagingController =
       PagingController(firstPageKey: null);
 
-  bool isInitialLoad = false;
-  void initialLoading() {
-    if (!isInitialLoad) {
-      loadRestaurants();
-      isInitialLoad = true;
-      pagingController.addPageRequestListener((pageKey) {
-        loadRestaurants();
-      });
-    }
-  }
 
   void loadRestaurants() async {
     final pageKey = pagingController.nextPageKey;

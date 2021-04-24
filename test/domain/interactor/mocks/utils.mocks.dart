@@ -5,17 +5,18 @@
 import 'dart:async' as _i5;
 
 import 'package:mockito/mockito.dart' as _i2;
-import 'package:toptal_test/domain/entities/pendingReply.dart' as _i10;
+import 'package:toptal_test/domain/entities/pendingReply.dart' as _i11;
 import 'package:toptal_test/domain/entities/restaurant.dart' as _i8;
-import 'package:toptal_test/domain/entities/review.dart' as _i11;
-import 'package:toptal_test/domain/entities/user.dart' as _i13;
+import 'package:toptal_test/domain/entities/restaurant_details.dart' as _i9;
+import 'package:toptal_test/domain/entities/review.dart' as _i12;
+import 'package:toptal_test/domain/entities/user.dart' as _i14;
 import 'package:toptal_test/domain/one_of.dart' as _i3;
 import 'package:toptal_test/domain/repository/failure.dart' as _i1;
 import 'package:toptal_test/domain/repository/i_login_repository.dart' as _i4;
 import 'package:toptal_test/domain/repository/i_restaurant_repository.dart'
     as _i7;
-import 'package:toptal_test/domain/repository/i_review_repository.dart' as _i9;
-import 'package:toptal_test/domain/repository/i_user_repository.dart' as _i12;
+import 'package:toptal_test/domain/repository/i_review_repository.dart' as _i10;
+import 'package:toptal_test/domain/repository/i_user_repository.dart' as _i13;
 import 'package:toptal_test/domain/repository/params.dart' as _i6;
 
 // ignore_for_file: comment_references
@@ -92,12 +93,20 @@ class MockIRestaurantRepository extends _i2.Mock
               returnValue: Future<_i3.OneOf<_i1.Failure, Null?>>.value(
                   _FakeOneOf<_i1.Failure, Null?>()))
           as _i5.Future<_i3.OneOf<_i1.Failure, Null?>>);
+  @override
+  _i5.Future<_i3.OneOf<_i1.Failure, _i9.RestaurantDetails>>
+      getRestaurantDetails(_i6.GetRestaurantDetailsParams? params) => (super
+          .noSuchMethod(Invocation.method(#getRestaurantDetails, [params]),
+              returnValue:
+                  Future<_i3.OneOf<_i1.Failure, _i9.RestaurantDetails>>.value(
+                      _FakeOneOf<_i1.Failure, _i9.RestaurantDetails>())) as _i5
+          .Future<_i3.OneOf<_i1.Failure, _i9.RestaurantDetails>>);
 }
 
 /// A class which mocks [IReviewRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockIReviewRepository extends _i2.Mock implements _i9.IReviewRepository {
+class MockIReviewRepository extends _i2.Mock implements _i10.IReviewRepository {
   MockIReviewRepository() {
     _i2.throwOnMissingStub(this);
   }
@@ -110,13 +119,13 @@ class MockIReviewRepository extends _i2.Mock implements _i9.IReviewRepository {
                   _FakeOneOf<_i1.Failure, Null?>()))
           as _i5.Future<_i3.OneOf<_i1.Failure, Null?>>);
   @override
-  _i5.Future<_i3.OneOf<_i1.Failure, List<_i10.PendingReply>>> getPendingReplies(
+  _i5.Future<_i3.OneOf<_i1.Failure, List<_i11.PendingReply>>> getPendingReplies(
           _i6.GetPendingRepliesParams? params) =>
       (super.noSuchMethod(Invocation.method(#getPendingReplies, [params]),
               returnValue:
-                  Future<_i3.OneOf<_i1.Failure, List<_i10.PendingReply>>>.value(
-                      _FakeOneOf<_i1.Failure, List<_i10.PendingReply>>()))
-          as _i5.Future<_i3.OneOf<_i1.Failure, List<_i10.PendingReply>>>);
+                  Future<_i3.OneOf<_i1.Failure, List<_i11.PendingReply>>>.value(
+                      _FakeOneOf<_i1.Failure, List<_i11.PendingReply>>()))
+          as _i5.Future<_i3.OneOf<_i1.Failure, List<_i11.PendingReply>>>);
   @override
   _i5.Future<_i3.OneOf<_i1.Failure, Null?>> addReply(
           _i6.AddReplyParams? params) =>
@@ -139,29 +148,29 @@ class MockIReviewRepository extends _i2.Mock implements _i9.IReviewRepository {
                   _FakeOneOf<_i1.Failure, Null?>()))
           as _i5.Future<_i3.OneOf<_i1.Failure, Null?>>);
   @override
-  _i5.Future<_i3.OneOf<_i1.Failure, List<_i11.Review>>> getReviews(
+  _i5.Future<_i3.OneOf<_i1.Failure, List<_i12.Review>>> getReviews(
           _i6.GetRestaurantReviewsParams? params) =>
       (super.noSuchMethod(Invocation.method(#getReviews, [params]),
-          returnValue: Future<_i3.OneOf<_i1.Failure, List<_i11.Review>>>.value(
-              _FakeOneOf<_i1.Failure, List<_i11.Review>>())) as _i5
-          .Future<_i3.OneOf<_i1.Failure, List<_i11.Review>>>);
+          returnValue: Future<_i3.OneOf<_i1.Failure, List<_i12.Review>>>.value(
+              _FakeOneOf<_i1.Failure, List<_i12.Review>>())) as _i5
+          .Future<_i3.OneOf<_i1.Failure, List<_i12.Review>>>);
 }
 
 /// A class which mocks [IUserRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockIUserRepository extends _i2.Mock implements _i12.IUserRepository {
+class MockIUserRepository extends _i2.Mock implements _i13.IUserRepository {
   MockIUserRepository() {
     _i2.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<_i3.OneOf<_i1.Failure, List<_i13.AppUser>>> getUsers(
+  _i5.Future<_i3.OneOf<_i1.Failure, List<_i14.AppUser>>> getUsers(
           _i6.GetUsersParams? params) =>
       (super.noSuchMethod(Invocation.method(#getUsers, [params]),
-          returnValue: Future<_i3.OneOf<_i1.Failure, List<_i13.AppUser>>>.value(
-              _FakeOneOf<_i1.Failure, List<_i13.AppUser>>())) as _i5
-          .Future<_i3.OneOf<_i1.Failure, List<_i13.AppUser>>>);
+          returnValue: Future<_i3.OneOf<_i1.Failure, List<_i14.AppUser>>>.value(
+              _FakeOneOf<_i1.Failure, List<_i14.AppUser>>())) as _i5
+          .Future<_i3.OneOf<_i1.Failure, List<_i14.AppUser>>>);
   @override
   _i5.Future<_i3.OneOf<_i1.Failure, Null?>> deleteUser(
           _i6.DeleteUserParams? params) =>

@@ -22,10 +22,6 @@ class _PendingRepliesPageState extends State<PendingRepliesPage>
     super.build(context);
     final vm = Provider.of<PendingRepliesVM>(context);
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      vm.initialLoading();
-    });
-
     return LoadingModalWidget(
       loading: vm.isAddingReply,
       child: ToastWidget(

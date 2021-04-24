@@ -20,10 +20,6 @@ class _UsersPageState extends State<UsersPage>
     super.build(context);
     final vm = Provider.of<UsersVM>(context);
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      vm.initialLoading();
-    });
-
     return LoadingModalWidget(
       loading: vm.isUserLoading,
       child: Scaffold(

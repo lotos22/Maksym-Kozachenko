@@ -27,23 +27,16 @@ class UsersVM extends BaseVM {
   )   : _getUsers = getUsers,
         _deleteUser = deleteUser,
         _updateUser = updateUser,
-        super(appLocalizations);
+        super(appLocalizations){
+          pagingController.addPageRequestListener((pageKey) {
+        loadUsers();
+      });
+        }
 
   bool isUserLoading = false;
   RefreshController refreshController = RefreshController();
   PagingController<String?, AppUser> pagingController =
       PagingController(firstPageKey: null);
-
-  bool isInitialLoad = false;
-  void initialLoading() async {
-    if (!isInitialLoad) {
-      loadUsers();
-      isInitialLoad = true;
-      pagingController.addPageRequestListener((pageKey) {
-        loadUsers();
-      });
-    }
-  }
 
   void loadUsers() async {
     final pageKey = pagingController.nextPageKey;

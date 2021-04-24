@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:injectable/injectable.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
+import 'package:toptal_test/domain/entities/restaurant_details.dart';
+import 'package:toptal_test/domain/entities/review.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
@@ -12,6 +14,7 @@ class FirebaseRestaurauntDoc implements IRestaurantRepository {
   final COLLECTION_RESTUARANTS = 'restaurants';
   final COLLECTION_REVIEWS = 'reviews';
 
+  final FIELD_RATING = 'rating';
   final FIELD_AVG_RATING = 'avgRating';
   final FIELD_DATE_VISITED = 'dateVisited';
   final FIELD_OWNER_ID = 'ownerId';
@@ -96,7 +99,8 @@ class FirebaseRestaurauntDoc implements IRestaurantRepository {
 
   @override
   Future<OneOf<Failure, Null>> updateRestaurant(
-      UpdateRestaurantParams params) async {
+    UpdateRestaurantParams params,
+  ) async {
     try {
       await _firestore
           .collection(COLLECTION_RESTUARANTS)
@@ -104,6 +108,43 @@ class FirebaseRestaurauntDoc implements IRestaurantRepository {
           .update(params.restaurant.toMap());
 
       return OneOf.success(null);
+    } catch (E) {
+      return OneOf.error(Failure.unknownFailure(E.toString()));
+    }
+  }
+
+  @override
+  Future<OneOf<Failure, RestaurantDetails>> getRestaurantDetails(
+    GetRestaurantDetailsParams params,
+  ) async {
+    try {
+      final best = await _firestore
+          .collection(COLLECTION_RESTUARANTS)
+          .doc(params.restId)
+          .collection(COLLECTION_REVIEWS)
+          .orderBy(FIELD_RATING, descending: true)
+          .limit(1)
+          .get();
+
+      final worst = await _firestore
+          .collection(COLLECTION_RESTUARANTS)
+          .doc(params.restId)
+          .collection(COLLECTION_REVIEWS)
+          .orderBy(FIELD_RATING)
+          .limit(1)
+          .get();
+
+      if (worst.docs.isEmpty) {
+        return OneOf.success(RestaurantDetails());
+      }
+
+      final bestDoc = best.docs.first;
+      final worstDoc = worst.docs.first;
+
+      return OneOf.success(RestaurantDetails(
+        bestReview: Review.fromMap(bestDoc.id, bestDoc.data()),
+        worstReview: Review.fromMap(worstDoc.id, worstDoc.data()),
+      ));
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }

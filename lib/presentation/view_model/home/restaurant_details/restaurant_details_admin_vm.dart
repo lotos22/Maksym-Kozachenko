@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/user.dart';
+import 'package:toptal_test/domain/interactor/restaurant/get_restaurant_details.dart';
 import 'package:toptal_test/domain/interactor/review/delete_review.dart';
 import 'package:toptal_test/domain/interactor/review/get_restaurant_reviews.dart';
 import 'package:toptal_test/domain/interactor/review/update_review.dart';
@@ -18,6 +19,7 @@ class RestaurantDetailsAdminVM extends RestaurantDetailsVM {
     UpdateReview updateReview,
     DeleteReview deleteReview,
     AppUser appUser,
+    GetRestaurantDetails getRestaurantDetails,
     GetRestaurantReviews getRestaurantReviews,
     AppLocalizations appLocalizations,
   )   : _updateReview = updateReview,
@@ -25,6 +27,7 @@ class RestaurantDetailsAdminVM extends RestaurantDetailsVM {
         super(
           rest,
           appUser,
+          getRestaurantDetails,
           getRestaurantReviews,
           appLocalizations,
         );
@@ -41,7 +44,7 @@ class RestaurantDetailsAdminVM extends RestaurantDetailsVM {
   void updateReview(UpdateReviewParams params) {
     _updateReview.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
-       // loadReviews();
+        // loadReviews();
       }
       notifyListeners();
     });

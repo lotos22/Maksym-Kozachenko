@@ -13,6 +13,11 @@ class LoginSignUpParams extends LoginSignInParams {
   LoginSignUpParams(String email, String pass) : super(email, pass);
 }
 
+class GetRestaurantDetailsParams {
+  final String restId;
+  GetRestaurantDetailsParams(this.restId);
+}
+
 class GetRestaurantReviewsParams extends _PaginationParams {
   final String id;
   GetRestaurantReviewsParams(

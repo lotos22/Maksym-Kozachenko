@@ -73,16 +73,29 @@ class FirebaseReviewDoc implements IReviewRepository {
 
   @override
   Future<OneOf<Failure, List<Review>>> getReviews(
-      GetRestaurantReviewsParams params) async {
+    GetRestaurantReviewsParams params,
+  ) async {
     try {
-      final docs = await _firestore
+      var query = _firestore
           .collection(COLLECTION_RESTUARANTS)
           .doc(params.id)
           .collection(COLLECTION_REVIEWS)
-          .orderBy(FIELD_DATE_VISITED, descending: true)
-          .get();
+          .orderBy(FIELD_DATE_VISITED, descending: true);
+
+      if (params.lastDocId != null) {
+        final snapshot = await _firestore
+            .collection(COLLECTION_RESTUARANTS)
+            .doc(params.id)
+            .collection(COLLECTION_REVIEWS)
+            .doc(params.lastDocId)
+            .get();
+        query = query.startAfterDocument(snapshot);
+      }
+
+      final docs = await query.limit(params.pageSize).get();
       final reviews =
           docs.docs.map((e) => Review.fromMap(e.id, e.data())).toList();
+      //await Future.delayed(Duration(seconds: 2));
       return OneOf.success(reviews);
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));

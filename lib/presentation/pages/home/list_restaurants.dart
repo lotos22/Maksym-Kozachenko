@@ -26,10 +26,6 @@ class _ListRestaurantsPageState extends State<ListRestaurantsPage>
     super.build(context);
     final vm = Provider.of<ListRestaurantsVM>(context);
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      vm.initialLoading();
-    });
-
     return LoadingModalWidget(
       loading: () {
         if (vm is ListRestaurantOwnerVM) return vm.addRestaurantLoading;

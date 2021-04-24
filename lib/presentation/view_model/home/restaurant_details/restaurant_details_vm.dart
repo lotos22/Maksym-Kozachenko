@@ -2,8 +2,10 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
+import 'package:toptal_test/domain/entities/restaurant_details.dart';
 import 'package:toptal_test/domain/entities/review.dart';
 import 'package:toptal_test/domain/entities/user.dart';
+import 'package:toptal_test/domain/interactor/restaurant/get_restaurant_details.dart';
 import 'package:toptal_test/domain/interactor/review/get_restaurant_reviews.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/repository/params.dart';
@@ -14,60 +16,51 @@ import 'package:toptal_test/utils/localizations.dart';
 @injectable
 class RestaurantDetailsVM extends BaseVM {
   final Restaurant restaurant;
+  final GetRestaurantDetails _getRestaurantDetails;
   final GetRestaurantReviews _getResaurantReviews;
   final bool isOwner;
   RestaurantDetailsVM(
     @factoryParam Restaurant? rest,
     AppUser appUser,
+    GetRestaurantDetails getRestaurantDetails,
     GetRestaurantReviews getRestaurantReviews,
     AppLocalizations appLocalizations,
   )   : assert(rest != null),
         restaurant = rest!,
+        _getRestaurantDetails = getRestaurantDetails,
         isOwner = appUser.isOwner,
         _getResaurantReviews = getRestaurantReviews,
         super(appLocalizations) {
-    loadReviews();
+    loadRestaurantDetails();
+    pagingController.addPageRequestListener((pageKey) {
+      loadReviews();
+    });
   }
 
   bool isUserLoading = false;
   PagingController<String?, Review> pagingController =
       PagingController(firstPageKey: null);
 
-  Review? _bestReview;
-  Review? get bestReview {
-    if (_bestReview != null) return _bestReview;
-
-    for (var r in pagingController.itemList ?? []) {
-      if (_bestReview == null || _bestReview!.rate < r.rate) {
-        _bestReview = r;
-      }
-      if (r.rate == 5) break;
-    }
-    return _bestReview;
-  }
-
-  Review? _worstReview;
-  Review? get worstReview {
-    if (_worstReview != null) return _worstReview;
-    for (var r in pagingController.itemList ?? []) {
-      if (_worstReview == null || _worstReview!.rate > r.rate) {
-        _worstReview = r;
-      }
-      if (r.rate == 1) break;
-    }
-    return _worstReview;
-  }
+  RestaurantDetails? restaurantDetails;
 
   void loadReviews() {
-    notifyListeners();
-    _getResaurantReviews.execute(GetRestaurantReviewsParams(restaurant.id),
-        (oneOf) {
+    final params = GetRestaurantReviewsParams(
+      restaurant.id,
+      lastDocId: pagingController.nextPageKey,
+      pageSize: PageSize.pageSize,
+    );
+    _getResaurantReviews.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
         final data = (oneOf as Success).data as List<Review>;
-        if (data.length == PageSize.pageSize) {
-          pagingController.appendPage(data, data.last.id);
-        } else {
-          pagingController.appendLastPage(data);
+        if (data.isNotEmpty && data.last.id != pagingController.nextPageKey) {
+          if (data.length == PageSize.pageSize) {
+            pagingController.appendPage(data, data.last.id);
+          } else {
+            pagingController.appendLastPage(data);
+          }
+        }
+        if (data.isEmpty) {
+          pagingController.appendLastPage([]);
         }
       } else {
         pagingController.appendLastPage([]);
@@ -77,9 +70,21 @@ class RestaurantDetailsVM extends BaseVM {
     });
   }
 
-  void addPostedReview(Review value) {
-    loadReviews();
+  void loadRestaurantDetails() {
+    final params = GetRestaurantDetailsParams(restaurant.id);
+    _getRestaurantDetails.execute(params, (oneOf) {
+      if (oneOf.isSuccess) {
+        final details = (oneOf as Success).data as RestaurantDetails;
+        restaurantDetails = details;
+      } else {
+        sendMessage(appLocalizations.something_went_wrong);
+      }
+      notifyListeners();
+    });
   }
 
-  
+  void addPostedReview(Review value) {
+    pagingController.itemList?.add(value);
+    notifyListeners();
+  }
 }
