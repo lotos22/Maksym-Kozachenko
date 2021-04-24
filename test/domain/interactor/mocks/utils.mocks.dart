@@ -5,10 +5,10 @@
 import 'dart:async' as _i5;
 
 import 'package:mockito/mockito.dart' as _i2;
-import 'package:toptal_test/domain/entities/pendingReply.dart' as _i11;
+import 'package:toptal_test/domain/entities/pendingReply.dart' as _i12;
 import 'package:toptal_test/domain/entities/restaurant.dart' as _i8;
 import 'package:toptal_test/domain/entities/restaurant_details.dart' as _i9;
-import 'package:toptal_test/domain/entities/review.dart' as _i12;
+import 'package:toptal_test/domain/entities/review.dart' as _i11;
 import 'package:toptal_test/domain/entities/user.dart' as _i14;
 import 'package:toptal_test/domain/one_of.dart' as _i3;
 import 'package:toptal_test/domain/repository/failure.dart' as _i1;
@@ -112,20 +112,20 @@ class MockIReviewRepository extends _i2.Mock implements _i10.IReviewRepository {
   }
 
   @override
-  _i5.Future<_i3.OneOf<_i1.Failure, Null?>> addRestaurantReview(
+  _i5.Future<_i3.OneOf<_i1.Failure, _i11.Review>> addRestaurantReview(
           _i6.AddRestaurantReviewParams? params) =>
       (super.noSuchMethod(Invocation.method(#addRestaurantReview, [params]),
-              returnValue: Future<_i3.OneOf<_i1.Failure, Null?>>.value(
-                  _FakeOneOf<_i1.Failure, Null?>()))
-          as _i5.Future<_i3.OneOf<_i1.Failure, Null?>>);
+              returnValue: Future<_i3.OneOf<_i1.Failure, _i11.Review>>.value(
+                  _FakeOneOf<_i1.Failure, _i11.Review>()))
+          as _i5.Future<_i3.OneOf<_i1.Failure, _i11.Review>>);
   @override
-  _i5.Future<_i3.OneOf<_i1.Failure, List<_i11.PendingReply>>> getPendingReplies(
+  _i5.Future<_i3.OneOf<_i1.Failure, List<_i12.PendingReply>>> getPendingReplies(
           _i6.GetPendingRepliesParams? params) =>
       (super.noSuchMethod(Invocation.method(#getPendingReplies, [params]),
               returnValue:
-                  Future<_i3.OneOf<_i1.Failure, List<_i11.PendingReply>>>.value(
-                      _FakeOneOf<_i1.Failure, List<_i11.PendingReply>>()))
-          as _i5.Future<_i3.OneOf<_i1.Failure, List<_i11.PendingReply>>>);
+                  Future<_i3.OneOf<_i1.Failure, List<_i12.PendingReply>>>.value(
+                      _FakeOneOf<_i1.Failure, List<_i12.PendingReply>>()))
+          as _i5.Future<_i3.OneOf<_i1.Failure, List<_i12.PendingReply>>>);
   @override
   _i5.Future<_i3.OneOf<_i1.Failure, Null?>> addReply(
           _i6.AddReplyParams? params) =>
@@ -148,12 +148,12 @@ class MockIReviewRepository extends _i2.Mock implements _i10.IReviewRepository {
                   _FakeOneOf<_i1.Failure, Null?>()))
           as _i5.Future<_i3.OneOf<_i1.Failure, Null?>>);
   @override
-  _i5.Future<_i3.OneOf<_i1.Failure, List<_i12.Review>>> getReviews(
+  _i5.Future<_i3.OneOf<_i1.Failure, List<_i11.Review>>> getReviews(
           _i6.GetRestaurantReviewsParams? params) =>
       (super.noSuchMethod(Invocation.method(#getReviews, [params]),
-          returnValue: Future<_i3.OneOf<_i1.Failure, List<_i12.Review>>>.value(
-              _FakeOneOf<_i1.Failure, List<_i12.Review>>())) as _i5
-          .Future<_i3.OneOf<_i1.Failure, List<_i12.Review>>>);
+          returnValue: Future<_i3.OneOf<_i1.Failure, List<_i11.Review>>>.value(
+              _FakeOneOf<_i1.Failure, List<_i11.Review>>())) as _i5
+          .Future<_i3.OneOf<_i1.Failure, List<_i11.Review>>>);
 }
 
 /// A class which mocks [IUserRepository].

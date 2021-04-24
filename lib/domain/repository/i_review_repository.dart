@@ -5,7 +5,7 @@ import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 
 abstract class IReviewRepository {
-  Future<OneOf<Failure, Null>> addRestaurantReview(
+  Future<OneOf<Failure, Review>> addRestaurantReview(
     AddRestaurantReviewParams params,
   );
   Future<OneOf<Failure, List<PendingReply>>> getPendingReplies(

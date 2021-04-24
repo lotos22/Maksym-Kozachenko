@@ -35,7 +35,11 @@ class RestaurantDetailsAdminVM extends RestaurantDetailsVM {
   void deleteReview(DeleteReviewParams params) {
     _deleteReview.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
-        loadReviews();
+        pagingController.itemList?.removeWhere(
+          (element) => element.id == params.reviewId,
+        );
+      } else {
+        sendMessage(appLocalizations.something_went_wrong);
       }
       notifyListeners();
     });
@@ -44,7 +48,14 @@ class RestaurantDetailsAdminVM extends RestaurantDetailsVM {
   void updateReview(UpdateReviewParams params) {
     _updateReview.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
-        // loadReviews();
+        final listReview = pagingController.itemList!.singleWhere(
+          (element) => element.id == params.review.id,
+        );
+        final index = pagingController.itemList!.indexOf(listReview);
+        pagingController.itemList?.removeAt(index);
+        pagingController.itemList!.insert(index, params.review);
+      } else {
+        sendMessage(appLocalizations.something_went_wrong);
       }
       notifyListeners();
     });

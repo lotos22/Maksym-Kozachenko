@@ -84,7 +84,7 @@ class RestaurantDetailsVM extends BaseVM {
   }
 
   void addPostedReview(Review value) {
-    pagingController.itemList?.add(value);
+    pagingController.itemList?.insert(0,value);
     notifyListeners();
   }
 }

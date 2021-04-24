@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/review.dart';
 import 'package:toptal_test/domain/interactor/review/add_restaurant_review.dart';
+import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';
@@ -59,13 +60,7 @@ class ReviewDialogVM extends BaseVM {
         _restaurant.id, rating, _dateVisited, commentController.text.trim());
     _addRestaurantReview.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
-        addedReview = Review(
-          id: '',
-          comment: params.comment,
-          dateVisited: dateVisited,
-          rate: rating,
-          reply: '',
-        );
+        addedReview = (oneOf as Success).data;
       } else {
         sendMessage(appLocalizations.something_went_wrong);
       }

@@ -103,8 +103,9 @@ class FirebaseReviewDoc implements IReviewRepository {
   }
 
   @override
-  Future<OneOf<Failure, Null>> addRestaurantReview(
-      AddRestaurantReviewParams params) async {
+  Future<OneOf<Failure, Review>> addRestaurantReview(
+    AddRestaurantReviewParams params,
+  ) async {
     try {
       final doc = await _firestore
           .collection(COLLECTION_RESTUARANTS)
@@ -112,17 +113,18 @@ class FirebaseReviewDoc implements IReviewRepository {
           .get();
 
       if (doc.exists) {
-        await _firestore
+        final docRef = _firestore
             .collection(COLLECTION_RESTUARANTS)
             .doc(params.restaurantId)
             .collection(COLLECTION_REVIEWS)
-            .doc()
-            .set(params.toReview());
+            .doc();
+        await docRef.set(params.toReview());
+        final newReview = await docRef.get();
+        
+        return OneOf.success(Review.fromMap(docRef.id, newReview.data()!));
       } else {
         return OneOf.error(Failure.unknownFailure('Restaurant doesn\'t exist'));
       }
-
-      return OneOf.success(null);
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }
