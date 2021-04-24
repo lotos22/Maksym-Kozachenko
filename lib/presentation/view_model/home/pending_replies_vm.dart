@@ -1,3 +1,4 @@
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toptal_test/domain/entities/pendingReply.dart';
@@ -6,6 +7,7 @@ import 'package:toptal_test/domain/interactor/review/get_pending_replies.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
+import 'package:toptal_test/utils/const.dart';
 import 'package:toptal_test/utils/localizations.dart';
 import 'package:toptal_test/utils/utils.dart';
 
@@ -26,13 +28,16 @@ class PendingRepliesVM extends BaseVM {
   bool isInitialLoad = false;
   void initialLoading() async {
     if (!isInitialLoad) {
-      await refreshController.requestRefresh();
+      loadPendingReplies();
       isInitialLoad = true;
+      pagingController.addPageRequestListener((pageKey) {
+        loadPendingReplies();
+      });
     }
   }
 
-  List<PendingReply> _pendingReplies = [];
-  List<PendingReply> get pendingReplies => _pendingReplies;
+  PagingController<int, PendingReply> pagingController =
+      PagingController(firstPageKey: 0);
 
   bool isAddingReply = false;
   void addReply(PendingReply pendingReply, String reply) {
@@ -43,7 +48,7 @@ class PendingRepliesVM extends BaseVM {
         .execute(AddReplyParams(reply, pendingReply.restId, pendingReply.docId),
             (oneOf) {
       if (oneOf.isSuccess) {
-        _pendingReplies.remove(pendingReply);
+        // _pendingReplies.remove(pendingReply);
       }
       isAddingReply = false;
       notifyListeners();
@@ -51,9 +56,22 @@ class PendingRepliesVM extends BaseVM {
   }
 
   void loadPendingReplies() async {
-    await _getPendingReplies.execute(null, (oneOf) {
+    final pageKey = pagingController.nextPageKey ?? 0;
+    final params = GetPendingRepliesParams(
+      page: pageKey,
+      pageSize: PageSize.pageSize,
+    );
+    await _getPendingReplies.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
-        _pendingReplies = (oneOf as Success).data;
+        final data = (oneOf as Success).data as List<PendingReply>;
+        if (data.length == PageSize.pageSize) {
+          pagingController.appendPage(data, pageKey + 1);
+        } else {
+          pagingController.appendLastPage(data);
+        }
+      } else {
+        sendMessage(appLocalizations.something_went_wrong);
+        pagingController.appendLastPage([]);
       }
       refreshController.refreshCompleted();
       runCatching(() {

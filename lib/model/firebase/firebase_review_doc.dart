@@ -30,12 +30,18 @@ class FirebaseReviewDoc implements IReviewRepository {
   FirebaseReviewDoc(FirebaseFirestore firestore, FirebaseFunctions functions)
       : _functions = functions,
         _firestore = firestore;
+
   @override
-  Future<OneOf<Failure, List<PendingReply>>> getPendingReplies() async {
+  Future<OneOf<Failure, List<PendingReply>>> getPendingReplies(
+    GetPendingRepliesParams params,
+  ) async {
     try {
       final response = await _functions
           .httpsCallable(CALL_GET_PENDING_REPLIES, options: _callableOptions)
-          .call();
+          .call({
+        'page': params.page,
+        'pageSize': params.pageSize,
+      });
 
       final list =
           (response.data as List).map((e) => PendingReply.fromJson(e)).toList();
@@ -99,10 +105,9 @@ class FirebaseReviewDoc implements IReviewRepository {
             .collection(COLLECTION_REVIEWS)
             .doc()
             .set(params.toReview());
-      }else {
+      } else {
         return OneOf.error(Failure.unknownFailure('Restaurant doesn\'t exist'));
       }
-
 
       return OneOf.success(null);
     } catch (E) {

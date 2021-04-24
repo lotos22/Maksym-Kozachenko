@@ -1,7 +1,6 @@
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/domain/interactor/user/delete_user.dart';
 import 'package:toptal_test/domain/interactor/user/get_users.dart';
@@ -63,6 +62,7 @@ class UsersVM extends BaseVM {
           pagingController.appendLastPage(data);
         }
       } else {
+        pagingController.appendLastPage([]);
         sendMessage(appLocalizations.something_went_wrong);
       }
       refreshController.refreshCompleted();
@@ -90,9 +90,5 @@ class UsersVM extends BaseVM {
       isUserLoading = false;
       notifyListeners();
     });
-  }
-
-  void refreshItems() {
-    pagingController.refresh();
   }
 }

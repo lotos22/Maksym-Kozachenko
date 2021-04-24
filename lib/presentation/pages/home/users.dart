@@ -28,7 +28,7 @@ class _UsersPageState extends State<UsersPage>
       loading: vm.isUserLoading,
       child: Scaffold(
         body: SmartRefresher(
-          onRefresh: () => vm.refreshItems(),
+          onRefresh: () => vm.pagingController.refresh(),
           controller: vm.refreshController,
           child: PagedListView<String?, AppUser>.separated(
             separatorBuilder: (context, index) => const Divider(),

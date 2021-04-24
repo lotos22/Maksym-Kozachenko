@@ -38,7 +38,7 @@ class _ListRestaurantsPageState extends State<ListRestaurantsPage>
       child: Scaffold(
         body: SmartRefresher(
           controller: vm.refreshController,
-          onRefresh: () => vm.refreshItems(),
+          onRefresh: () => vm.pagingController.refresh(),
           child: PagedListView<String?, Restaurant>.separated(
             pagingController: vm.pagingController,
             separatorBuilder: (context, index) => Divider(),

@@ -110,9 +110,9 @@ class MockIReviewRepository extends _i2.Mock implements _i9.IReviewRepository {
                   _FakeOneOf<_i1.Failure, Null?>()))
           as _i5.Future<_i3.OneOf<_i1.Failure, Null?>>);
   @override
-  _i5.Future<_i3.OneOf<_i1.Failure, List<_i10.PendingReply>>>
-      getPendingReplies() => (super.noSuchMethod(
-              Invocation.method(#getPendingReplies, []),
+  _i5.Future<_i3.OneOf<_i1.Failure, List<_i10.PendingReply>>> getPendingReplies(
+          _i6.GetPendingRepliesParams? params) =>
+      (super.noSuchMethod(Invocation.method(#getPendingReplies, [params]),
               returnValue:
                   Future<_i3.OneOf<_i1.Failure, List<_i10.PendingReply>>>.value(
                       _FakeOneOf<_i1.Failure, List<_i10.PendingReply>>()))

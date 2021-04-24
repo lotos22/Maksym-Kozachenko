@@ -63,14 +63,11 @@ class ListRestaurantsVM extends BaseVM {
           pagingController.appendLastPage(data);
         }
       } else {
+        pagingController.appendLastPage([]);
         sendMessage(appLocalizations.something_went_wrong);
       }
       refreshController.refreshCompleted();
       notifyListeners();
     });
-  }
-
-  void refreshItems() {
-    pagingController.refresh();
   }
 }

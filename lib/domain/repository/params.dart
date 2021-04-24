@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
-import 'package:toptal_test/utils/const.dart';
 
 import '../entities/review.dart';
 
@@ -76,6 +75,15 @@ class GetRestaurantsParams extends _PaginationParams {
           lastDocId: lastDocId,
           pageSize: pageSize,
         );
+}
+
+class GetPendingRepliesParams {
+  final int page;
+  final int pageSize;
+  GetPendingRepliesParams({
+    required this.page,
+    required this.pageSize,
+  });
 }
 
 class GetUsersParams extends _PaginationParams {
