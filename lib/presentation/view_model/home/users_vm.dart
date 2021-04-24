@@ -27,11 +27,11 @@ class UsersVM extends BaseVM {
   )   : _getUsers = getUsers,
         _deleteUser = deleteUser,
         _updateUser = updateUser,
-        super(appLocalizations){
-          pagingController.addPageRequestListener((pageKey) {
-        loadUsers();
-      });
-        }
+        super(appLocalizations) {
+    pagingController.addPageRequestListener((pageKey) {
+      loadUsers();
+    });
+  }
 
   bool isUserLoading = false;
   RefreshController refreshController = RefreshController();
@@ -67,7 +67,21 @@ class UsersVM extends BaseVM {
     isUserLoading = true;
     notifyListeners();
     _updateUser.execute(params, (oneOf) {
-      if (oneOf.isSuccess) loadUsers();
+      if (oneOf.isSuccess) {
+        final listUser = pagingController.itemList!.singleWhere(
+          (element) => element.id == params.id,
+        );
+        final newUser = AppUser(
+          userRole: mapToUserRole(params.role),
+          id: params.id,
+          email: listUser.email,
+        );
+        final index = pagingController.itemList!.indexOf(listUser);
+        pagingController.itemList?.removeAt(index);
+        pagingController.itemList!.insert(index, newUser);
+      } else {
+        sendMessage(appLocalizations.something_went_wrong);
+      }
       isUserLoading = false;
       notifyListeners();
     });
@@ -77,7 +91,13 @@ class UsersVM extends BaseVM {
     isUserLoading = true;
     notifyListeners();
     _deleteUser.execute(params, (oneOf) {
-      if (oneOf.isSuccess) loadUsers();
+      if (oneOf.isSuccess) {
+        pagingController.itemList?.removeWhere(
+          (element) => element.id == params.id,
+        );
+      } else {
+        sendMessage(appLocalizations.something_went_wrong);
+      }
       isUserLoading = false;
       notifyListeners();
     });

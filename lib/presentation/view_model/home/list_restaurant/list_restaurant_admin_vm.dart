@@ -41,10 +41,10 @@ class ListRestaurantAdminVM extends ListRestaurantOwnerVM {
     notifyListeners();
     _updateRestaurant.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
-        final listReview = pagingController.itemList!.singleWhere(
+        final listRestaurant = pagingController.itemList!.singleWhere(
           (element) => element.id == params.restaurant.id,
         );
-        final index = pagingController.itemList!.indexOf(listReview);
+        final index = pagingController.itemList!.indexOf(listRestaurant);
         pagingController.itemList?.removeAt(index);
         pagingController.itemList!.insert(index, params.restaurant);
       }
@@ -58,7 +58,9 @@ class ListRestaurantAdminVM extends ListRestaurantOwnerVM {
     notifyListeners();
     _deleteRestaurant.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
-        loadRestaurants();
+         pagingController.itemList?.removeWhere(
+          (element) => element.id == params.id,
+        );
       }
       addRestaurantLoading = false;
       notifyListeners();
