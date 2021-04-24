@@ -13,6 +13,7 @@ import 'package:toptal_test/presentation/view_model/home/review_dialog_vm.dart';
 import 'package:toptal_test/presentation/widgets/rating_row_widget.dart';
 import 'package:toptal_test/presentation/widgets/review_card.dart';
 import 'package:toptal_test/presentation/widgets/toast_widget.dart';
+import 'package:toptal_test/utils/const.dart';
 import 'package:toptal_test/utils/localizations.dart';
 
 class RestaurantDetailsPage extends StatefulWidget {
@@ -42,27 +43,36 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage>
                 ),
               ),
             ),
-            if (vm.restaurantDetails?.bestReview != null)
-              SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    getTopReviewWidget(
-                      vm,
-                      context,
-                      AppLocalizations.of(context)
-                          .restaurant_details_best_review,
-                      vm.restaurantDetails!.bestReview!,
-                    ),
-                    getTopReviewWidget(
-                      vm,
-                      context,
-                      AppLocalizations.of(context)
-                          .restaurant_details_worst_review,
-                      vm.restaurantDetails!.worstReview!,
-                    ),
-                  ],
+            SliverToBoxAdapter(
+              child: AnimatedOpacity(
+                opacity: vm.restaurantDetails?.bestReview != null ? 1 : 0,
+                duration: AnimationDuration.long(),
+                child: AnimatedSize(
+                  duration: AnimationDuration.normal(),
+                  vsync: this,
+                  child: vm.restaurantDetails?.bestReview != null
+                      ? Column(
+                          children: [
+                            getTopReviewWidget(
+                              vm,
+                              context,
+                              AppLocalizations.of(context)
+                                  .restaurant_details_best_review,
+                              vm.restaurantDetails!.bestReview!,
+                            ),
+                            getTopReviewWidget(
+                              vm,
+                              context,
+                              AppLocalizations.of(context)
+                                  .restaurant_details_worst_review,
+                              vm.restaurantDetails!.worstReview!,
+                            ),
+                          ],
+                        )
+                      : SizedBox(),
                 ),
               ),
+            ),
             if (vm.pagingController.itemList?.isNotEmpty ?? false)
               SliverToBoxAdapter(
                 child: Column(
@@ -93,19 +103,6 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage>
                 ),
               ),
             ),
-            // PagedListView<String?, Review>(
-            //   shrinkWrap: true,
-            //   physics: NeverScrollableScrollPhysics(),
-            //   pagingController: vm.pagingController,
-            //   builderDelegate: PagedChildBuilderDelegate(
-            //     itemBuilder: (context, item, index) => ReviewCardWidget(
-            //       item,
-            //       onLongTap: () {
-            //         onLongTapOnReview(vm, context, item);
-            //       },
-            //     ),
-            //   ),
-            // ),
             SliverToBoxAdapter(
               child: SizedBox(height: 24),
             ),

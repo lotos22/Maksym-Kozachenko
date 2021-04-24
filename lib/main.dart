@@ -13,7 +13,7 @@ void main() async {
   await Firebase.initializeApp();
   configureDependencies();
   await SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitUp,
   ]);
   runApp(MyApp());
 }
@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       theme: theme,
       routeInformationParser: getIt<LoginRouteInformationParser>(),
       routerDelegate: getIt<LoginRouteDelegate>(),

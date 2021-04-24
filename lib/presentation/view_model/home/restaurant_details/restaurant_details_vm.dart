@@ -51,7 +51,6 @@ class RestaurantDetailsVM extends BaseVM {
     _getResaurantReviews.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
         final data = (oneOf as Success).data as List<Review>;
-
         if (data.length == PageSize.pageSize) {
           pagingController.appendPage(data, data.last.id);
         } else {
