@@ -138,7 +138,7 @@ class _EditReviewDialogState extends State<EditReviewDialog> {
                             Review(
                               comment: commentController.text,
                               dateVisited: dateVisited,
-                              docId: widget.review.docId,
+                              id: widget.review.id,
                               rate: int.parse(rateController.text),
                               reply: replyController.text,
                               replied: replied,
@@ -161,7 +161,7 @@ class _EditReviewDialogState extends State<EditReviewDialog> {
                       context,
                       DeleteReviewParams(
                         widget.restaurant.id,
-                        widget.review.docId,
+                        widget.review.id,
                       ),
                     );
                   },

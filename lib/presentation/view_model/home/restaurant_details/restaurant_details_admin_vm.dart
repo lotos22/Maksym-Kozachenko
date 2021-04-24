@@ -41,8 +41,7 @@ class RestaurantDetailsAdminVM extends RestaurantDetailsVM {
   void updateReview(UpdateReviewParams params) {
     _updateReview.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
-        clearData();
-        loadReviews();
+       // loadReviews();
       }
       notifyListeners();
     });

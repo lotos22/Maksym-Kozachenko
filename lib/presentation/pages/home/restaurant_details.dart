@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/domain/entities/review.dart';
 import 'package:toptal_test/domain/repository/params.dart';
@@ -52,7 +54,7 @@ class RestaurantDetailsPage extends StatelessWidget {
                   vm.worstReview!,
                 ),
               ),
-            if (vm.reviews.isNotEmpty)
+            if (vm.pagingController.itemList?.isNotEmpty ?? false)
               SliverToBoxAdapter(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,16 +73,33 @@ class RestaurantDetailsPage extends StatelessWidget {
                   ],
                 ),
               ),
-            vm.isLoading
-                ? SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator()))
-                : vm.isLoadError
-                    ? ElevatedButton(
-                        onPressed: () => vm.loadReviews(),
-                        child:
-                            Text(AppLocalizations.of(context).home_root_retry))
-                    : getReviewsWidget(context),
-            SliverToBoxAdapter(child: SizedBox(height: 24)),
+            SliverToBoxAdapter(
+              child: PagedListView<String?, Review>(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                pagingController: vm.pagingController,
+                builderDelegate: PagedChildBuilderDelegate(
+                  itemBuilder: (context, item, index) => ReviewCardWidget(
+                    item,
+                    onLongTap: () {
+                      onLongTapOnReview(vm, context, item);
+                    },
+                  ),
+                ),
+              ),
+            ),
+            // vm.isLoading
+            //     ? SliverToBoxAdapter(
+            //         child: Center(child: CircularProgressIndicator()))
+            //     : vm.isLoadError
+            //         ? ElevatedButton(
+            //             onPressed: () => vm.loadReviews(),
+            //             child:
+            //                 Text(AppLocalizations.of(context).home_root_retry))
+            //         : getReviewsWidget(context),
+            SliverToBoxAdapter(
+              child: SizedBox(height: 24),
+            ),
           ],
         ),
         floatingActionButton: !vm.isOwner
@@ -106,20 +125,20 @@ class RestaurantDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget getReviewsWidget(BuildContext context) {
-    final vm = Provider.of<RestaurantDetailsVM>(context);
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => ReviewCardWidget(
-          vm.reviews[index],
-          onLongTap: () {
-            onLongTapOnReview(vm, context, vm.reviews[index]);
-          },
-        ),
-        childCount: vm.reviews.length,
-      ),
-    );
-  }
+  // Widget getReviewsWidget(BuildContext context) {
+  //   final vm = Provider.of<RestaurantDetailsVM>(context);
+  //   return SliverList(
+  //     delegate: SliverChildBuilderDelegate(
+  //       (context, index) => ReviewCardWidget(
+  //         vm.reviews[index],
+  //         onLongTap: () {
+  //           onLongTapOnReview(vm, context, vm.reviews[index]);
+  //         },
+  //       ),
+  //       childCount: vm.reviews.length,
+  //     ),
+  //   );
+  // }
 
   Widget getTopReviewWidget(RestaurantDetailsVM vm, BuildContext context,
       String title, Review review) {

@@ -5,13 +5,13 @@ class PendingReply extends Review {
   final String restId;
   PendingReply({
     required this.restId,
-    required String docId,
+    required String id,
     required String comment,
     required DateTime dateVisited,
     required int rate,
     required String reply,
   }) : super(
-          docId: docId,
+          id: id,
           comment: comment,
           dateVisited: dateVisited,
           rate: rate,
@@ -20,7 +20,7 @@ class PendingReply extends Review {
         );
   factory PendingReply.fromJson(Map<dynamic, dynamic> data) => PendingReply(
         restId: data['restId'],
-        docId: data['reviewId'],
+        id: data['reviewId'],
         comment: data['comment'],
         dateVisited: Timestamp(
           data['dateVisited']['_seconds'],

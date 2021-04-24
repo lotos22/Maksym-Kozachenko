@@ -138,7 +138,7 @@ class FirebaseReviewDoc implements IReviewRepository {
           .collection(COLLECTION_RESTUARANTS)
           .doc(params.restaurantId)
           .collection(COLLECTION_REVIEWS)
-          .doc(params.review.docId)
+          .doc(params.review.id)
           .update(params.review.toMap());
 
       return OneOf.success(null);

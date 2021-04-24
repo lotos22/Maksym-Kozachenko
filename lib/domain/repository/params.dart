@@ -13,9 +13,16 @@ class LoginSignUpParams extends LoginSignInParams {
   LoginSignUpParams(String email, String pass) : super(email, pass);
 }
 
-class GetRestaurantReviewsParams {
+class GetRestaurantReviewsParams extends _PaginationParams {
   final String id;
-  GetRestaurantReviewsParams(this.id);
+  GetRestaurantReviewsParams(
+    this.id, {
+    String? lastDocId,
+    int pageSize = 2,
+  }) : super(
+          lastDocId: lastDocId,
+          pageSize: pageSize,
+        );
 }
 
 class UpdateRestaurantParams {

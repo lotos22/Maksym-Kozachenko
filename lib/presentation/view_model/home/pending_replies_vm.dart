@@ -44,9 +44,8 @@ class PendingRepliesVM extends BaseVM {
     if (reply.trim().isNotEmpty) ;
     isAddingReply = true;
     notifyListeners();
-    _addReply
-        .execute(AddReplyParams(reply, pendingReply.restId, pendingReply.docId),
-            (oneOf) {
+    _addReply.execute(
+        AddReplyParams(reply, pendingReply.restId, pendingReply.id), (oneOf) {
       if (oneOf.isSuccess) {
         // _pendingReplies.remove(pendingReply);
       }

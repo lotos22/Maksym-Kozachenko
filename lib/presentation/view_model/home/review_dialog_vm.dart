@@ -60,7 +60,7 @@ class ReviewDialogVM extends BaseVM {
     _addRestaurantReview.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
         addedReview = Review(
-          docId: '',
+          id: '',
           comment: params.comment,
           dateVisited: dateVisited,
           rate: rating,

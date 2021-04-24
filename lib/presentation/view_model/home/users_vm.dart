@@ -29,7 +29,10 @@ class UsersVM extends BaseVM {
         _updateUser = updateUser,
         super(appLocalizations);
 
+  bool isUserLoading = false;
   RefreshController refreshController = RefreshController();
+  PagingController<String?, AppUser> pagingController =
+      PagingController(firstPageKey: null);
 
   bool isInitialLoad = false;
   void initialLoading() async {
@@ -41,11 +44,6 @@ class UsersVM extends BaseVM {
       });
     }
   }
-
-  bool isUserLoading = false;
-
-  PagingController<String?, AppUser> pagingController =
-      PagingController(firstPageKey: null);
 
   void loadUsers() async {
     final pageKey = pagingController.nextPageKey;

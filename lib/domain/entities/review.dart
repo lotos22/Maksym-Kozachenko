@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Review {
-  final String docId;
+  final String id;
   final String comment;
   final DateTime dateVisited;
   final int rate;
@@ -9,7 +9,7 @@ class Review {
   final bool replied;
 
   Review({
-    required this.docId,
+    required this.id,
     required this.comment,
     required this.dateVisited,
     required this.rate,
@@ -17,7 +17,7 @@ class Review {
     this.replied = false,
   });
   factory Review.fromMap(String id,Map<String, dynamic> data) => Review(
-        docId: id,
+        id: id,
         comment: data['comment'],
         dateVisited: (data['dateVisited'] as Timestamp).toDate(),
         rate: data['rating'],
