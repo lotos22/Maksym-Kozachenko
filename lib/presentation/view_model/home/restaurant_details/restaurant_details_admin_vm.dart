@@ -48,6 +48,7 @@ class RestaurantDetailsAdminVM extends RestaurantDetailsVM {
   void updateReview(UpdateReviewParams params) {
     _updateReview.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
+        
         final listReview = pagingController.itemList!.singleWhere(
           (element) => element.id == params.review.id,
         );

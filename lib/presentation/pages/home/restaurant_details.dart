@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toptal_test/di/injection_container.dart';
@@ -37,7 +38,7 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage>
               automaticallyImplyLeading: false,
               title: ListTile(
                 title: RatingRowWidget(
-                  rating: restaurant.avgRating,
+                  rating: NumberFormat('0.0').format(restaurant.avgRating),
                   text: restaurant.name,
                 ),
               ),

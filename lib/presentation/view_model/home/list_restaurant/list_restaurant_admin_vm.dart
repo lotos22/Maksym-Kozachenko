@@ -1,8 +1,11 @@
 import 'package:injectable/injectable.dart';
+import 'package:toptal_test/domain/entities/restaurant.dart';
+import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/domain/interactor/restaurant/add_restaurant.dart';
 import 'package:toptal_test/domain/interactor/restaurant/delete_restaurant.dart';
 import 'package:toptal_test/domain/interactor/restaurant/get_restaurants.dart';
 import 'package:toptal_test/domain/interactor/restaurant/update_restaurant.dart';
+import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/presentation/routes/user_routes.dart';
 import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_owner_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';
@@ -19,6 +22,7 @@ class ListRestaurantAdminVM extends ListRestaurantOwnerVM {
     AddRestaurant addRestaurant,
     AppLocalizations appLocalizations,
     GetRestaurants getRestaurants,
+    AppUser appUser,
     @factoryParam String? ownerId,
     @factoryParam FilterParams? filterParams,
   )   : _deleteRestaurant = deleteRestaurant,
@@ -27,6 +31,7 @@ class ListRestaurantAdminVM extends ListRestaurantOwnerVM {
           addRestaurant,
           appLocalizations,
           getRestaurants,
+          appUser,
           ownerId,
           filterParams,
         );
@@ -36,7 +41,12 @@ class ListRestaurantAdminVM extends ListRestaurantOwnerVM {
     notifyListeners();
     _updateRestaurant.execute(params, (oneOf) {
       if (oneOf.isSuccess) {
-        loadRestaurants();
+        final listReview = pagingController.itemList!.singleWhere(
+          (element) => element.id == params.restaurant.id,
+        );
+        final index = pagingController.itemList!.indexOf(listReview);
+        pagingController.itemList?.removeAt(index);
+        pagingController.itemList!.insert(index, params.restaurant);
       }
       addRestaurantLoading = false;
       notifyListeners();

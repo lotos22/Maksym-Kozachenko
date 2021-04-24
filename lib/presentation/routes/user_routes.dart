@@ -149,7 +149,8 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
                     param1: user.id, param2: filterParams);
               }
               if (user.isAdmin) {
-                vm = getIt<ListRestaurantAdminVM>(param2: filterParams);
+                vm = getIt<ListRestaurantAdminVM>(
+                   param2: filterParams);
               }
               return vm!;
             },

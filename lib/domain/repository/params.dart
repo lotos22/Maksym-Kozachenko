@@ -121,7 +121,8 @@ class AddReplyParams {
 
 class AddRestaurantParams {
   final String name;
-  AddRestaurantParams(this.name);
+  final String ownerId;
+  AddRestaurantParams(this.name,this.ownerId);
 }
 
 class AddRestaurantReviewParams {

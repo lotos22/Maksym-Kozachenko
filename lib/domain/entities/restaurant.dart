@@ -5,7 +5,7 @@ class Restaurant extends Equatable {
   final String id;
   final String name;
   final String ownerId;
-  final String avgRating;
+  final double avgRating;
   final int numRatings;
 
   Restaurant({
@@ -20,11 +20,8 @@ class Restaurant extends Equatable {
         id: id,
         name: data['name'],
         ownerId: data['ownerId'],
-        avgRating: data['avgRating'] == 0
-            ? ''
-            : NumberFormat('0.0').format(
-                double.tryParse(data['avgRating'].toString()) ??
-                    int.tryParse(data['avgRating'].toString())),
+        avgRating: double.tryParse(data['avgRating'].toString()) ??
+            int.parse(data['avgRating'].toString()).toDouble(),
         numRatings: data['numRatings'],
       );
 
@@ -32,7 +29,7 @@ class Restaurant extends Equatable {
     return {
       'name': name,
       'ownerId': ownerId,
-      'avgRating': num.parse(avgRating),
+      'avgRating': avgRating,
       'numRatings': numRatings,
     };
   }

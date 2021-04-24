@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:toptal_test/domain/entities/restaurant.dart';
+import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/domain/interactor/restaurant/get_restaurants.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/repository/params.dart';
@@ -14,15 +15,16 @@ import 'package:toptal_test/utils/localizations.dart';
 @injectable
 class ListRestaurantsVM extends BaseVM {
   final GetRestaurants _getRestaurants;
-  final String? _ownerId;
-
+  final String? ownerId;
   final FilterParams _filterParams;
+
   ListRestaurantsVM(
     AppLocalizations appLocalizations,
     GetRestaurants getRestaurants,
-    @factoryParam String? ownerId,
+    AppUser appUser,
+    @factoryParam String? idOwner,
     @factoryParam FilterParams? filterParams,
-  )   : _ownerId = ownerId,
+  )   : ownerId = idOwner,
         _filterParams = filterParams!,
         _getRestaurants = getRestaurants,
         super(appLocalizations) {
@@ -38,11 +40,10 @@ class ListRestaurantsVM extends BaseVM {
   PagingController<String?, Restaurant> pagingController =
       PagingController(firstPageKey: null);
 
-
   void loadRestaurants() async {
     final pageKey = pagingController.nextPageKey;
     final params = GetRestaurantsParams(
-      _ownerId,
+      ownerId,
       _filterParams.filterRating,
       lastDocId: pageKey,
       pageSize: PageSize.pageSize,

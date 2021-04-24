@@ -73,12 +73,12 @@ class MockIRestaurantRepository extends _i2.Mock
                       _FakeOneOf<_i1.Failure, List<_i8.Restaurant>>()))
           as _i5.Future<_i3.OneOf<_i1.Failure, List<_i8.Restaurant>>>);
   @override
-  _i5.Future<_i3.OneOf<_i1.Failure, Null?>> addRestaurant(
+  _i5.Future<_i3.OneOf<_i1.Failure, _i8.Restaurant>> addRestaurant(
           _i6.AddRestaurantParams? params) =>
       (super.noSuchMethod(Invocation.method(#addRestaurant, [params]),
-              returnValue: Future<_i3.OneOf<_i1.Failure, Null?>>.value(
-                  _FakeOneOf<_i1.Failure, Null?>()))
-          as _i5.Future<_i3.OneOf<_i1.Failure, Null?>>);
+              returnValue: Future<_i3.OneOf<_i1.Failure, _i8.Restaurant>>.value(
+                  _FakeOneOf<_i1.Failure, _i8.Restaurant>()))
+          as _i5.Future<_i3.OneOf<_i1.Failure, _i8.Restaurant>>);
   @override
   _i5.Future<_i3.OneOf<_i1.Failure, Null?>> updateRestaurant(
           _i6.UpdateRestaurantParams? params) =>

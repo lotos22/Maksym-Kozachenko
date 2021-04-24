@@ -8,12 +8,13 @@ class RatingRowWidget extends StatelessWidget {
   RatingRowWidget({required this.rating, required this.text});
   @override
   Widget build(BuildContext context) {
+    final ratingText = rating == '0.0' ? '' : rating;
     return Row(
       children: [
         Flexible(
           flex: 1,
           fit: FlexFit.tight,
-          child: Text(rating),
+          child: Text(ratingText),
         ),
         SizedBox(width: 8),
         Icon(

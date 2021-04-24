@@ -70,13 +70,22 @@ class FirebaseRestaurauntDoc implements IRestaurantRepository {
   }
 
   @override
-  Future<OneOf<Failure, Null>> addRestaurant(AddRestaurantParams params) async {
+  Future<OneOf<Failure, Restaurant>> addRestaurant(
+      AddRestaurantParams params) async {
     try {
-      await _functions
-          .httpsCallable(CALL_ADD_RESTAURANT, options: _callableOptions)
-          .call({'name': params.name});
+      final docRef = _firestore.collection(COLLECTION_RESTUARANTS).doc();
 
-      return OneOf.success(null);
+      await docRef.set({
+        'name': params.name,
+        'avgRating': 0,
+        'numRatings': 0,
+        'ownerId': params.ownerId,
+      });
+
+      final newRestaurant = await docRef.get();
+      return OneOf.success(
+        Restaurant.fromMap(docRef.id, newRestaurant.data()!),
+      );
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }

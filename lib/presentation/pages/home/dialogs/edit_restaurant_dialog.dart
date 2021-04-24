@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 
@@ -17,8 +18,8 @@ class _EditRestaurantDialogState extends State<EditRestaurantDialog> {
       TextEditingController(text: widget.restaurant.ownerId);
   late final nameController =
       TextEditingController(text: widget.restaurant.name);
-  late final ratingController =
-      TextEditingController(text: widget.restaurant.avgRating);
+  late final ratingController = TextEditingController(
+      text: NumberFormat('0.0').format(widget.restaurant.avgRating));
   late final numRatingController =
       TextEditingController(text: widget.restaurant.numRatings.toString());
 
@@ -30,7 +31,8 @@ class _EditRestaurantDialogState extends State<EditRestaurantDialog> {
   bool get isChanged =>
       ownerIdController.text != widget.restaurant.ownerId ||
       nameController.text != widget.restaurant.name ||
-      ratingController.text != widget.restaurant.avgRating ||
+      ratingController.text !=
+          NumberFormat('0.0').format(widget.restaurant.avgRating) ||
       numRatingController.text != widget.restaurant.numRatings.toString();
 
   @override
@@ -106,7 +108,8 @@ class _EditRestaurantDialogState extends State<EditRestaurantDialog> {
                               id: widget.restaurant.id,
                               name: nameController.text,
                               ownerId: ownerIdController.text,
-                              avgRating: ratingController.text,
+                              avgRating:
+                                  num.parse(ratingController.text).toDouble(),
                               numRatings: int.parse(
                                 numRatingController.text,
                               ),

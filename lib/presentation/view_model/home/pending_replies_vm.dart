@@ -21,14 +21,13 @@ class PendingRepliesVM extends BaseVM {
     AppLocalizations appLocalizations,
   )   : _getPendingReplies = getPendingReplies,
         _addReply = addReply,
-        super(appLocalizations){
-           pagingController.addPageRequestListener((pageKey) {
-        loadPendingReplies();
-      });
-        }
+        super(appLocalizations) {
+    pagingController.addPageRequestListener((pageKey) {
+      loadPendingReplies();
+    });
+  }
 
   RefreshController refreshController = RefreshController();
-
 
   PagingController<int, PendingReply> pagingController =
       PagingController(firstPageKey: 0);
@@ -41,7 +40,7 @@ class PendingRepliesVM extends BaseVM {
     _addReply.execute(
         AddReplyParams(reply, pendingReply.restId, pendingReply.id), (oneOf) {
       if (oneOf.isSuccess) {
-        // _pendingReplies.remove(pendingReply);
+        pagingController.itemList?.remove(pendingReply);
       }
       isAddingReply = false;
       notifyListeners();
