@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/domain/entities/review.dart';
 import 'package:toptal_test/domain/repository/params.dart';

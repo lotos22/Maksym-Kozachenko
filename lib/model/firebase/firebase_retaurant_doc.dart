@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:injectable/injectable.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/restaurant_details.dart';
@@ -24,14 +23,11 @@ class FirebaseRestaurauntDoc implements IRestaurantRepository {
   final CALL_ADD_RESTAURANT = 'addRestaurant';
   final CALL_GET_PENDING_REPLIES = 'getPendingReplys';
 
-  final FirebaseFunctions _functions;
   final FirebaseFirestore _firestore;
 
-  final _callableOptions = HttpsCallableOptions();
   FirebaseRestaurauntDoc(
-      FirebaseFirestore firestore, FirebaseFunctions functions)
-      : _functions = functions,
-        _firestore = firestore;
+    FirebaseFirestore firestore,
+  ) : _firestore = firestore;
 
   @override
   Future<OneOf<Failure, List<Restaurant>>> getRestaurants(

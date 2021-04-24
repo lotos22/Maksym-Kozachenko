@@ -1,5 +1,4 @@
 import 'package:injectable/injectable.dart';
-import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/restaurant_details.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/domain/repository/failure.dart';

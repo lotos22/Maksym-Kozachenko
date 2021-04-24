@@ -1,6 +1,5 @@
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:injectable/injectable.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/restaurant_details.dart';
 import 'package:toptal_test/domain/entities/review.dart';
