@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/repository/params.dart';
@@ -119,7 +120,7 @@ class FirebaseReviewDoc implements IReviewRepository {
             .doc(params.restaurantId)
             .collection(COLLECTION_REVIEWS)
             .doc();
-        await docRef.set(params.toReview());
+        await docRef.set(params.toReview(FirebaseAuth.instance.currentUser!.uid));
         final newReview = await docRef.get();
 
         return OneOf.success(Review.fromMap(docRef.id, newReview.data()!));

@@ -136,7 +136,8 @@ class AddRestaurantReviewParams {
   AddRestaurantReviewParams(
       this.restaurantId, this.rating, this.dateTime, this.comment);
 
-  Map<String, dynamic> toReview() => {
+  Map<String, dynamic> toReview(String userId) => {
+        'userId': userId,
         'comment': comment,
         'dateVisited': Timestamp.fromDate(dateTime),
         'rating': rating,
