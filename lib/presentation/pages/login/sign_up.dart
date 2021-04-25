@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:toptal_test/di/injection_container.dart';
+import 'package:toptal_test/presentation/routes/login_routes.dart';
 import 'package:toptal_test/presentation/view_model/login/sign_up_vm.dart';
 import 'package:toptal_test/presentation/widgets/animated_loading.dart';
 import 'package:toptal_test/presentation/widgets/toast_widget.dart';
@@ -15,7 +17,13 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final vm = Provider.of<SignUpVM>(context);
 
-    if (vm.isSuccess) showMessageSuccess(context);
+    if (vm.isSuccess) {
+      vm.isSuccess = false;
+
+      ToastWidget.showToast(
+          AppLocalizations.of(context).sign_up_account_created);
+      getIt<LoginRouteDelegate>().popRoute();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -77,6 +85,28 @@ class SignUpPage extends StatelessWidget {
                   },
                 ),
                 SizedBox(
+                  height: 8,
+                ),
+                InkWell(
+                  onTap: () {
+                    vm.isOwner = !vm.isOwner;
+                  },
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: vm.isOwner,
+                        onChanged: (value) {
+                          vm.isOwner = value ?? false;
+                        },
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text('Register as owner'),
+                    ],
+                  ),
+                ),
+                SizedBox(
                   height: 16,
                 ),
                 AnimatedLoading(
@@ -99,9 +129,5 @@ class SignUpPage extends StatelessWidget {
     if (formKey.currentState?.validate() ?? false) {
       vm.signUp();
     }
-  }
-
-  void showMessageSuccess(BuildContext context) {
-    ToastWidget.showToast(AppLocalizations.of(context).sign_up_account_created);
   }
 }

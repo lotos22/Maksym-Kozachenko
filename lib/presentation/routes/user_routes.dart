@@ -52,18 +52,22 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
         .doc(uid)
         .snapshots()
         .listen((event) {
-      isUserPresent = event.exists && event.data() != null;
-      if (getIt.isRegistered<AppUser>()) getIt.unregister<AppUser>();
-      if (isUserPresent) {
-        final user = AppUser.fromMap(uid, event.data()!);
+      if (event.exists) {
+        isUserPresent = event.exists && event.data() != null;
         if (getIt.isRegistered<AppUser>()) getIt.unregister<AppUser>();
-        getIt.registerSingleton<AppUser>(user);
-        pageIndex = 0;
-        checkDialogs = true;
+        if (isUserPresent) {
+          final user = AppUser.fromMap(uid, event.data()!);
+          if (getIt.isRegistered<AppUser>()) getIt.unregister<AppUser>();
+          getIt.registerSingleton<AppUser>(user);
+          pageIndex = 0;
+          checkDialogs = true;
+        } else {
+          _restaurant = null;
+        }
+        notifyListeners();
       } else {
-        _restaurant = null;
+        getIt<FirebaseAuth>().signOut();
       }
-      notifyListeners();
     }));
   }
 
@@ -149,8 +153,7 @@ class UserRouteDelegate extends RouterDelegate<UserRoutePath>
                     param1: user.id, param2: filterParams);
               }
               if (user.isAdmin) {
-                vm = getIt<ListRestaurantAdminVM>(
-                   param2: filterParams);
+                vm = getIt<ListRestaurantAdminVM>(param2: filterParams);
               }
               return vm!;
             },

@@ -1,14 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/domain/interactor/login/sign_up.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 
 import '../mocks/utils.mocks.dart';
 
-
 void main() {
-  final params = LoginSignUpParams('test@test.com', '111111');
+  final params = LoginSignUpParams(
+    'test@test.com',
+    '111111',
+    mapFromUserRole(UserRole.REGULAR),
+  );
   final repository = MockILoginRepository();
   late SignUp signUp;
 

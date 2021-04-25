@@ -17,8 +17,8 @@ class SignInVM extends BaseVM {
   )   : _signIn = signIn,
         super(appLocalizations);
 
-  final emailController = TextEditingController(text: 't@t.com');
-  final passwordController = TextEditingController(text: '111111');
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   bool isLoading = false;
 
   void signIn() {
@@ -26,7 +26,9 @@ class SignInVM extends BaseVM {
     notifyListeners();
     _signIn.execute(
       LoginSignInParams(
-          emailController.text.trim(), passwordController.text.trim()),
+        emailController.text.trim(),
+        passwordController.text.trim(),
+      ),
       (oneOf) {
         //omit success, should be handled by root
         if (oneOf.isError && (oneOf as Error).error is SignInFailure) {

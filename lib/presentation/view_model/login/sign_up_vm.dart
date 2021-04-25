@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
+import 'package:toptal_test/domain/entities/user.dart';
 import 'package:toptal_test/domain/interactor/login/sign_up.dart';
 import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/repository/params.dart';
@@ -21,13 +22,22 @@ class SignUpVM extends BaseVM {
   final passwordController2 = TextEditingController();
   bool isLoading = false;
   bool isSuccess = false;
+  bool _isOwner = false;
+  bool get isOwner => _isOwner;
+  set isOwner(bool b) {
+    _isOwner = b;
+    notifyListeners();
+  }
 
   void signUp() {
     isLoading = true;
     notifyListeners();
     _signUp.execute(
       LoginSignUpParams(
-          emailController.text.trim(), passwordController.text.trim()),
+        emailController.text.trim(),
+        passwordController.text.trim(),
+        mapFromUserRole(_isOwner ? UserRole.OWNER : UserRole.REGULAR),
+      ),
       (oneOf) {
         if (oneOf.isError && (oneOf as Error).error is SignUpFailure) {
           _onErrorSignUp(oneOf);

@@ -10,7 +10,8 @@ class LoginSignInParams {
 }
 
 class LoginSignUpParams extends LoginSignInParams {
-  LoginSignUpParams(String email, String pass) : super(email, pass);
+  final int role;
+  LoginSignUpParams(String email, String pass, this.role) : super(email, pass);
 }
 
 class GetRestaurantDetailsParams {
@@ -122,7 +123,7 @@ class AddReplyParams {
 class AddRestaurantParams {
   final String name;
   final String ownerId;
-  AddRestaurantParams(this.name,this.ownerId);
+  AddRestaurantParams(this.name, this.ownerId);
 }
 
 class AddRestaurantReviewParams {
