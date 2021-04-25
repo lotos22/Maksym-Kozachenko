@@ -145,13 +145,6 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage>
           ReviewCardWidget(
             review,
             margin: EdgeInsets.zero,
-            onLongTap: () {
-              onLongTapOnReview(
-                vm,
-                context,
-                review,
-              );
-            },
           ),
         ],
       ),

@@ -4,7 +4,8 @@ import 'package:toptal_test/utils/localizations.dart';
 class EnterMessageDialog extends StatelessWidget {
   final nameController = TextEditingController();
   final String? label;
-  EnterMessageDialog(this.label);
+  final bool multiline;
+  EnterMessageDialog(this.label, {this.multiline = false});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +16,13 @@ class EnterMessageDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
+              keyboardType: multiline ? TextInputType.multiline : null,
+              maxLines: multiline ? null : 1,
               controller: nameController,
               decoration: InputDecoration(
-                  labelText: label,
-                  border: OutlineInputBorder()),
+                labelText: label,
+                border: OutlineInputBorder(),
+              ),
             ),
             SizedBox(height: 8),
             ElevatedButton(

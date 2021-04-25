@@ -14,7 +14,9 @@ class RatingRowWidget extends StatelessWidget {
         Flexible(
           flex: 1,
           fit: FlexFit.tight,
-          child: Text(ratingText),
+          child: Text(
+            ratingText,
+          ),
         ),
         SizedBox(width: 8),
         Icon(
@@ -24,7 +26,11 @@ class RatingRowWidget extends StatelessWidget {
         SizedBox(width: 16),
         Expanded(
           flex: 8,
-          child: Text(text),
+          child: Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );

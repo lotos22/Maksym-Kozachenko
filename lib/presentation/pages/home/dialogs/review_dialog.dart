@@ -66,6 +66,9 @@ class ReviewDialog extends StatelessWidget {
               ),
               TextFormField(
                 controller: vm.commentController,
+                maxLines: 7,
+                minLines: 1,
+                keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(
                   labelText: AppLocalizations.of(context).dialog_review_comment,
                   border: OutlineInputBorder(),

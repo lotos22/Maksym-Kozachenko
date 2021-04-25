@@ -95,7 +95,6 @@ class FirebaseReviewDoc implements IReviewRepository {
       final docs = await query.limit(params.pageSize).get();
       final reviews =
           docs.docs.map((e) => Review.fromMap(e.id, e.data())).toList();
-      //await Future.delayed(Duration(seconds: 2));
       return OneOf.success(reviews);
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
