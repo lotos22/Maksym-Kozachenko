@@ -11,7 +11,6 @@ import 'package:toptal_test/domain/one_of.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/repository/i_login_repository.dart';
-import 'package:toptal_test/utils/utils.dart';
 
 @Injectable(as: ILoginRepository)
 class AppFirebaseAuth implements ILoginRepository {
@@ -50,6 +49,7 @@ class AppFirebaseAuth implements ILoginRepository {
           name: 'secondary',
           options: Firebase.app().options,
         );
+      // ignore: empty_catches
       } catch (e) {}
       secondApp = Firebase.app('secondary');
       final auth = FirebaseAuth.instanceFor(app: secondApp);
@@ -73,7 +73,7 @@ class AppFirebaseAuth implements ILoginRepository {
       response = OneOf.error(Failure.signUpFailure(e.code));
     } on FirebaseAuthException catch (e) {
       response = OneOf.error(Failure.signUpFailure(e.code));
-    } on Exception catch (e) {
+    } on Exception {
       response = OneOf.error(Failure.unknownFailure(''));
     }
 

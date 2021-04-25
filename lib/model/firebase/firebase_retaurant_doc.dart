@@ -113,6 +113,8 @@ class FirebaseRestaurauntDoc implements IRestaurantRepository {
           .update(params.restaurant.toMap());
 
       return OneOf.success(null);
+    } on FirebaseException {
+      return OneOf.error(Failure.notFoundFailure());
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }
@@ -150,6 +152,8 @@ class FirebaseRestaurauntDoc implements IRestaurantRepository {
         bestReview: Review.fromMap(bestDoc.id, bestDoc.data()),
         worstReview: Review.fromMap(worstDoc.id, worstDoc.data()),
       ));
+    } on FirebaseException {
+      return OneOf.error(Failure.notFoundFailure());
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }

@@ -89,6 +89,9 @@ class FirebaseUserDoc implements IUserRepository {
           .update({'role': params.role});
 
       return OneOf.success(null);
+    } on FirebaseException catch (E) {
+      E.stackTrace;
+      return OneOf.error(Failure.notFoundFailure());
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }

@@ -5,6 +5,7 @@ import 'package:toptal_test/domain/entities/restaurant.dart';
 import 'package:toptal_test/domain/entities/review.dart';
 import 'package:toptal_test/domain/interactor/review/add_restaurant_review.dart';
 import 'package:toptal_test/domain/one_of.dart';
+import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
 import 'package:toptal_test/utils/localizations.dart';
@@ -46,6 +47,7 @@ class ReviewDialogVM extends BaseVM {
   Review? addedReview;
   bool addReviewLoading = false;
   bool isTimeOut = false;
+  Failure? failure;
 
   void addReview() {
     addReviewLoading = true;

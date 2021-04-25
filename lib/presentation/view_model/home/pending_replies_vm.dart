@@ -5,6 +5,7 @@ import 'package:toptal_test/domain/entities/pendingReply.dart';
 import 'package:toptal_test/domain/interactor/review/add_reply.dart';
 import 'package:toptal_test/domain/interactor/review/get_pending_replies.dart';
 import 'package:toptal_test/domain/one_of.dart';
+import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
 import 'package:toptal_test/utils/const.dart';
@@ -41,6 +42,14 @@ class PendingRepliesVM extends BaseVM {
         AddReplyParams(reply, pendingReply.restId, pendingReply.id), (oneOf) {
       if (oneOf.isSuccess) {
         pagingController.itemList?.remove(pendingReply);
+      } else {
+        if ((oneOf as Error).error is NotFoundFailure) {
+          pagingController.itemList
+              ?.removeWhere((element) => element.id == pendingReply.id);
+          sendMessage(appLocalizations.item_not_found);
+        } else {
+          sendMessage(appLocalizations.something_went_wrong);
+        }
       }
       isAddingReply = false;
       notifyListeners();

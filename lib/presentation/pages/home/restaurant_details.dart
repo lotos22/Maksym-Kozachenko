@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:toptal_test/di/injection_container.dart';
 import 'package:toptal_test/domain/entities/review.dart';
+import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 import 'package:toptal_test/presentation/pages/home/dialogs/edit_review.dart';
 import 'package:toptal_test/presentation/pages/home/dialogs/review_dialog.dart';
@@ -161,7 +162,7 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage>
         context: context,
         builder: (context) => EditReviewDialog(vm.restaurant, review),
       ).then((value) {
-        if (value is DeleteReviewParams) {
+        if (value is DeleteReviewParams || value is NotFoundFailure) {
           vm.deleteReview(value);
         }
         if (value is UpdateReviewParams) {

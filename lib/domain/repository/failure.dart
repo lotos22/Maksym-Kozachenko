@@ -5,6 +5,7 @@ abstract class Failure {
 
   factory Failure.signInFailure(String code) = SignInFailure;
   factory Failure.signUpFailure(String code) = SignUpFailure;
+  factory Failure.notFoundFailure() = NotFoundFailure;
 }
 
 class UnknownFailure extends Failure {
@@ -31,3 +32,5 @@ class SignUpFailure extends Failure {
   bool get isWeakPassword => code == 'weak-password';
   bool get isOperationNotAloowed => code == 'operation-not-allowed';
 }
+
+class NotFoundFailure extends Failure {}

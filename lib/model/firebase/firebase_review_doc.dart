@@ -66,6 +66,8 @@ class FirebaseReviewDoc implements IReviewRepository {
       });
 
       return OneOf.success(null);
+    } on FirebaseException {
+      return OneOf.error(Failure.notFoundFailure());
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }
@@ -119,11 +121,13 @@ class FirebaseReviewDoc implements IReviewRepository {
             .doc();
         await docRef.set(params.toReview());
         final newReview = await docRef.get();
-        
+
         return OneOf.success(Review.fromMap(docRef.id, newReview.data()!));
       } else {
         return OneOf.error(Failure.unknownFailure('Restaurant doesn\'t exist'));
       }
+    } on FirebaseException {
+      return OneOf.error(Failure.notFoundFailure());
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }
@@ -156,6 +160,8 @@ class FirebaseReviewDoc implements IReviewRepository {
           .update(params.review.toMap());
 
       return OneOf.success(null);
+    } on FirebaseException {
+      return OneOf.error(Failure.notFoundFailure());
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
     }

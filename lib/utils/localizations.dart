@@ -38,9 +38,16 @@ class AppLocalizations {
           'Something went wrong, your review will be added later',
       'dialog_add_restaurant_name': 'Name',
       'dialog_add_restaurant_ok': 'Ok',
+
+      'item_not_found':'Item not found',
     }
   };
   
+  String get item_not_found {
+    return _localizedValues[locale.languageCode]!['item_not_found']!;
+  }
+
+
   String get something_went_wrong {
     return _localizedValues[locale.languageCode]!['something_went_wrong']!;
   }

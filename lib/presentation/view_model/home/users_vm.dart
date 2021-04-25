@@ -6,6 +6,7 @@ import 'package:toptal_test/domain/interactor/user/delete_user.dart';
 import 'package:toptal_test/domain/interactor/user/get_users.dart';
 import 'package:toptal_test/domain/interactor/user/update_user.dart';
 import 'package:toptal_test/domain/one_of.dart';
+import 'package:toptal_test/domain/repository/failure.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 
 import 'package:toptal_test/presentation/view_model/base_vm.dart';
@@ -80,7 +81,13 @@ class UsersVM extends BaseVM {
         pagingController.itemList?.removeAt(index);
         pagingController.itemList!.insert(index, newUser);
       } else {
-        sendMessage(appLocalizations.something_went_wrong);
+        if ((oneOf as Error).error is NotFoundFailure) {
+          pagingController.itemList
+              ?.removeWhere((element) => element.id == params.id);
+          sendMessage(appLocalizations.item_not_found);
+        } else {
+          sendMessage(appLocalizations.something_went_wrong);
+        }
       }
       isUserLoading = false;
       notifyListeners();

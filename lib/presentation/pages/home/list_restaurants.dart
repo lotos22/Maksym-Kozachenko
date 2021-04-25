@@ -12,6 +12,7 @@ import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_re
 import 'package:toptal_test/presentation/view_model/home/list_restaurant/list_restaurant_vm.dart';
 import 'package:toptal_test/presentation/widgets/loading_modal.dart';
 import 'package:toptal_test/presentation/widgets/rating_row_widget.dart';
+import 'package:toptal_test/presentation/widgets/toast_widget.dart';
 import 'package:toptal_test/utils/localizations.dart';
 import 'package:toptal_test/domain/repository/params.dart';
 
@@ -32,36 +33,39 @@ class _ListRestaurantsPageState extends State<ListRestaurantsPage>
         if (vm is ListRestaurantOwnerVM) return vm.addRestaurantLoading;
         return false;
       }(),
-      child: Scaffold(
-        body: SmartRefresher(
-          controller: vm.refreshController,
-          onRefresh: () => vm.pagingController.refresh(),
-          child: PagedListView<String?, Restaurant>.separated(
-            pagingController: vm.pagingController,
-            separatorBuilder: (context, index) => Divider(),
-            builderDelegate: PagedChildBuilderDelegate(
-              itemBuilder: (context, item, index) =>
-                  getRestaurantCell(vm, context, item),
+      child: ToastWidget(
+        toast: vm.toast,
+        child: Scaffold(
+          body: SmartRefresher(
+            controller: vm.refreshController,
+            onRefresh: () => vm.pagingController.refresh(),
+            child: PagedListView<String?, Restaurant>.separated(
+              pagingController: vm.pagingController,
+              separatorBuilder: (context, index) => Divider(),
+              builderDelegate: PagedChildBuilderDelegate(
+                itemBuilder: (context, item, index) =>
+                    getRestaurantCell(vm, context, item),
+              ),
             ),
           ),
+          floatingActionButton: vm is ListRestaurantOwnerVM
+              ? FloatingActionButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => EnterMessageDialog(
+                          AppLocalizations.of(context)
+                              .dialog_add_restaurant_name),
+                    ).then((value) {
+                      if (value != null && value is String) {
+                        vm.addRestaurant(value);
+                      }
+                    });
+                  },
+                  child: Icon(Icons.add),
+                )
+              : null,
         ),
-        floatingActionButton: vm is ListRestaurantOwnerVM
-            ? FloatingActionButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => EnterMessageDialog(
-                        AppLocalizations.of(context)
-                            .dialog_add_restaurant_name),
-                  ).then((value) {
-                    if (value != null && value is String) {
-                      vm.addRestaurant(value);
-                    }
-                  });
-                },
-                child: Icon(Icons.add),
-              )
-            : null,
       ),
     );
   }
