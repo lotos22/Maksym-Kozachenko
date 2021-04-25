@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:toptal_test/domain/entities/user.dart';
@@ -17,12 +18,19 @@ class FirebaseUserDoc implements IUserRepository {
   final USER_FIELD_EMAIL = 'email';
   final USER_FIELD_ROLE = 'role';
 
+  final CALL_DELETE_USER = 'deleteUser';
+
+  final FIELD_UID = 'uId';
+
   final FirebaseFirestore _firestore;
   final FirebaseAuth _auth;
+  final FirebaseFunctions _functions;
   FirebaseUserDoc(
     FirebaseFirestore firestore,
     FirebaseAuth auth,
+    FirebaseFunctions functions,
   )   : _firestore = firestore,
+        _functions = functions,
         _auth = auth;
 
   DocumentReference get userDoc =>
@@ -63,7 +71,9 @@ class FirebaseUserDoc implements IUserRepository {
   @override
   Future<OneOf<Failure, Null>> deleteUser(DeleteUserParams params) async {
     try {
-      await _firestore.collection(USERS).doc(params.id).delete();
+      await _functions.httpsCallable(CALL_DELETE_USER).call({
+        'uId': params.id,
+      });
       return OneOf.success(null);
     } catch (E) {
       return OneOf.error(Failure.unknownFailure(E.toString()));
